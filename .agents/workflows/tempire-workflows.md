@@ -15,7 +15,5 @@ description: Workflow Examples (can be changed at any time)
 
 3. MCP Usage Workflow:
 - For docs/questions: Use context7 first.
-- For task breakdown: Invoke task-master.
 - For research: Use tavily-remote-mcp.
 - For schema/DB: Use supabase-mcp.
-
