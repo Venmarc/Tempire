@@ -1,55 +1,38 @@
-# Niche Creator Marketplace - "Tempire"
+# Tempire - Niche Creator Marketplace
 
-## Project Overview
-Digital marketplace where creators sell Notion templates, Figma UI kits, AI prompts, ebooks, and other digital products. Buyers browse, filter, purchase (mock checkout). Sellers upload/manage products and view sales.
-
-Target: Production-like demo for portfolio. Fast, polished, accessible, mobile-first. Lighthouse 95+.
+## Overview
+Portfolio-grade digital marketplace for creators to sell AI prompts, Notion templates, Figma kits, and other digital downloads. Buyers browse/filter/purchase (mock checkout). Fast, polished, accessible. Target: 95+ Lighthouse score.
 
 ## Tech Stack (strict)
-- Framework: Next.js 15+ App Router (server components by default)
-- Language: TypeScript (strict)
-- Styling: Tailwind CSS 4 (mobile-first, no inline styles)
-- Auth: Clerk (protected routes, user roles: buyer/seller)
-- Database: Supabase (Postgres + Realtime + Storage for product files)
+- Next.js 15+ App Router (server components default, async pages)
+- TypeScript strict
+- Tailwind CSS 4, mobile-first
+- Auth: Clerk (middleware + RBAC for seller/buyer roles)
+- DB: Supabase (Postgres, Realtime via postgres_changes, Storage for files)
 - Validation: Zod
-- Data fetching: TanStack Query / Server Actions
-- Other: react-hot-toast or sonner for notifications, @vercel/og for dynamic OG images
-- MCPs: Always prefer context7 for docs, task-master for planning, supabase-mcp for DB, tavily for research
+- Other: TanStack Query, @vercel/og (dynamic OG images), sonner toasts
 
-## Core Folder Structure
-/app
-  / (public routes)
-/dashboard
-  /seller
-  /buyer
-/components
-  /ui (shadcn-style reusable)
-/lib/supabase.ts
-/types/
-/hooks/
+## Folder Structure
+app/ (routes + (protected) route group for dashboards)
+components/ui/
+lib/supabase/ (separate server.ts and client.ts with cookies())
+types/
+middleware.ts
 
-## Key Features (MVP priority order)
-1. Public: Product grid with infinite scroll + filters (category, price, rating, search)
-2. Product detail page (images, description, "Add to Cart", mock buy button)
-3. Auth + protected routes (Clerk)
-4. Seller dashboard: Upload digital product (title, description, price, category, file upload to Supabase Storage), view my products/sales
-5. Cart + mock checkout (local persistence + Supabase order record)
-6. Basic analytics (seller sales overview with simple charts)
-7. Responsive + dark mode toggle
-8. SEO: Proper metadata, dynamic OG images, semantic HTML, fast LCP
+## MVP Phases
+1. Foundation: Clerk + Supabase connection + middleware RBAC
+2. Schema: products, profiles, orders tables + RLS
+3. Buyer flow: Product grid (filters, infinite scroll), detail page
+4. Seller flow: Upload form (Zod + Supabase Storage)
+5. Cart + mock checkout
+6. Polish: Realtime updates (Supabase preferred), SEO, performance
+
+## Real-time Decision
+Default to Supabase Realtime (postgres_changes + private channels). Use SSE only as fallback.
 
 ## Non-Negotiables
-- All database operations server-side only.
-- Zod validation on all forms/inputs.
-- Error boundaries and user-friendly error messages.
-- No hardcoded secrets.
-- Manual test steps must be provided after any feature implementation.
-- Performance: Server components where possible, streaming where it improves UX.
-
-## Data Schema (draft - expand with supabase-mcp)
-- users (Clerk handles most, link via clerk_id)
-- products (id, title, description, price, category, creator_id, file_url, created_at)
-- orders (id, buyer_id, product_id, amount, status)
-- carts (temporary or persisted)
-
-Reference this file in every chat. Deviate only with explicit approval.
+- All DB operations server-side only.
+- Middleware for auth protection before page render.
+- Manual test steps after every implemented feature.
+- No client-side secrets. Dynamic OG images on all product pages.
+- Reference this file + AGENTS.md in every chat.
