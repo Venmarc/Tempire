@@ -1,61 +1,39 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider, SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter, Outfit } from 'next/font/google';
+import './globals.css';
+import { Providers } from '@/components/providers';  // We'll create this next
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+  weight: ['500', '600', '700'],
 });
 
 export const metadata: Metadata = {
-  title: "Tempire - Creator Marketplace",
-  description: "The premier marketplace for digital creators.",
+  title: 'Tempire — Creator Marketplace',
+  description: 'Premium digital products from independent creators',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <ClerkProvider>
-          <header className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-            <div className="max-w-7xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-              <div className="font-bold text-xl tracking-tight">Tempire</div>
-              <div className="flex items-center gap-4">
-                <Show when="signed-out">
-                  <SignInButton mode="modal">
-                    <button className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
-                      Sign In
-                    </button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <button className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer">
-                      Get Started
-                    </button>
-                  </SignUpButton>
-                </Show>
-                <Show when="signed-in">
-                  <UserButton />
-                </Show>
-              </div>
-            </div>
-          </header>
-          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </main>
-        </ClerkProvider>
+    <html lang="en" className="dark">
+      <body
+        className={`${inter.variable} ${outfit.variable} bg-zinc-950 text-zinc-200 antialiased`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
+          <Providers>{children}</Providers>
+        </div>
       </body>
     </html>
   );
