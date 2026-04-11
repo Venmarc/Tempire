@@ -1,29 +1,25 @@
 'use client';
 
-import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from '@clerk/nextjs';
+import { SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-zinc-950">
       {/* Auth Controls */}
       <div className="flex justify-end p-6 gap-4">
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button className="px-6 py-2.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-sm font-medium transition-colors">
-              Sign In
-            </button>
-          </SignInButton>
+        <SignInButton mode="modal">
+          <button className="px-6 py-2.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-sm font-medium transition-colors">
+            Sign In
+          </button>
+        </SignInButton>
 
-          <SignUpButton mode="modal">
-            <button className="px-6 py-2.5 rounded-2xl bg-white text-black text-sm font-medium hover:bg-zinc-200 transition-colors">
-              Sign Up
-            </button>
-          </SignUpButton>
-        </SignedOut>
+        <SignUpButton mode="modal">
+          <button className="px-6 py-2.5 rounded-2xl bg-white text-black text-sm font-medium hover:bg-zinc-200 transition-colors">
+            Sign Up
+          </button>
+        </SignUpButton>
 
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
+        <UserButton afterSignOutUrl="/" />
       </div>
 
       {/* Main Content */}
@@ -36,7 +32,7 @@ export default function HomePage() {
             Premium digital products from independent creators
           </p>
           <div className="mt-12 text-xs text-zinc-500">
-            Phase 1 Foundation — Clerk + Middleware stable
+            Phase 1 Foundation — Clerk stable (no SignedIn/SignedOut)
           </div>
         </div>
       </main>

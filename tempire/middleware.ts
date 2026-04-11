@@ -19,3 +19,6 @@ export const config = {
         '/(api|trpc)(.*)',
     ],
 };
+// TODO: After profiles are synced, extend with role-based protection using Clerk publicMetadata
+// Example: const role = auth().sessionClaims?.role as string | undefined;
+// Then protect /dashboard/seller/* etc.
