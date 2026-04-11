@@ -1,4 +1,5 @@
 import { createServerClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { type CookieOptions } from '@supabase/ssr';
 
@@ -7,53 +8,48 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
+  throw new Error('Missing Supabase environment variables');
 }
 
 /**
- * Standard server client - uses anon key + cookies
- * RLS is enforced. Use this everywhere except trusted admin actions.
+ * Standard server client - uses anon key + cookies (RLS enforced)
+ * Marked async because Next.js 16 + @supabase/ssr requires awaiting cookies()
  */
-export function createSupabaseServerClient() {
-    const cookieStore = cookies();
+export async function createSupabaseServerClient() {
+  const cookieStore = await cookies();
 
-    return createServerClient(supabaseUrl, supabaseAnonKey, {
-        cookies: {
-            get(name: string) {
-                return cookieStore.get(name)?.value;
-            },
-            set(name: string, value: string, options: CookieOptions) {
-                try {
-                    cookieStore.set({ name, value, ...options });
-                } catch {
-                    // Ignore cookie errors in some edge cases (e.g. middleware)
-                }
-            },
-            remove(name: string, options: CookieOptions) {
-                try {
-                    cookieStore.set({ name, value: '', ...options });
-                } catch {
-                    // Ignore
-                }
-            },
-        },
-    });
+  return createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
+      },
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
+          });
+        } catch {
+          // Ignore — happens in Server Components / middleware where cookies are read-only
+        }
+      },
+    },
+  });
 }
 
 /**
- * Service role client - BYPASSES RLS
- * ONLY use inside trusted Server Actions (e.g. ensureProfile)
- * Never export this broadly. Never use in middleware or public routes.
+ * Service role client - BYPASSES RLS completely
+ * Uses plain @supabase/supabase-js (no cookies needed)
+ * ONLY call this from trusted Server Actions
  */
 export function createSupabaseServiceClient() {
-    if (!supabaseServiceKey) {
-        throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY');
-    }
+  if (!supabaseServiceKey) {
+    throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY');
+  }
 
-    return createServerClient(supabaseUrl, supabaseServiceKey, {
-        auth: {
-            autoRefreshToken: false,
-            persistSession: false,
-        },
-    });
+  return createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 }
