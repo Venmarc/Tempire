@@ -2,36 +2,25 @@
 
 import { currentUser } from '@clerk/nextjs/server';
 import { createSupabaseServiceClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
-
-type Profile = {
-    id: string;
-    username: string | null;
-    email: string;
-    role: 'buyer' | 'seller';
-    created_at: string;
-    updated_at: string;
-};
 
 export async function ensureProfile() {
     const clerkUser = await currentUser();
 
     if (!clerkUser) {
-        throw new Error('No authenticated user');
+        throw new Error('No authenticated user from Clerk');
     }
 
     const { id: userId, emailAddresses, username, firstName, lastName } = clerkUser;
     const primaryEmail = emailAddresses[0]?.emailAddress;
 
     if (!primaryEmail) {
-        throw new Error('No email address found');
+        throw new Error('No email address found on Clerk user');
     }
 
     const displayName = username || `${firstName || ''} ${lastName || ''}`.trim() || null;
 
     const serviceClient = createSupabaseServiceClient();
 
-    // Idempotent upsert
     const { error } = await serviceClient
         .from('profiles')
         .upsert(
@@ -39,24 +28,20 @@ export async function ensureProfile() {
                 id: userId,
                 username: displayName,
                 email: primaryEmail,
-                role: 'buyer' as const, // default for new users
+                role: 'buyer' as const,
                 updated_at: new Date().toISOString(),
             },
-            {
-                onConflict: 'id',
-                ignoreDuplicates: false,
-            }
+            { onConflict: 'id' }
         );
 
     if (error) {
-        console.error('ensureProfile error:', error);
-        throw new Error(`Failed to create profile: ${error.message}`);
+        console.error('ensureProfile Supabase error:', error);
+        throw new Error(`Failed to upsert profile: ${error.message}`);
     }
 
-    // Optional: Update Clerk metadata if we want to keep it in sync (minimal for now)
-    // await clerkClient.users.updateUser(userId, { publicMetadata: { role: 'buyer' } });
-
-    revalidatePath('/', 'layout'); // Clear any cached layouts that depend on profile
+    // revalidatePath is safe here because this is a Server Action
+    // but we'll call it from the page only if needed. For now, keep it.
+    // revalidatePath('/', 'layout');
 
     return { success: true, role: 'buyer' as const };
 }

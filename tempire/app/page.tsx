@@ -1,41 +1,34 @@
-'use client';
-
 import { SignInButton, SignUpButton, UserButton } from '@clerk/nextjs';
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-zinc-950">
-      {/* Auth Controls */}
-      <div className="flex justify-end p-6 gap-4">
-        <SignInButton mode="modal">
-          <button className="px-6 py-2.5 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-sm font-medium transition-colors">
-            Sign In
-          </button>
-        </SignInButton>
+    <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h1 className="text-7xl font-bold tracking-tighter mb-6">Tempire</h1>
+        <p className="text-2xl text-zinc-400 mb-16">Premium digital products from independent creators</p>
 
-        <SignUpButton mode="modal">
-          <button className="px-6 py-2.5 rounded-2xl bg-white text-black text-sm font-medium hover:bg-zinc-200 transition-colors">
-            Sign Up
-          </button>
-        </SignUpButton>
+        <div className="flex justify-center gap-4 mb-12">
+          <SignInButton mode="modal">
+            <button className="px-8 py-3.5 bg-white text-black rounded-2xl font-medium hover:bg-zinc-100 transition-colors">
+              Sign In
+            </button>
+          </SignInButton>
 
-        <UserButton afterSignOutUrl="/" />
-      </div>
-
-      {/* Main Content */}
-      <main className="flex min-h-[70vh] flex-col items-center justify-center py-12">
-        <div className="text-center">
-          <h1 className="text-7xl font-semibold tracking-tighter text-white mb-6">
-            Tempire
-          </h1>
-          <p className="text-2xl text-zinc-400 max-w-md mx-auto">
-            Premium digital products from independent creators
-          </p>
-          <div className="mt-12 text-xs text-zinc-500">
-            Phase 1 Foundation — Clerk stable (no SignedIn/SignedOut)
-          </div>
+          <SignUpButton mode="modal">
+            <button className="px-8 py-3.5 border border-white/30 hover:bg-white/10 rounded-2xl font-medium transition-colors">
+              Sign Up
+            </button>
+          </SignUpButton>
         </div>
-      </main>
+
+        <div className="mt-8">
+          <UserButton afterSignOutUrl="/" />
+        </div>
+
+        <p className="text-xs text-zinc-600 mt-24">
+          Phase 1 — Clerk + Supabase server client (profile sync via after-sign-up)
+        </p>
+      </div>
     </div>
   );
 }
