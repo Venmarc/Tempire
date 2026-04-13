@@ -35,13 +35,14 @@ export async function ensureProfile() {
         );
 
     if (error) {
-        console.error('ensureProfile Supabase error:', error);
+        console.error('ensureProfile Supabase error for user', userId, ':', error);
         throw new Error(`Failed to upsert profile: ${error.message}`);
     }
-
     // revalidatePath is safe here because this is a Server Action
     // but we'll call it from the page only if needed. For now, keep it.
     // revalidatePath('/', 'layout');
+
+    console.log('ensureProfile: Successfully upserted profile for', userId, 'email:', primaryEmail);
 
     return { success: true, role: 'buyer' as const };
 }
