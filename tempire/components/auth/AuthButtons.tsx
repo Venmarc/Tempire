@@ -1,26 +1,33 @@
 'use client';
 
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
-import { useEffect, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function AuthButtons() {
   const { isLoaded, isSignedIn } = useUser();
-  const [showButtons, setShowButtons] = useState(false);
 
-  useEffect(() => {
-    if (isLoaded) {
-      setShowButtons(!isSignedIn);
-    }
-  }, [isLoaded, isSignedIn]);
-
-  // Show nothing until Clerk loads (prevents flash)
+  // While Clerk is loading → show skeleton to prevent layout shift
   if (!isLoaded) {
-    return <div className="w-8 h-8" />; // minimal placeholder
+    return (
+      <div className="flex items-center gap-3 md:gap-4">
+        <Skeleton className="w-8 h-8 rounded-full shrink-0" />
+      </div>
+    );
   }
 
   return (
     <div className="flex items-center gap-3 md:gap-4">
-      {showButtons ? (
+      {isSignedIn ? (
+        // Signed in → show UserButton
+        <UserButton
+          appearance={{
+            elements: {
+              userButtonAvatarBox: "w-8 h-8 rounded-full",
+            },
+          }}
+        />
+      ) : (
+        // Signed out → show buttons
         <>
           <SignInButton mode="modal">
             <button className="px-5 py-2 text-sm font-medium hover:bg-white/10 rounded-2xl transition-colors border border-white/20 whitespace-nowrap">
@@ -34,10 +41,6 @@ export function AuthButtons() {
             </button>
           </SignUpButton>
         </>
-      ) : (
-        <div className="ml-1">
-          <UserButton />
-        </div>
       )}
     </div>
   );
