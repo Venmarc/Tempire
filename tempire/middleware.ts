@@ -1,42 +1,32 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-const isProtectedRoute = createRouteMatcher([
-    '/(protected)/seller(.*)',
-]);
-
 const isSellerRoute = createRouteMatcher([
+    '/seller/dashboard(.*)',
     '/(protected)/seller(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-    const { userId, sessionClaims } = await auth();
-
-    // Basic protection for all protected routes
-    if (isProtectedRoute(req)) {
-        if (!userId) {
-            return auth().redirectToSignIn();
-        }
-    }
-
-    // Seller-only routes
     if (isSellerRoute(req)) {
+        // This will automatically redirect unauthenticated users to sign-in
+        await auth.protect();
+
+        // Role check for authenticated users
+        const { sessionClaims } = await auth();
         const role = (sessionClaims?.publicMetadata as any)?.role as string | undefined;
 
         if (role !== 'seller') {
-            console.log(`Access denied: user ${userId} with role ${role} tried to access seller route`);
-            // For now, redirect to home. Later we can show a nice "upgrade to seller" page
+            console.log(`🚫 Access denied: user ${sessionClaims?.sub || 'unknown'} (role: ${role || 'none'}) tried seller route`);
             return Response.redirect(new URL('/', req.url));
         }
+
+        console.log(`✅ Seller access granted for user ${sessionClaims?.sub}`);
     }
 });
 
 export const config = {
     matcher: [
-        '/((?!.+\\.[\\w]+$|_next).*)',
+        '/((?!.+\\.[\\w]+$|_next/static|_next/image|favicon.ico).*)',
         '/',
         '/(api|trpc)(.*)',
     ],
 };
-// TODO: After profiles are synced, extend with role-based protection using Clerk publicMetadata
-// Example: const role = auth().sessionClaims?.role as string | undefined;
-// Then protect /dashboard/seller/* etc.

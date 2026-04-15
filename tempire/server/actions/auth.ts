@@ -78,9 +78,10 @@ async function upsertProfile(data: {
         throw new Error(`Failed to upsert profile: ${error.message}`);
     }
 
-    // Sync role to Clerk publicMetadata for fast middleware checks
+    // Sync role to Clerk publicMetadata (fixed for Clerk v7)
     try {
-        await clerkClient.users.updateUser(data.id, {
+        const client = await clerkClient();
+        await client.users.updateUser(data.id, {
             publicMetadata: {
                 role: data.role,
             },
@@ -88,7 +89,6 @@ async function upsertProfile(data: {
         console.log(`Clerk publicMetadata updated: role=${data.role} for user ${data.id}`);
     } catch (err: any) {
         console.error('Failed to update Clerk publicMetadata:', err.message);
-        // Non-blocking — Supabase is still the source of truth
     }
 
     console.log('ensureProfile: Successfully upserted profile for', data.id, 'email:', data.email, 'role:', data.role);
