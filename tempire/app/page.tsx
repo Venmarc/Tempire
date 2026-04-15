@@ -1,4 +1,5 @@
 import { AuthButtons } from '@/components/auth/AuthButtons';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -6,15 +7,15 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
+          {/* Clickable Logo */}
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black font-bold text-xl shrink-0">
               T
             </div>
             <span className="text-2xl font-bold tracking-tighter hidden md:block">
               Tempire
             </span>
-          </div>
+          </Link>
 
           <AuthButtons />
         </div>
@@ -30,9 +31,9 @@ export default function Home() {
         </p>
       </main>
 
-      {/* Footer */}
+      {/* Footer - Phase 1 Complete */}
       <footer className="text-xs text-zinc-600 text-center py-8 border-t border-white/10 mt-auto">
-        Phase 1 — Clerk + Supabase server client (profile sync via after-sign-up)
+        Phase 1 Complete — Clerk + Supabase server-only (RBAC via publicMetadata + webhook sync)
       </footer>
     </div>
   );

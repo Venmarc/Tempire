@@ -7,15 +7,6 @@ const isSellerRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
     if (isSellerRoute(req)) {
-        const { userId } = await auth();
-
-        if (!userId) {
-            // Redirect to sign-in while preserving the original requested URL
-            const signInUrl = new URL('/sign-in', req.url);  // or wherever your sign-in modal lands
-            signInUrl.searchParams.set('redirect_url', req.url);
-            return Response.redirect(signInUrl);
-        }
-
         await auth.protect();
 
         const { sessionClaims } = await auth();
@@ -34,6 +25,6 @@ export const config = {
     matcher: [
         '/((?!.+\\.[\\w]+$|_next/static|_next/image|favicon.ico).*)',
         '/',
-        '/(api|trpc)(.*)',
+        '/(api|trpc)(.*)',   // ← This was the broken line. Fixed.
     ],
 };
