@@ -7,19 +7,17 @@ const isSellerRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
     if (isSellerRoute(req)) {
-        // This will automatically redirect unauthenticated users to sign-in
         await auth.protect();
 
-        // Role check for authenticated users
         const { sessionClaims } = await auth();
-        const role = (sessionClaims?.publicMetadata as any)?.role as string | undefined;
+        const role = sessionClaims?.role as string | undefined;   // ← Changed here
 
         if (role !== 'seller') {
-            console.log(`🚫 Access denied: user ${sessionClaims?.sub || 'unknown'} (role: ${role || 'none'}) tried seller route`);
+            console.log(`🚫 Access denied: user ${sessionClaims?.sub || 'unknown'} (role: ${role || 'none'})`);
             return Response.redirect(new URL('/', req.url));
         }
 
-        console.log(`✅ Seller access granted for user ${sessionClaims?.sub}`);
+        console.log(`✅ Seller access granted for user ${sessionClaims?.sub} (role: ${role})`);
     }
 });
 
