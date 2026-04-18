@@ -31,19 +31,24 @@ export function ProductCard({ product }: ProductCardProps) {
           <h3 className="font-semibold text-lg leading-tight line-clamp-2 mb-2 group-hover:text-white transition-colors">
             {product.title}
           </h3>
-          
+
           <p className="text-sm text-zinc-400 line-clamp-1 mb-4">
             {product.creator_name || 'Unknown creator'}
           </p>
 
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-2xl font-bold">${product.price}</span>
+              <span className="text-2xl font-bold">
+                ${(product.price / 100).toLocaleString('en-US', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
               {product.category && (
                 <span className="text-xs text-zinc-500 ml-2">• {product.category}</span>
               )}
             </div>
-            
+
             <button className="px-6 py-2 bg-white text-black text-sm font-medium rounded-2xl hover:bg-zinc-200 transition-colors">
               View
             </button>

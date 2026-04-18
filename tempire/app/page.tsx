@@ -1,19 +1,14 @@
 import { ProductService } from '@/server/services/product';
 import { ProductGrid } from '@/components/marketplace/ProductGrid';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default async function MarketplacePage() {
-  let products: any[] = [];
-  let error: string | null = null;
+async function ProductsSection() {
+  const result = await ProductService.getProducts(12);
+  return <ProductGrid products={result.products} />;
+}
 
-  try {
-    const result = await ProductService.getProducts(12);
-    products = result.products;
-  } catch (err: any) {
-    error = err.message || 'Failed to load products';
-    console.error('Homepage products fetch error:', err);
-  }
-
+export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
       {/* Header */}
@@ -27,8 +22,6 @@ export default async function MarketplacePage() {
               Tempire
             </span>
           </Link>
-
-          {/* TODO: Add AuthButtons back when ready */}
           <div className="text-sm text-zinc-400">Auth coming back soon</div>
         </div>
       </header>
@@ -43,29 +36,37 @@ export default async function MarketplacePage() {
         </p>
       </div>
 
-      {/* Products Section */}
+      {/* Products Section with Suspense */}
       <div className="max-w-7xl mx-auto px-6 pb-24">
         <div className="flex items-end justify-between mb-10">
           <div>
             <h2 className="text-4xl font-semibold tracking-tighter">Featured Products</h2>
             <p className="text-zinc-400 mt-2">Discover high-quality digital goods</p>
           </div>
-          <div className="text-sm text-zinc-500">12 products shown • More filters coming</div>
+
+          {/* Dynamic count */}
+          <ProductsCount />
         </div>
 
-        {error ? (
-          <div className="text-center py-20 text-red-400">
-            Error loading products: {error}
-          </div>
-        ) : (
-          <ProductGrid products={products} />
-        )}
+        <Suspense fallback={<ProductGrid products={[]} isLoading={true} />}>
+          <ProductsSection />
+        </Suspense>
       </div>
 
       {/* Footer */}
       <footer className="text-xs text-zinc-600 text-center py-8 border-t border-white/10 mt-auto">
         Phase 2B — Product browsing grid with skeleton loaders
       </footer>
+    </div>
+  );
+}
+
+async function ProductsCount() {
+  const result = await ProductService.getProducts(12); // light call, just for count
+  const count = result.count;
+  return (
+    <div className="text-sm text-zinc-500">
+      {count} products shown • More filters coming
     </div>
   );
 }

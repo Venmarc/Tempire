@@ -7,7 +7,7 @@ export function ProductCardSkeleton() {
             <div className="relative aspect-4/3 bg-zinc-800 overflow-hidden">
                 <Skeleton className="absolute inset-0 w-full h-full" />
                 {/* Shimmer overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
             </div>
 
             {/* Content skeleton */}
