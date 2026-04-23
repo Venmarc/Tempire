@@ -122,4 +122,70 @@ export class ProductService {
 
         return (data as Product[]) || [];
     }
+
+    static async updateProduct(id: string, payload: Partial<ProductInsertPayload>): Promise<Product> {
+        const supabase = createSupabaseServiceClient();
+
+        const { data, error } = await supabase
+            .from('products')
+            .update(payload)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('ProductService.updateProduct error:', error);
+            throw new Error('Failed to update product');
+        }
+
+        return data as Product;
+    }
+
+    static async deleteProduct(id: string): Promise<void> {
+        const supabase = createSupabaseServiceClient();
+
+        const { error } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('ProductService.deleteProduct error:', error);
+            throw new Error('Failed to delete product');
+        }
+    }
+
+    static async deleteFile(bucket: 'product-images' | 'product-files', filePath: string): Promise<void> {
+        const supabase = createSupabaseServiceClient();
+        
+        // If it's a full public URL, we need to extract the relative path
+        let path = filePath;
+        if (filePath.includes('public/')) {
+            path = filePath.split(`${bucket}/`)[1];
+        }
+
+        const { error } = await supabase.storage
+            .from(bucket)
+            .remove([path]);
+
+        if (error) {
+            console.warn(`Warning: Could not delete old file from ${bucket}:`, error.message);
+            // We don't throw here to avoid blocking the main update if cleanup fails
+        }
+    }
+
+    static async getSignedUrl(bucket: 'product-images' | 'product-files', filePath: string): Promise<string> {
+        const supabase = createSupabaseServiceClient();
+
+        const { data, error } = await supabase.storage
+            .from(bucket)
+            .createSignedUrl(filePath, 3600); // 1 hour link
+
+        if (error) {
+            console.error(`Error generating signed URL for ${filePath}:`, error);
+            throw new Error('Failed to generate download link');
+        }
+
+        return data.signedUrl;
+    }
 }

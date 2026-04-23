@@ -1,8 +1,9 @@
 import { currentUser } from '@clerk/nextjs/server';
 import { ProductService } from '@/server/services/product';
 import Link from 'next/link';
-import { Plus, Package, Eye, Edit3, Circle } from 'lucide-react';
+import { Plus, Package, Eye, Edit3, Circle, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { DeleteProductButton } from '@/components/marketplace/DeleteProductButton';
 
 export default async function SellerDashboard() {
     const user = await currentUser();
@@ -107,13 +108,16 @@ export default async function SellerDashboard() {
                                     
                                     <div className="hidden md:flex items-center gap-2">
                                         <Link href={`/products/${product.id}`}>
-                                            <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white">
+                                            <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white" title="View Product">
                                                 <Eye className="w-5 h-5" />
                                             </Button>
                                         </Link>
-                                        <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white">
-                                            <Edit3 className="w-5 h-5" />
-                                        </Button>
+                                        <Link href={`/seller/edit/${product.id}`}>
+                                            <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-white/10 text-zinc-400 hover:text-white" title="Edit Product">
+                                                <Edit3 className="w-5 h-5" />
+                                            </Button>
+                                        </Link>
+                                        <DeleteProductButton productId={product.id} productTitle={product.title} />
                                     </div>
                                 </div>
                             </div>

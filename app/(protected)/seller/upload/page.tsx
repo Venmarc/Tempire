@@ -1,4 +1,4 @@
-import { ProductUploadForm } from "@/components/forms/ProductUploadForm";
+import { ProductForm } from "@/components/forms/ProductForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -30,7 +30,7 @@ export default function SellerUploadPage() {
                     </p>
                 </div>
 
-                <ProductUploadForm />
+                <ProductForm />
             </main>
         </div>
     );

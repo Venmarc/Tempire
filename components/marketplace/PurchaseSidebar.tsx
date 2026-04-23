@@ -3,9 +3,11 @@
 import { useUser, useClerk } from '@clerk/nextjs';
 import { Product } from '@/types/product';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Zap, ShieldCheck } from 'lucide-react';
+import { ShoppingCart, Zap, ShieldCheck, Download, Edit3 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import Link from 'next/link';
+import { getDownloadUrlAction } from '@/server/actions/product-actions';
 
 interface PurchaseSidebarProps {
     product: Product;
@@ -48,6 +50,18 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
         });
     };
 
+    const handleDownload = async () => {
+        const result = await getDownloadUrlAction(product.id);
+        if (result.error) {
+            toast.error(result.error);
+            return;
+        }
+        if (result.downloadUrl) {
+            window.open(result.downloadUrl, '_blank');
+            toast.success('Download started!');
+        }
+    };
+
     if (isCreator) {
         return (
             <div className="bg-zinc-900 border border-white/10 rounded-3xl p-6 sticky top-24">
@@ -63,9 +77,24 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
                     </div>
                 </div>
 
-                <Button className="w-full mt-6" variant="outline">
-                    Edit Product
-                </Button>
+                <div className="space-y-3">
+                    <Link href={`/seller/edit/${product.id}`} className="block">
+                        <Button className="w-full h-12 rounded-2xl" variant="outline">
+                            <Edit3 className="mr-2 w-4 h-4" />
+                            Edit Product
+                        </Button>
+                    </Link>
+
+                    {product.file_url && (
+                        <Button 
+                            className="w-full h-12 rounded-2xl bg-zinc-800 text-white hover:bg-zinc-700"
+                            onClick={handleDownload}
+                        >
+                            <Download className="mr-2 w-4 h-4" />
+                            Download Project Files
+                        </Button>
+                    )}
+                </div>
             </div>
         );
     }

@@ -122,12 +122,21 @@ Phase 2 focuses on building the core marketplace experience: products table, buy
 
 **Phase 2C Complete.**
 
+### Phase 2E — Seller CRUD & Dashboard Refinement (Completed)
+**Goal:** Empower sellers to manage their listings post-upload.
+- Added `updateProduct`, `deleteProduct`, and `deleteFile` to `ProductService`.
+- Refactored `ProductUploadForm` into a reusable `ProductForm`.
+- Built dynamic edit route at `/seller/edit/[id]`.
+- Implemented `DeleteProductButton` with confirmation and storage cleanup.
+- Integrated all actions into the main Seller Dashboard list.
+
+**Phase 2E Complete.**
+
 ## Phase 2 Overall Plan (Remaining)
-- Basic seller dashboard overview linking to upload forms and seeing stats.
-- Product detail page (`/products/[id]`) + dynamic OG images.
+- Cart logic & Checkout flow.
 - Testing with both published/unpublished products (cart logic).
 
 **Important Notes for Continuation**
-- Our next logical step is generating the **Product Detail Page** or implementing the **Add to Cart / Mock Checkout**.
+- Our next logical step is implementing the **Add to Cart / Mock Checkout**.
 - Reference PROJECT.md, AGENTS.md, CONSTITUTION.md, and DECISIONS.md in every session.
 - Maintain production mindset — everything must feel shippable.

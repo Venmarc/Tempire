@@ -99,3 +99,32 @@ export async function createProductAction(formData: FormData) {
         return { error: error.message || 'An unexpected error occurred' };
     }
 }
+
+export async function getDownloadUrlAction(productId: string) {
+    try {
+        const user = await currentUser();
+        if (!user) return { error: 'Not authenticated' };
+
+        const product = await ProductService.getProductById(productId);
+        if (!product) return { error: 'Product not found' };
+
+        // For Phase 2, only creator can download direct from here (Buyers need cart logic built first)
+        const isCreator = user.id === product.creator_id;
+        
+        if (!isCreator) {
+            // Future check: hasBought(user.id, productId)
+            return { error: 'You have not purchased this product.' };
+        }
+
+        if (!product.file_url) {
+            return { error: 'No file associated with this product' };
+        }
+
+        const signedUrl = await ProductService.getSignedUrl('product-files', product.file_url);
+
+        return { success: true, downloadUrl: signedUrl };
+    } catch (error: any) {
+        console.error('getDownloadUrlAction error:', error);
+        return { error: 'Failed to generate download link' };
+    }
+}
