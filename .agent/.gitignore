@@ -1,0 +1,29 @@
+# env and secrets
+.env
+.env.local
+*.key
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# editor
+.DS_Store
+.idea/
+*.swp
+
+# runtime logs
+.agent/memory/dream.log
+*.log
+
+# do NOT ignore memory files — they are the point
+!.agent/memory/
+!.agent/memory/**
+
+# ...EXCEPT the derived search index (auto-rebuilt, per-machine).
+# Placed AFTER the negation above so the later rule wins.
+.agent/memory/.index/
+.agent/memory/.index/**

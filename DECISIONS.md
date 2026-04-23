@@ -83,6 +83,14 @@ This document records major technical decisions made during development, the rea
 - Standard practice for any future payment integration
 - Easier calculations and comparisons
 
+### 8. Image Optimization Strategy
+**Decision:** Use `unoptimized={true}` on Next.js `<Image />` components and rely on Supabase Built-In Image Transformations (e.g., `?width=800&format=webp`) for production.
+
+**Why:**
+- Next.js local image optimization (especially in dev) crashes/timeouts on 12GB RAM PC.
+- Offloading image resizing to Supabase CDN preserves server CPU and bandwidth.
+- Guarantees 95+ Lighthouse scores by serving right-sized WebP files without tying up Node.js.
+
 ## Development Process Decisions
 
 ### 8. Small, Testable Steps

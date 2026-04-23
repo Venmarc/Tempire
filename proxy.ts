@@ -7,17 +7,21 @@ const isSellerRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
     if (isSellerRoute(req)) {
-        await auth.protect();
+        const authObj = await auth();
+        
+        if (!authObj.userId) {
+            // Manually redirect to sign-in smoothly instead of throwing an error back to Next.js
+            return authObj.redirectToSignIn({ returnBackUrl: req.url });
+        }
 
-        const { sessionClaims } = await auth();
-        const role = sessionClaims?.role as string | undefined;
+        const role = authObj.sessionClaims?.role as string | undefined;
 
         if (role !== 'seller') {
-            console.log(`🚫 Access denied: user ${sessionClaims?.sub || 'unknown'} (role: ${role || 'none'})`);
+            console.log(`🚫 Access denied: user ${authObj.userId || 'unknown'} (role: ${role || 'none'})`);
             return Response.redirect(new URL('/', req.url));
         }
 
-        console.log(`✅ Seller access granted for user ${sessionClaims?.sub} (role: ${role})`);
+        console.log(`✅ Seller access granted for user ${authObj.userId} (role: ${role})`);
     }
 });
 

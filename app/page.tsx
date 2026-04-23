@@ -1,10 +1,11 @@
 import { ProductService } from '@/server/services/product';
 import { ProductGrid } from '@/components/marketplace/ProductGrid';
+import { AuthButtons } from '@/components/auth/AuthButtons';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
 async function ProductsSection() {
-  const result = await ProductService.getProducts(12);
+  const result = await ProductService.getProducts(12, true);
   return <ProductGrid products={result.products} />;
 }
 
@@ -22,7 +23,7 @@ export default function MarketplacePage() {
               Tempire
             </span>
           </Link>
-          <div className="text-sm text-zinc-400">Auth coming back soon</div>
+          <AuthButtons />
         </div>
       </header>
 
@@ -62,7 +63,7 @@ export default function MarketplacePage() {
 }
 
 async function ProductsCount() {
-  const result = await ProductService.getProducts(12); // light call, just for count
+  const result = await ProductService.getProducts(12, true); // light call, just for count
   const count = result.count;
   return (
     <div className="text-sm text-zinc-500">
