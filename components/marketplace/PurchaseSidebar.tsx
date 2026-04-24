@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import Link from 'next/link';
 import { getDownloadUrlAction } from '@/server/actions/product-actions';
+import { useCart } from '@/hooks/useCart';
 
 interface PurchaseSidebarProps {
     product: Product;
@@ -16,26 +17,25 @@ interface PurchaseSidebarProps {
 export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
     const { isLoaded, isSignedIn, user } = useUser();
     const { openSignIn } = useClerk();
+    const { addItem, items } = useCart();
     const [isAdding, setIsAdding] = useState(false);
 
     const price = product.price / 100;
     const isFree = product.price === 0;
+    const isInCart = items.some((item: Product) => item.id === product.id);
 
     // Check if user is the creator
     const isCreator = isLoaded && isSignedIn && user?.id === product.creator_id;
 
     const handleAddToCart = () => {
-        if (!isSignedIn) {
-            openSignIn();
-            return;
-        }
-
         setIsAdding(true);
-        // Mock add to cart latency
+        addItem(product);
+        
+        // Short delay for feedback
         setTimeout(() => {
             setIsAdding(false);
             toast.success(`"${product.title}" added to your cart!`);
-        }, 500);
+        }, 400);
     };
 
     const handleBuyNow = () => {
@@ -121,10 +121,10 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
                         className="w-full py-6 rounded-2xl" 
                         variant="outline"
                         onClick={handleAddToCart}
-                        disabled={isAdding}
+                        disabled={isAdding || isInCart}
                     >
                         <ShoppingCart className="mr-2 w-5 h-5" />
-                        {isAdding ? 'Adding...' : 'Add to Cart'}
+                        {isAdding ? 'Adding...' : isInCart ? 'In Cart' : 'Add to Cart'}
                     </Button>
                 )}
             </div>

@@ -5,7 +5,7 @@ import { ProductGallery } from '@/components/marketplace/ProductGallery';
 import { PurchaseSidebar } from '@/components/marketplace/PurchaseSidebar';
 import Link from 'next/link';
 import { ChevronRight, ArrowLeft, Star, Clock, FileDown, CheckCircle2 } from 'lucide-react';
-import { AuthButtons } from '@/components/auth/AuthButtons';
+import { Header } from '@/components/marketplace/Header';
 
 interface ProductDetailPageProps {
     params: Promise<{
@@ -22,9 +22,30 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
         return { title: 'Product Not Found | Tempire' };
     }
 
+    const priceLabel = product.price === 0
+        ? 'Free'
+        : `$${(product.price / 100).toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+
+    const ogUrl = new URL('/api/og', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000');
+    ogUrl.searchParams.set('title', product.title);
+    ogUrl.searchParams.set('price', priceLabel);
+    ogUrl.searchParams.set('creator', product.creator_name || 'Creator');
+    ogUrl.searchParams.set('category', product.category || 'Digital Goods');
+
     return {
         title: `${product.title} | Tempire`,
         description: product.description || `Buy ${product.title} on Tempire.`,
+        openGraph: {
+            title: product.title,
+            description: product.description || `Buy ${product.title} on Tempire.`,
+            images: [{ url: ogUrl.toString(), width: 1200, height: 630 }],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: product.title,
+            description: product.description || `Buy ${product.title} on Tempire.`,
+            images: [ogUrl.toString()],
+        },
     };
 }
 
@@ -38,20 +59,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
-            {/* Header / Nav */}
-            <header className="border-b border-white/10 sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black font-bold text-xl shrink-0">
-                            T
-                        </div>
-                        <span className="text-2xl font-bold tracking-tighter hidden md:block">
-                            Tempire
-                        </span>
-                    </Link>
-                    <AuthButtons />
-                </div>
-            </header>
+            <Header />
 
             <main className="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
                 
@@ -83,11 +91,17 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                                     <span className="text-white font-medium">{product.creator_name || 'Creator'}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    {/* Mock Rating */}
-                                    <Star className="w-4 h-4 text-yellow-500 fill-zinc-950" />
-                                    <span className="text-white font-medium">4.9</span> 
-                                    <span>(128 ratings)</span>
+                                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                                    <span className="text-white font-medium">
+                                        {product.average_rating > 0 ? product.average_rating.toFixed(1) : 'No ratings yet'}
+                                    </span>
+                                    {product.review_count > 0 && (
+                                        <span>({product.review_count} {product.review_count === 1 ? 'rating' : 'ratings'})</span>
+                                    )}
                                 </div>
+                                {product.sales_count > 0 && (
+                                    <span className="text-emerald-400 font-medium">{product.sales_count} sold</span>
+                                )}
                             </div>
                         </div>
 
@@ -119,17 +133,26 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                             )}
                         </div>
 
-                        {/* Mock Technical Specs */}
+                        {/* Real Technical Specs */}
                         <div className="pt-8 border-t border-white/10">
                             <h2 className="text-2xl font-semibold tracking-tighter mb-6">Technical Details</h2>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><FileDown className="w-4 h-4" /> File Size</div>
-                                    <div className="font-medium text-white">12.5 MB <span className="text-xs text-emerald-500 ml-1">Mock</span></div>
+                                    <div className="font-medium text-white">
+                                        {product.file_size
+                                            ? product.file_size >= 1_048_576
+                                                ? `${(product.file_size / 1_048_576).toFixed(1)} MB`
+                                                : `${(product.file_size / 1024).toFixed(0)} KB`
+                                            : 'N/A'
+                                        }
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Format</div>
-                                    <div className="font-medium text-white">ZIP (Includes PDF, Figma)</div>
+                                    <div className="font-medium text-white uppercase">
+                                        {product.file_extension || 'N/A'}
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><Clock className="w-4 h-4" /> Last Updated</div>

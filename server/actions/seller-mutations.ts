@@ -73,24 +73,18 @@ export async function updateProductAction(id: string, formData: FormData) {
 
         // Handle Image Update
         if (coverImage && coverImage.size > 0) {
-            const newImageUrl = await ProductService.uploadFile(coverImage, 'product-images', user.id);
-            updatePayload.image_url = newImageUrl;
-            
-            // Clean up old image if it exists
-            if (product.image_url) {
-                ProductService.deleteFile('product-images', product.image_url);
-            }
+            const uploaded = await ProductService.uploadFile(coverImage, 'product-images', user.id);
+            updatePayload.image_url = uploaded.url;
+            if (product.image_url) ProductService.deleteFile('product-images', product.image_url);
         }
 
         // Handle File Update
         if (productFile && productFile.size > 0) {
-            const newFileUrl = await ProductService.uploadFile(productFile, 'product-files', user.id);
-            updatePayload.file_url = newFileUrl;
-
-            // Clean up old file if it exists
-            if (product.file_url) {
-                ProductService.deleteFile('product-files', product.file_url);
-            }
+            const uploaded = await ProductService.uploadFile(productFile, 'product-files', user.id);
+            updatePayload.file_url = uploaded.url;
+            updatePayload.file_size = uploaded.fileSize;
+            updatePayload.file_extension = uploaded.fileExtension;
+            if (product.file_url) ProductService.deleteFile('product-files', product.file_url);
         }
 
         const updated = await ProductService.updateProduct(id, updatePayload);

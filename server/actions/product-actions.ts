@@ -41,7 +41,7 @@ export async function createProductAction(formData: FormData) {
         });
 
         if (!parsed.success) {
-            return { error: parsed.error.errors[0].message };
+            return { error: parsed.error.issues[0].message };
         }
 
         const data = parsed.data;
@@ -54,20 +54,18 @@ export async function createProductAction(formData: FormData) {
         
         let coverImageUrl = null;
         if (data.coverImage) {
-            coverImageUrl = await ProductService.uploadFile(
-                data.coverImage, 
-                'product-images', 
-                creatorId
-            );
+            const result = await ProductService.uploadFile(data.coverImage, 'product-images', creatorId);
+            coverImageUrl = result.url;
         }
 
         let productFileUrl = null;
+        let fileSizeBytes: number | null = null;
+        let fileExtension: string | null = null;
         if (data.productFile) {
-            productFileUrl = await ProductService.uploadFile(
-                data.productFile, 
-                'product-files', 
-                creatorId
-            );
+            const result = await ProductService.uploadFile(data.productFile, 'product-files', creatorId);
+            productFileUrl = result.url;
+            fileSizeBytes = result.fileSize;
+            fileExtension = result.fileExtension;
         }
 
         // Generate creator name
@@ -85,6 +83,11 @@ export async function createProductAction(formData: FormData) {
             creator_name: creatorName,
             image_url: coverImageUrl,
             file_url: productFileUrl,
+            file_size: fileSizeBytes,
+            file_extension: fileExtension,
+            average_rating: 0,
+            review_count: 0,
+            sales_count: 0,
         };
 
         const newProduct = await ProductService.createProduct(insertPayload);

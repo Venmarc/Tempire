@@ -1,31 +1,42 @@
 import { createSupabaseServiceClient } from '@/lib/supabase/server';
-import { Product, ProductInsertPayload, ProductsResponse } from '@/types/product';
+import { Product, ProductInsertPayload, ProductsResponse, ProductFilters } from '@/types/product';
 
 export class ProductService {
-    static async getProducts(limit = 12, isPublishedOnly = true): Promise<ProductsResponse> {
+    static async getProducts(filters: ProductFilters = {}): Promise<ProductsResponse> {
         const supabase = createSupabaseServiceClient();
+        const { search, category, sort = 'newest', page = 1, limit = 12 } = filters;
+        const from = (page - 1) * limit;
+        const to = from + limit - 1;
 
         let query = supabase
             .from('products')
-            .select('*', { count: 'exact' });
+            .select('*', { count: 'exact' })
+            .eq('is_published', true);
 
-        if (isPublishedOnly) {
-            query = query.eq('is_published', true);
+        if (search) {
+            query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
         }
 
-        const { data, error, count } = await query
-            .order('created_at', { ascending: false })
-            .limit(limit);
+        if (category) {
+            query = query.eq('category', category);
+        }
+
+        switch (sort) {
+            case 'price_asc':  query = query.order('price', { ascending: true });  break;
+            case 'price_desc': query = query.order('price', { ascending: false }); break;
+            case 'popular':    query = query.order('sales_count', { ascending: false }); break;
+            case 'newest':
+            default:           query = query.order('created_at', { ascending: false }); break;
+        }
+
+        const { data, error, count } = await query.range(from, to);
 
         if (error) {
-            // Graceful handling when table doesn't exist yet (common in early development)
             if (error.code === 'PGRST116' || error.message?.includes('not found') || error.message?.includes('schema cache')) {
                 console.warn('⚠️ Products table not found yet. Showing empty state.');
                 return { products: [], count: 0 };
             }
-
             console.error('ProductService.getProducts error:', error);
-            // Don't throw — return empty instead of breaking the page
             return { products: [], count: 0 };
         }
 
@@ -35,18 +46,25 @@ export class ProductService {
         };
     }
 
-    static async uploadFile(file: File, bucket: 'product-images' | 'product-files', folderPath: string): Promise<string> {
+    static async uploadFile(
+        file: File,
+        bucket: 'product-images' | 'product-files',
+        folderPath: string
+    ): Promise<{ url: string; fileSize: number; fileExtension: string }> {
         const supabase = createSupabaseServiceClient();
-        
+
         const arrayBuffer = await file.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        
-        // Sanitize filename and create unique path
+
+        // Auto-derive metadata from the file itself
+        const fileSize = file.size;
+        const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'unknown';
+
         const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
         const timestamp = Date.now();
         const filePath = `${folderPath}/${timestamp}-${sanitizedName}`;
 
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
             .from(bucket)
             .upload(filePath, buffer, {
                 contentType: file.type,
@@ -58,14 +76,16 @@ export class ProductService {
             throw new Error(`Failed to upload ${file.name}`);
         }
 
-        // Return public URL for images, or just the path for private files
+        let url: string;
         if (bucket === 'product-images') {
             const { data: publicUrlData } = supabase.storage.from(bucket).getPublicUrl(filePath);
-            return publicUrlData.publicUrl;
+            url = publicUrlData.publicUrl;
+        } else {
+            // Private — store the path; signed URL generated on demand
+            url = filePath;
         }
 
-        // For private files, we might just store the path and generate signed URLs later
-        return filePath;
+        return { url, fileSize, fileExtension };
     }
 
     static async createProduct(payload: ProductInsertPayload): Promise<Product> {

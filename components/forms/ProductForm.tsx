@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { createProductAction } from '@/server/actions/product-actions';
 import { updateProductAction } from '@/server/actions/seller-mutations';
@@ -15,10 +15,22 @@ interface ProductFormProps {
     initialData?: Product;
 }
 
+/** Extract a clean display name from a storage URL or plain filename */
+function getDisplayName(urlOrName: string): string {
+    return decodeURIComponent(urlOrName.split('/').pop() ?? urlOrName);
+}
+
 export function ProductForm({ initialData }: ProductFormProps) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const isEditing = !!initialData;
+
+    // Track user-picked files so we can show their names
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [selectedFile, setSelectedFile]   = useState<string | null>(null);
+
+    const imageInputRef = useRef<HTMLInputElement>(null);
+    const fileInputRef  = useRef<HTMLInputElement>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -140,18 +152,45 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         Cover Image {isEditing ? '(Leave empty to keep current)' : <span className="text-red-500">*</span>}
                     </Label>
                     <div className="border hover:border-emerald-500/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950">
-                        <Input 
-                            id="coverImage" 
-                            name="coverImage" 
-                            type="file" 
-                            accept="image/*" 
-                            required={!isEditing} 
-                            className="border-0 p-0 text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-500 file:text-white hover:file:bg-emerald-600 cursor-pointer" 
+                        {/* Custom file picker — hides native "No file chosen" text */}
+                        <div className="flex items-center gap-3">
+                            <Button
+                                type="button"
+                                size="sm"
+                                onClick={() => imageInputRef.current?.click()}
+                                className="shrink-0 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full text-sm px-4 py-2 h-auto"
+                            >
+                                Choose File
+                            </Button>
+                            <span className={`text-sm truncate max-w-[320px] ${
+                                selectedImage
+                                    ? 'text-emerald-400'
+                                    : isEditing && initialData?.image_url
+                                        ? 'text-emerald-400/70'
+                                        : 'text-zinc-500'
+                            }`}>
+                                {selectedImage
+                                    ? selectedImage
+                                    : isEditing && initialData?.image_url
+                                        ? `✓ ${getDisplayName(initialData.image_url)}`
+                                        : 'No file chosen'}
+                            </span>
+                        </div>
+                        {/* Hidden real input */}
+                        <input
+                            ref={imageInputRef}
+                            id="coverImage"
+                            name="coverImage"
+                            type="file"
+                            accept="image/*"
+                            required={!isEditing}
+                            className="sr-only"
+                            onChange={(e) => {
+                                const name = e.target.files?.[0]?.name ?? null;
+                                setSelectedImage(name);
+                            }}
                         />
-                        {initialData?.image_url && (
-                            <p className="text-xs text-zinc-500 mt-2">Current image: {initialData.image_url.split('/').pop()}</p>
-                        )}
-                        <p className="text-xs text-zinc-500 mt-2">Max size: 5MB. Recommended: 1200x630</p>
+                        <p className="text-xs text-zinc-500 mt-3">Max size: 5MB. Recommended: 1200x630</p>
                     </div>
                 </div>
 
@@ -161,18 +200,45 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         Product File {isEditing ? '(Leave empty to keep current)' : <span className="text-red-500">*</span>}
                     </Label>
                     <div className="border hover:border-emerald-500/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950">
-                        <Input 
-                            id="productFile" 
-                            name="productFile" 
-                            type="file" 
-                            accept=".zip,.pdf,.json,.md,.txt,.png,.jpg,.jpeg,.gif,.webp,.notion,.csv,.xlsx" 
-                            required={!isEditing} 
-                            className="border-0 p-0 text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-zinc-800 file:text-white hover:file:bg-zinc-700 cursor-pointer" 
+                        {/* Custom file picker — hides native "No file chosen" text */}
+                        <div className="flex items-center gap-3">
+                            <Button
+                                type="button"
+                                size="sm"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="shrink-0 bg-zinc-700 hover:bg-zinc-600 text-white rounded-full text-sm px-4 py-2 h-auto"
+                            >
+                                Choose File
+                            </Button>
+                            <span className={`text-sm truncate max-w-[320px] ${
+                                selectedFile
+                                    ? 'text-emerald-400'
+                                    : isEditing && initialData?.file_url
+                                        ? 'text-emerald-400/70'
+                                        : 'text-zinc-500'
+                            }`}>
+                                {selectedFile
+                                    ? selectedFile
+                                    : isEditing && initialData?.file_url
+                                        ? `✓ ${getDisplayName(initialData.file_url)}`
+                                        : 'No file chosen'}
+                            </span>
+                        </div>
+                        {/* Hidden real input */}
+                        <input
+                            ref={fileInputRef}
+                            id="productFile"
+                            name="productFile"
+                            type="file"
+                            accept=".zip,.pdf,.json,.md,.txt,.png,.jpg,.jpeg,.gif,.webp,.notion,.csv,.xlsx"
+                            required={!isEditing}
+                            className="sr-only"
+                            onChange={(e) => {
+                                const name = e.target.files?.[0]?.name ?? null;
+                                setSelectedFile(name);
+                            }}
                         />
-                        {initialData?.file_url && (
-                            <p className="text-xs text-zinc-500 mt-2">Current file: {initialData.file_url.split('/').pop()}</p>
-                        )}
-                        <p className="text-xs text-zinc-500 mt-2">
+                        <p className="text-xs text-zinc-500 mt-3">
                             Max size: 100MB. Allowed: ZIP, PDF, JSON, MD, TXT, images, CSV, XLSX
                         </p>
                     </div>
