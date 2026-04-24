@@ -116,11 +116,12 @@ export class ProductService {
 
         if (error) {
             if (error.code === 'PGRST116') {
-                // No rows returned
+                // No rows returned — product doesn't exist
                 return null;
             }
             console.error('ProductService.getProductById error:', error);
-            throw new Error(`Failed to fetch product with id: ${id}`);
+            // Return null instead of throwing so callers (including generateMetadata) don't crash
+            return null;
         }
 
         return data as Product;

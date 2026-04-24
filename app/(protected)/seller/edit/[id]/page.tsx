@@ -13,9 +13,13 @@ interface EditProductPageProps {
 }
 
 export async function generateMetadata({ params }: EditProductPageProps): Promise<Metadata> {
-    const { id } = await params;
-    const product = await ProductService.getProductById(id);
-    return { title: product ? `Edit: ${product.title} | Tempire` : 'Edit Product | Tempire' };
+    try {
+        const { id } = await params;
+        const product = await ProductService.getProductById(id);
+        return { title: product ? `Edit: ${product.title} | Tempire` : 'Edit Product | Tempire' };
+    } catch {
+        return { title: 'Edit Product | Tempire' };
+    }
 }
 
 export default async function EditProductPage({ params }: EditProductPageProps) {

@@ -1,13 +1,28 @@
 import { currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 import { ProductService } from '@/server/services/product';
 import Link from 'next/link';
-import { Plus, Package, Eye, Edit3, Circle, Trash2 } from 'lucide-react';
+import { Plus, Package, Eye, Edit3, Circle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteProductButton } from '@/components/marketplace/DeleteProductButton';
 
 export default async function SellerDashboard() {
     const user = await currentUser();
-    const products = await ProductService.getProductsBySeller(user?.id || '');
+
+    // Middleware should prevent this, but guard defensively
+    if (!user) redirect('/');
+    // redirect() throws internally — user is guaranteed non-null below
+    const safeUser = user!;
+
+    const products = await ProductService.getProductsBySeller(safeUser.id);
+
+    // Build best available display name
+    const displayName =
+        safeUser.firstName ||
+        safeUser.fullName ||
+        safeUser.username ||
+        safeUser.emailAddresses?.[0]?.emailAddress?.split('@')[0] ||
+        'Seller';
 
     return (
         <div className="min-h-screen bg-zinc-950 text-white pb-20">
@@ -30,10 +45,10 @@ export default async function SellerDashboard() {
                     <div>
                         <h1 className="text-4xl font-bold tracking-tighter">Seller Dashboard</h1>
                         <p className="text-zinc-400 mt-2 text-lg">
-                            Welcome back, {user?.firstName || user?.username || 'Seller'}. Manage your digital empire.
+                            Welcome back, {displayName}. Manage your digital empire.
                         </p>
                     </div>
-                    
+
                     <Link href="/seller/upload">
                         <Button className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl px-6 py-6 h-auto text-base font-semibold transition-transform hover:scale-105 active:scale-95">
                             <Plus className="w-5 h-5 mr-2" />

@@ -57,6 +57,27 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         notFound();
     }
 
+    // Derive file extension from file_url path if DB column is null (handles pre-Phase-2F products)
+    const fileExtDisplay: string = (
+        product.file_extension ||
+        product.file_url?.split('?')[0].split('.').pop()?.toUpperCase() ||
+        'N/A'
+    ).toUpperCase();
+
+    // Human-readable file size
+    const fileSizeDisplay = product.file_size
+        ? product.file_size >= 1_048_576
+            ? `${(product.file_size / 1_048_576).toFixed(1)} MB`
+            : `${(product.file_size / 1024).toFixed(0)} KB`
+        : 'Unknown';
+
+    // Last updated uses created_at for now (updated_at column coming in Phase 2H)
+    const lastUpdated = new Date(product.created_at).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+
     return (
         <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
             <Header />
@@ -139,26 +160,15 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><FileDown className="w-4 h-4" /> File Size</div>
-                                    <div className="font-medium text-white">
-                                        {product.file_size
-                                            ? product.file_size >= 1_048_576
-                                                ? `${(product.file_size / 1_048_576).toFixed(1)} MB`
-                                                : `${(product.file_size / 1024).toFixed(0)} KB`
-                                            : 'N/A'
-                                        }
-                                    </div>
+                                    <div className="font-medium text-white">{fileSizeDisplay}</div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> Format</div>
-                                    <div className="font-medium text-white uppercase">
-                                        {product.file_extension || 'N/A'}
-                                    </div>
+                                    <div className="font-medium text-white">{fileExtDisplay}</div>
                                 </div>
                                 <div className="space-y-1">
                                     <div className="text-zinc-500 text-sm flex items-center gap-2"><Clock className="w-4 h-4" /> Last Updated</div>
-                                    <div className="font-medium text-white">
-                                        {new Date(product.created_at).toLocaleDateString()}
-                                    </div>
+                                    <div className="font-medium text-white">{lastUpdated}</div>
                                 </div>
                             </div>
                         </div>
