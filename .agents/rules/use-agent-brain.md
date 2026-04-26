@@ -12,6 +12,7 @@ At the VERY START of EVERY session and before ANY task:
 5. Only load relevant skills from .agent/.agent/skills/
 6. Always respect .agent/.agent/protocols/PERMISSIONS.md and hooks
 7. After major changes, run memory-manager skill
+8. Update PHASES.md after a major task is declared completed
 
 Use tools in .agent/.agent/tools/ via terminal when needed.
 I am Victor. Follow PREFERENCES.md and all my existing project docs exactly.

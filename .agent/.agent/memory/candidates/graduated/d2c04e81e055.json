@@ -1,0 +1,42 @@
+{
+  "id": "d2c04e81e055",
+  "key": "manual_d2c04e",
+  "name": "manual_d2c04e",
+  "claim": "Next.js route group folders like (protected) are filesystem-only and never appear in browser URLs. The isSellerRoute middleware matcher must use the actual URL paths (/seller/dashboard, /seller/edit, /seller/upload) \u2014 never the folder names.",
+  "conditions": [
+    "middleware",
+    "nextjs",
+    "protected",
+    "route-group",
+    "seller"
+  ],
+  "evidence_ids": [
+    "2026-04-24T09:43:32.483991"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-04-24T09:43:32.483991",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-04-24T09:43:32.483991",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-04-24T09:43:32.729309",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "proxy.ts had '/(protected)/seller(.*)' which never matched any real URL. /seller/edit and /seller/upload were silently unprotected \u2014 currentUser() returned null and triggered redirect('/') instead of loading the page. Pain score: 8.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-04-24T09:43:32.483991"
+      ],
+      "lessons_sha": "d0b775562d8b"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-04-24T09:43:32.729256",
+  "reviewer": "learn.py",
+  "rationale": "proxy.ts had '/(protected)/seller(.*)' which never matched any real URL. /seller/edit and /seller/upload were silently unprotected \u2014 currentUser() returned null and triggered redirect('/') instead of loading the page. Pain score: 8."
+}

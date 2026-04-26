@@ -1,0 +1,41 @@
+{
+  "id": "f12a103da206",
+  "key": "manual_f12a10",
+  "name": "manual_f12a10",
+  "claim": "Browser <input type='file'> cannot be pre-populated for security reasons \u2014 it always shows 'No file chosen'. In edit forms with existing files, use a hidden sr-only input + a custom Button that triggers it via ref.current.click(), and show the current filename in a controlled span alongside it.",
+  "conditions": [
+    "browser",
+    "edit-form",
+    "file-input",
+    "upload"
+  ],
+  "evidence_ids": [
+    "2026-04-24T09:44:49.569959"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-04-24T09:44:49.569959",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-04-24T09:44:49.569959",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-04-24T09:44:49.830347",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Seller edit form showed 'No file chosen' for both cover image and product file even though files already existed in Supabase. Fixed by replacing native file input UI with a custom button + controlled state span pattern.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-04-24T09:44:49.569959"
+      ],
+      "lessons_sha": "5322838a12ee"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-04-24T09:44:49.830285",
+  "reviewer": "learn.py",
+  "rationale": "Seller edit form showed 'No file chosen' for both cover image and product file even though files already existed in Supabase. Fixed by replacing native file input UI with a custom button + controlled state span pattern."
+}

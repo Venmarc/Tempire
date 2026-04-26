@@ -2,7 +2,8 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 const isSellerRoute = createRouteMatcher([
     '/seller/dashboard(.*)',
-    '/(protected)/seller(.*)',
+    '/seller/upload(.*)',
+    '/seller/edit(.*)',
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

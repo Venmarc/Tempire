@@ -1,0 +1,42 @@
+{
+  "id": "89343ca1ec99",
+  "key": "manual_89343c",
+  "name": "manual_89343c",
+  "claim": "generateMetadata() in Next.js Server Components must never throw \u2014 wrap in try/catch and return a fallback. An uncaught throw inside generateMetadata surfaces as a cryptic unrelated error (e.g. ClerkAPIResponseError) at the page level.",
+  "conditions": [
+    "error",
+    "generateMetadata",
+    "metadata",
+    "nextjs",
+    "server-component"
+  ],
+  "evidence_ids": [
+    "2026-04-24T09:43:50.445224"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-04-24T09:43:50.445224",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-04-24T09:43:50.445224",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-04-24T09:43:50.761584",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "EditProductPage crashed with 'ClerkAPIResponseError' because generateMetadata called getProductById which threw on Supabase errors. The real error was hidden. Fixed by wrapping in try/catch and making getProductById return null instead of throwing.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-04-24T09:43:50.445224"
+      ],
+      "lessons_sha": "c114b62ec2bb"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-04-24T09:43:50.761524",
+  "reviewer": "learn.py",
+  "rationale": "EditProductPage crashed with 'ClerkAPIResponseError' because generateMetadata called getProductById which threw on Supabase errors. The real error was hidden. Fixed by wrapping in try/catch and making getProductById return null instead of throwing."
+}

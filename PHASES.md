@@ -37,7 +37,7 @@ Phase 1 established a solid, production-grade authentication foundation using Cl
 
 **Phase 2: Products Foundation & Marketplace (In Progress)**
 
-**Current Phase Status:** Phase 2A Completed | Moving into Phase 2C (Seller Product Upload)
+**Current Phase Status:** Phase 2H Completed | Moving into Phase 2I (Cineby Refinements)
 
 **Last Updated:** April 2026
 
@@ -132,11 +132,41 @@ Phase 2 focuses on building the core marketplace experience: products table, buy
 
 **Phase 2E Complete.**
 
+### Phase 2G — Buyer Browse Experience (Completed)
+**Goal:** Build a production-grade browsing experience with search, filtering, and pagination.
+- Implemented `ProductService.getProducts()` with support for search, category, and sorting (Price, Popularity, Newest).
+- Built `SearchBar` and `SortSelector` components with seamless URL state synchronization.
+- Created `Pagination` component to handle large product sets.
+- Built **Dynamic Product Detail Page** (`/products/[id]`) with gallery, technical specs, and SEO-optimized metadata (dynamic OG images).
+
+**Phase 2G Complete.**
+
+### Phase 2H — Seller Dashboard & Stability Refinements (Completed)
+**Goal:** Fix critical bugs and improve reliability for seller workflows.
+- **Error Handling:** Hardened `generateMetadata()` and service methods to prevent cryptic `ClerkAPIResponseError` crashes.
+- **Middleware:** Refactored `proxy.ts` to use actual URL paths for role protection, fixing unauthenticated redirect bugs.
+- **Metadata Enrichment:** Added `file_size` and `file_extension` tracking to the upload flow with graceful display-layer fallbacks for older products.
+- **Profile Stability:** Ensured reliable role propagation via Clerk Custom Session Tokens.
+
+**Phase 2H Complete.**
+
+---
+
+**Phase 2I: Cineby-Inspired Refinements (In Progress)**
+
+**Goal:** Upgrade the marketplace aesthetics and navigation to meet "premium" standards.
+- [ ] Implement **Adaptive Navigation** (Desktop top-nav vs. Mobile bottom-bar).
+- [ ] Expand **Skeleton Loader** coverage (Grid, Detail, Profiles).
+- [ ] Refactor **Category Browsing** into a segmented/tabbed interface.
+- [ ] Enhance **Global Search** prominence.
+
+---
+
 ## Phase 2 Overall Plan (Remaining)
-- Cart logic & Checkout flow.
-- Testing with both published/unpublished products (cart logic).
+- Phase 3: Cart logic & Mock Checkout flow.
+- Phase 4: Buyer Library & Wishlist.
 
 **Important Notes for Continuation**
-- Our next logical step is implementing the **Add to Cart / Mock Checkout**.
 - Reference PROJECT.md, AGENTS.md, CONSTITUTION.md, and DECISIONS.md in every session.
 - Maintain production mindset — everything must feel shippable.
+- Support Nigeria (Abia) power constraints by committing often and keeping state clean.

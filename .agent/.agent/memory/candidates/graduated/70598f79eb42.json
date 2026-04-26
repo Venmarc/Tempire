@@ -1,0 +1,42 @@
+{
+  "id": "70598f79eb42",
+  "key": "manual_70598f",
+  "name": "manual_70598f",
+  "claim": "Service methods (e.g. getProductById) that are called from both page components AND generateMetadata must return null on all error paths \u2014 never throw. Throwing from a service causes the entire Server Component tree to fail with misleading errors.",
+  "conditions": [
+    "error",
+    "null",
+    "service",
+    "supabase",
+    "throw"
+  ],
+  "evidence_ids": [
+    "2026-04-24T09:44:21.261519"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-04-24T09:44:21.261519",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-04-24T09:44:21.261519",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-04-24T09:44:21.451783",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "ProductService.getProductById threw on non-404 Supabase errors. This caused generateMetadata (which called it) to crash the page render with a fake ClerkAPIResponseError. Consistent return-null pattern prevents this category of bug.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-04-24T09:44:21.261519"
+      ],
+      "lessons_sha": "12ee375de3d6"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-04-24T09:44:21.451732",
+  "reviewer": "learn.py",
+  "rationale": "ProductService.getProductById threw on non-404 Supabase errors. This caused generateMetadata (which called it) to crash the page render with a fake ClerkAPIResponseError. Consistent return-null pattern prevents this category of bug."
+}

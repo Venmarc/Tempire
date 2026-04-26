@@ -1,0 +1,42 @@
+{
+  "id": "e44af91ffb6b",
+  "key": "manual_e44af9",
+  "name": "manual_e44af9",
+  "claim": "When new DB columns are added to existing tables (e.g. file_size, file_extension in Phase 2F), existing rows will have NULL. Always provide a SQL backfill script AND a display-layer fallback (e.g. derive file_extension from the file_url path). Don't rely on column data being present for pre-migration rows.",
+  "conditions": [
+    "backfill",
+    "column",
+    "migration",
+    "null",
+    "supabase"
+  ],
+  "evidence_ids": [
+    "2026-04-24T09:45:20.715032"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-04-24T09:45:20.715032",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-04-24T09:45:20.715032",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-04-24T09:45:20.935317",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Phase 2F added file_size and file_extension columns. All existing products showed N/A on the product detail page. Fixed by (a) deriving extension from file_url path in the UI and (b) providing a SQL backfill for the extension column.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-04-24T09:45:20.715032"
+      ],
+      "lessons_sha": "8447916954d8"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-04-24T09:45:20.935260",
+  "reviewer": "learn.py",
+  "rationale": "Phase 2F added file_size and file_extension columns. All existing products showed N/A on the product detail page. Fixed by (a) deriving extension from file_url path in the UI and (b) providing a SQL backfill for the extension column."
+}
