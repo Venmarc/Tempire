@@ -25,22 +25,9 @@ export default async function SellerDashboard() {
         'Seller';
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white pb-20">
-            {/* Header */}
-            <header className="border-b border-white/10 sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md">
-                <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black font-bold text-xl shrink-0">
-                            T
-                        </div>
-                        <span className="text-2xl font-bold tracking-tighter hidden md:block">
-                            Tempire
-                        </span>
-                    </Link>
-                </div>
-            </header>
+        <div className="pt-24 md:pt-32 min-h-screen">
 
-            <main className="max-w-5xl mx-auto px-6 pt-12">
+            <main className="max-w-5xl mx-auto px-6 pt-12 pb-24">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
                         <h1 className="text-4xl font-bold tracking-tighter">Seller Dashboard</h1>

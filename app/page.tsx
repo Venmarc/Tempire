@@ -1,11 +1,9 @@
 import { Suspense } from 'react';
 import { ProductService } from '@/server/services/product';
 import { ProductGrid } from '@/components/marketplace/ProductGrid';
-import { SearchBar } from '@/components/marketplace/SearchBar';
-import { CategoryFilter } from '@/components/marketplace/CategoryFilter';
+import { CategoryPills } from '@/components/marketplace/CategoryPills';
 import { SortSelector } from '@/components/marketplace/SortSelector';
 import { Pagination } from '@/components/marketplace/Pagination';
-import { Header } from '@/components/marketplace/Header';
 import type { ProductFilters } from '@/types/product';
 
 const LIMIT = 12;
@@ -40,9 +38,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
     const result = await ProductService.getProducts(filters);
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
-            <Header />
-
+        <div className="pt-24 md:pt-32 grow">
             {/* Hero */}
             <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 text-center">
                 <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4">
@@ -55,29 +51,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
             {/* Browse Section */}
             <div className="max-w-7xl mx-auto px-6 pb-24 w-full">
-                {/* Filter Bar */}
-                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
-                    <div className="flex-1 w-full">
-                        <Suspense>
-                            <SearchBar />
-                        </Suspense>
-                    </div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                        <Suspense>
-                            <SortSelector />
-                        </Suspense>
-                    </div>
-                </div>
-
-                {/* Category Pills */}
-                <div className="mb-8">
-                    <Suspense>
-                        <CategoryFilter />
-                    </Suspense>
-                </div>
-
-                {/* Header row */}
-                <div className="flex items-end justify-between mb-8">
+                {/* Header row + Sort */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
                     <div>
                         <h2 className="text-3xl font-semibold tracking-tighter">
                             {sp.search
@@ -91,7 +66,18 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                             {result.count} {result.count === 1 ? 'product' : 'products'} found
                         </p>
                     </div>
+                    
+                    <div className="flex items-center gap-3">
+                        <Suspense>
+                            <SortSelector />
+                        </Suspense>
+                    </div>
                 </div>
+
+                {/* Category Pills */}
+                <Suspense>
+                    <CategoryPills />
+                </Suspense>
 
                 {/* Product Grid */}
                 <Suspense fallback={<ProductGrid products={[]} isLoading={true} />}>
@@ -99,18 +85,15 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
                 </Suspense>
 
                 {/* Pagination */}
-                <Pagination
-                    currentPage={page}
-                    totalCount={result.count}
-                    limit={LIMIT}
-                    searchParams={{ search: sp.search, category: sp.category, sort: sp.sort }}
-                />
+                <div className="mt-12">
+                    <Pagination
+                        currentPage={page}
+                        totalCount={result.count}
+                        limit={LIMIT}
+                        searchParams={{ search: sp.search, category: sp.category, sort: sp.sort }}
+                    />
+                </div>
             </div>
-
-            {/* Footer */}
-            <footer className="text-xs text-zinc-600 text-center py-8 border-t border-white/10 mt-auto">
-                Tempire — Phase 2G: Search, filter, and paginate your way through the marketplace.
-            </footer>
         </div>
     );
 }

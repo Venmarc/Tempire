@@ -5,7 +5,7 @@ import { ProductGallery } from '@/components/marketplace/ProductGallery';
 import { PurchaseSidebar } from '@/components/marketplace/PurchaseSidebar';
 import Link from 'next/link';
 import { ChevronRight, ArrowLeft, Star, Clock, FileDown, CheckCircle2 } from 'lucide-react';
-import { Header } from '@/components/marketplace/Header';
+import { WishlistButton } from '@/components/marketplace/WishlistButton';
 
 interface ProductDetailPageProps {
     params: Promise<{
@@ -79,10 +79,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     });
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
-            <Header />
+        <div className="pt-24 md:pt-32 min-h-screen">
 
-            <main className="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+
+            <main className="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 w-full">
                 
                 {/* Breadcrumbs & Back */}
                 <div className="flex items-center justify-between mb-8">
@@ -101,9 +101,12 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                     <div className="lg:col-span-8 space-y-10">
                         {/* Title Section (Mobile/Tablet generally prefers it above image, but 80% shift keeps it clean) */}
                         <div>
-                            <h1 className="text-4xl sm:text-5xl font-bold tracking-tighter leading-tight mb-4">
-                                {product.title}
-                            </h1>
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 mb-4">
+                                <h1 className="text-4xl sm:text-5xl font-bold tracking-tighter leading-tight">
+                                    {product.title}
+                                </h1>
+                                <WishlistButton />
+                            </div>
                             <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-400">
                                 <div className="flex items-center gap-2">
                                     <div className="w-6 h-6 rounded-full bg-linear-to-tr from-emerald-400 to-cyan-400 flex items-center justify-center text-black font-semibold text-[10px]">

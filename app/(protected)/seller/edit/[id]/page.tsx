@@ -42,18 +42,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     }
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white pb-20">
-            {/* Minimal Header */}
-            <header className="border-b border-white/10">
-                <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-                    <div className="flex items-center gap-6">
-                        <Link href="/seller/dashboard" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2">
-                            <ArrowLeft className="w-4 h-4" />
-                            <span className="text-sm font-medium">Back to Dashboard</span>
-                        </Link>
-                    </div>
-                </div>
-            </header>
+        <div className="pt-24 md:pt-32 min-h-screen">
 
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
                 <div className="mb-8">

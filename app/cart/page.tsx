@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useCart } from '@/hooks/useCart';
-import { Header } from '@/components/marketplace/Header';
 import { Button } from '@/components/ui/button';
 import { Trash2, ArrowRight, ShoppingBag, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -22,15 +21,15 @@ export default function CartPage() {
     const total = totalPrice() / 100;
 
     return (
-        <div className="min-h-screen bg-zinc-950 text-white flex flex-col">
-            <Header />
+        <div className="pt-24 md:pt-32 min-h-screen">
+
 
             <main className="grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
                 <div className="flex items-center justify-between mb-12">
                     <h1 className="text-5xl font-bold tracking-tighter">Your Cart</h1>
                     {count > 0 && (
                         <button 
-                            onClick={clearCart}
+                            onClick={() => clearCart()}
                             className="text-zinc-500 hover:text-red-400 text-sm transition-colors"
                         >
                             Clear all items

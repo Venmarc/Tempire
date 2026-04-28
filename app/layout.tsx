@@ -1,6 +1,20 @@
 import type { Metadata } from 'next';
+import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
+import { AdaptiveNav } from '@/components/marketplace/AdaptiveNav';
+import { Footer } from '@/components/marketplace/Footer';
+import { Toaster } from 'sonner';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+});
 
 export const metadata: Metadata = {
   title: 'Tempire — Creator Marketplace',
@@ -14,10 +28,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-zinc-950 text-zinc-200 antialiased font-sans">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen">
-          <Providers>{children}</Providers>
-        </div>
+      <body className={`${inter.variable} ${outfit.variable} bg-zinc-950 text-zinc-200 antialiased font-sans min-h-screen flex flex-col`}>
+        <Providers>
+          <AdaptiveNav />
+          <main className="grow flex flex-col">
+            {children}
+          </main>
+          <Footer />
+          <Toaster richColors position="top-center" theme="dark" />
+        </Providers>
       </body>
     </html>
   );
