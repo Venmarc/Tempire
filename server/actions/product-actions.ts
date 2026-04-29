@@ -1,7 +1,7 @@
 'use server';
 
 import { currentUser } from '@clerk/nextjs/server';
-import { ProductUploadSchema } from '@/lib/validations/product';
+import { createDraftSchema, publishProductSchema } from '@/lib/validations/product';
 import { ProductService } from '../services/product';
 import { ProductInsertPayload } from '@/types/product';
 import { revalidatePath } from 'next/cache';
@@ -24,18 +24,18 @@ export async function createProductAction(formData: FormData) {
         const price = formData.get('price');
         const category = formData.get('category');
         const tags = formData.get('tags');
-        const is_published = formData.get('is_published');
+        const isPublish = formData.get('action') === 'publish';
         const coverImage = formData.get('coverImage');
         const productFile = formData.get('productFile');
 
         // Validate via Zod
-        const parsed = ProductUploadSchema.safeParse({
+        const schema = isPublish ? publishProductSchema : createDraftSchema;
+        const parsed = schema.safeParse({
             title,
             description,
             price,
             category,
             tags,
-            is_published,
             coverImage,
             productFile,
         });
@@ -47,13 +47,13 @@ export async function createProductAction(formData: FormData) {
         const data = parsed.data;
 
         // Convert price to cents
-        const priceInCents = Math.round(data.price * 100);
+        const priceInCents = data.price ? Math.round(data.price * 100) : 0;
 
         // Upload files
         const creatorId = user.id;
         
         let coverImageUrl = null;
-        if (data.coverImage) {
+        if (data.coverImage && data.coverImage.size > 0) {
             const result = await ProductService.uploadFile(data.coverImage, 'product-images', creatorId);
             coverImageUrl = result.url;
         }
@@ -61,7 +61,7 @@ export async function createProductAction(formData: FormData) {
         let productFileUrl = null;
         let fileSizeBytes: number | null = null;
         let fileExtension: string | null = null;
-        if (data.productFile) {
+        if (data.productFile && data.productFile.size > 0) {
             const result = await ProductService.uploadFile(data.productFile, 'product-files', creatorId);
             productFileUrl = result.url;
             fileSizeBytes = result.fileSize;
@@ -77,8 +77,8 @@ export async function createProductAction(formData: FormData) {
             description: data.description || null,
             price: priceInCents,
             category: data.category,
-            tags: data.tags.length > 0 ? data.tags : null,
-            is_published: data.is_published,
+            tags: data.tags && data.tags.length > 0 ? data.tags : null,
+            is_published: isPublish,
             creator_id: creatorId,
             creator_name: creatorName,
             image_url: coverImageUrl,

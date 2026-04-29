@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Product } from '@/types/product';
+import { cn } from '@/lib/utils';
 
 interface ProductFormProps {
     initialData?: Product;
@@ -25,9 +26,22 @@ export function ProductForm({ initialData }: ProductFormProps) {
     const [isPending, startTransition] = useTransition();
     const isEditing = !!initialData;
 
+    // Track form state for the submit button
+    const [title, setTitle] = useState(initialData?.title || '');
+    const [price, setPrice] = useState(initialData?.price ? (initialData.price / 100).toString() : '');
+    const [category, setCategory] = useState(initialData?.category || '');
+
+    const [actionValue, setActionValue] = useState<"draft" | "publish">("draft");
+
     // Track user-picked files so we can show their names
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [selectedFile, setSelectedFile]   = useState<string | null>(null);
+
+    const hasImage = !!selectedImage || (isEditing && !!initialData?.image_url);
+    const hasFile = !!selectedFile || (isEditing && !!initialData?.file_url);
+    
+    const isValidForPublish = title.trim().length >= 3 && price && parseFloat(price) >= 0.50 && category && hasImage && hasFile;
+    const isValidForDraft = title.trim().length >= 3;
 
     const imageInputRef = useRef<HTMLInputElement>(null);
     const fileInputRef  = useRef<HTMLInputElement>(null);
@@ -35,11 +49,14 @@ export function ProductForm({ initialData }: ProductFormProps) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        formData.append("action", actionValue);
         
-        const price = parseFloat(formData.get('price') as string);
-        if (price < 0.50) {
-            toast.error("Price must be at least $0.50");
-            return;
+        if (actionValue === "publish") {
+            const priceVal = parseFloat(formData.get('price') as string);
+            if (isNaN(priceVal) || priceVal < 0.50) {
+                toast.error("Price must be at least $0.50 to publish");
+                return;
+            }
         }
 
         startTransition(async () => {
@@ -55,7 +72,7 @@ export function ProductForm({ initialData }: ProductFormProps) {
             if (result.success && result.product) {
                 toast.success(isEditing ? "Product updated!" : "Product created!");
                 
-                const isPublished = formData.get('is_published') === 'true';
+                const isPublished = actionValue === 'publish';
                 if (isPublished) {
                     router.push(`/products/${result.product.id}`);
                 } else {
@@ -76,11 +93,12 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         id="title" 
                         name="title" 
                         required 
-                        defaultValue={initialData?.title}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         placeholder="e.g. Modern UI Kit" 
                         minLength={3} 
                         maxLength={100} 
-                        className="bg-zinc-950" 
+                        className="bg-zinc-950/50 border-white/5 focus-visible:border-primary" 
                     />
                 </div>
 
@@ -92,7 +110,7 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         name="description" 
                         defaultValue={initialData?.description || ''}
                         placeholder="Describe your product clearly..." 
-                        className="bg-zinc-950 min-h-[120px]" 
+                        className="bg-zinc-950/50 border-white/5 focus-visible:border-primary min-h-[120px]" 
                     />
                 </div>
 
@@ -106,10 +124,10 @@ export function ProductForm({ initialData }: ProductFormProps) {
                             type="number" 
                             step="0.01" 
                             min="0.50" 
-                            required 
-                            defaultValue={initialData ? (initialData.price / 100) : ''}
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                             placeholder="9.99" 
-                            className="bg-zinc-950" 
+                            className="bg-zinc-950/50 border-white/5 focus-visible:border-primary" 
                         />
                     </div>
 
@@ -119,9 +137,9 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         <select 
                             id="category" 
                             name="category" 
-                            required 
-                            defaultValue={initialData?.category || ''}
-                            className="flex h-10 w-full rounded-md border border-input bg-zinc-950 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                            className="flex h-10 w-full rounded-md border-white/5 bg-zinc-950/50 px-3 py-2 text-sm border focus-visible:outline-none focus-visible:border-primary"
                         >
                             <option value="">Select a category</option>
                             <option value="Notion Templates">Notion Templates</option>
@@ -142,7 +160,7 @@ export function ProductForm({ initialData }: ProductFormProps) {
                         name="tags" 
                         defaultValue={initialData?.tags?.join(', ')}
                         placeholder="e.g. design, figma, dark mode" 
-                        className="bg-zinc-950" 
+                        className="bg-zinc-950/50 border-white/5 focus-visible:border-primary" 
                     />
                 </div>
 
@@ -151,22 +169,23 @@ export function ProductForm({ initialData }: ProductFormProps) {
                     <Label htmlFor="coverImage">
                         Cover Image {isEditing ? '(Leave empty to keep current)' : <span className="text-red-500">*</span>}
                     </Label>
-                    <div className="border hover:border-emerald-500/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950">
+                    <div className="border hover:border-primary/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950/50">
                         {/* Custom file picker — hides native "No file chosen" text */}
                         <div className="flex items-center gap-3">
                             <Button
                                 type="button"
+                                variant="secondary"
                                 size="sm"
                                 onClick={() => imageInputRef.current?.click()}
-                                className="shrink-0 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full text-sm px-4 py-2 h-auto"
+                                className="shrink-0 rounded-full h-auto"
                             >
                                 Choose File
                             </Button>
                             <span className={`text-sm truncate max-w-[320px] ${
                                 selectedImage
-                                    ? 'text-emerald-400'
+                                    ? 'text-primary'
                                     : isEditing && initialData?.image_url
-                                        ? 'text-emerald-400/70'
+                                        ? 'text-primary/70'
                                         : 'text-zinc-500'
                             }`}>
                                 {selectedImage
@@ -183,7 +202,6 @@ export function ProductForm({ initialData }: ProductFormProps) {
                             name="coverImage"
                             type="file"
                             accept="image/*"
-                            required={!isEditing}
                             className="sr-only"
                             onChange={(e) => {
                                 const name = e.target.files?.[0]?.name ?? null;
@@ -199,22 +217,23 @@ export function ProductForm({ initialData }: ProductFormProps) {
                     <Label htmlFor="productFile">
                         Product File {isEditing ? '(Leave empty to keep current)' : <span className="text-red-500">*</span>}
                     </Label>
-                    <div className="border hover:border-emerald-500/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950">
+                    <div className="border hover:border-primary/50 transition-colors border-white/10 rounded-md p-4 bg-zinc-950/50">
                         {/* Custom file picker — hides native "No file chosen" text */}
                         <div className="flex items-center gap-3">
                             <Button
                                 type="button"
+                                variant="secondary"
                                 size="sm"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="shrink-0 bg-zinc-700 hover:bg-zinc-600 text-white rounded-full text-sm px-4 py-2 h-auto"
+                                className="shrink-0 rounded-full h-auto"
                             >
                                 Choose File
                             </Button>
                             <span className={`text-sm truncate max-w-[320px] ${
                                 selectedFile
-                                    ? 'text-emerald-400'
+                                    ? 'text-primary'
                                     : isEditing && initialData?.file_url
-                                        ? 'text-emerald-400/70'
+                                        ? 'text-primary/70'
                                         : 'text-zinc-500'
                             }`}>
                                 {selectedFile
@@ -231,7 +250,6 @@ export function ProductForm({ initialData }: ProductFormProps) {
                             name="productFile"
                             type="file"
                             accept=".zip,.pdf,.json,.md,.txt,.png,.jpg,.jpeg,.gif,.webp,.notion,.csv,.xlsx"
-                            required={!isEditing}
                             className="sr-only"
                             onChange={(e) => {
                                 const name = e.target.files?.[0]?.name ?? null;
@@ -244,28 +262,28 @@ export function ProductForm({ initialData }: ProductFormProps) {
                     </div>
                 </div>
 
-                {/* Status */}
-                <div className="space-y-2 border-t border-white/10 pt-6">
-                    <Label htmlFor="is_published">Status</Label>
-                    <select 
-                        id="is_published" 
-                        name="is_published" 
-                        defaultValue={initialData ? initialData.is_published.toString() : "true"}
-                        className="flex h-10 w-full md:w-1/3 rounded-md border border-input bg-zinc-950 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    >
-                        <option value="true">Publish Immediately</option>
-                        <option value="false">Save as Draft</option>
-                    </select>
-                </div>
+                {/* Status dropdown removed */}
             </div>
 
-            <Button 
-                type="submit" 
-                disabled={isPending} 
-                className="w-full md:w-auto bg-emerald-500 hover:bg-emerald-600 text-white min-w-[150px]"
-            >
-                {isPending ? 'Processing...' : (isEditing ? 'Update Product' : 'Save Product')}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-white/10">
+                <Button 
+                    type="submit" 
+                    onClick={() => setActionValue('draft')}
+                    disabled={isPending || !isValidForDraft} 
+                    variant="secondary"
+                    className="w-full sm:w-auto min-w-[150px] font-medium bg-transparent border border-white/10 hover:bg-white/5"
+                >
+                    {isPending && actionValue === 'draft' ? 'Saving...' : 'Save as Draft'}
+                </Button>
+                <Button 
+                    type="submit" 
+                    onClick={() => setActionValue('publish')}
+                    disabled={isPending || !isValidForPublish} 
+                    className="w-full sm:w-auto min-w-[150px] font-bold bg-emerald-500 hover:bg-emerald-600 text-white border-transparent"
+                >
+                    {isPending && actionValue === 'publish' ? 'Publishing...' : 'Publish Now'}
+                </Button>
+            </div>
         </form>
     );
 }

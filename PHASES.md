@@ -175,6 +175,32 @@ Phase 2I focused on upgrading the Tempire marketplace into a premium, responsive
 - **Improved Layout Logic:** Standardized `min-h-screen grow` structure to fix long-standing footer positioning issues.
 
 **Phase 2I Complete.**
+36: 
+37: ---
+38: 
+39: **Phase 2J: Advanced Seller Upload UX (Completed)**
+40: **Completed:** April 29, 2026
+41: 
+42: ## Overview
+43: Phase 2J focused on professionalizing the seller product lifecycle by implementing a "Draft vs. Published" system and premium interaction patterns for data management.
+44: 
+45: ## What Was Built
+46: - **Draft vs. Published Flow:**
+47:     - Replaced the status dropdown with explicit **"Save as Draft"** and **"Publish Now"** buttons.
+48:     - Segmented validation: Drafts require only a `title` (min 3 chars), while Published products require full metadata and files.
+49:     - Updated `createProductAction` and `updateProductAction` to route logic based on the specific form action.
+50: - **Premium Deletion Interaction:**
+51:     - Replaced native browser `confirm()` with a custom, high-fidelity **Delete Confirmation Modal**.
+52:     - Features `lucide-react` AlertTriangle warning icon and red-accented destructive buttons.
+53: - **Navigation Recovery:**
+54:     - Restored the **"Back to Homepage"** and **"Back to Dashboard"** breadcrumb-style links to the Seller Dashboard and Upload pages.
+55: - **UI Styling Polish:**
+56:     - Applied subtle containerized outlines to secondary buttons for better visual hierarchy.
+57: 
+58: **Phase 2J Complete.**
+59: 
+60: ---
+
 
 ## Phase 2 Overall Plan (Remaining)
 - Phase 3: Cart logic & Mock Checkout flow.

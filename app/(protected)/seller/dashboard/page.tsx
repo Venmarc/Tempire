@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { ProductService } from '@/server/services/product';
 import Link from 'next/link';
-import { Plus, Package, Eye, Edit3, Circle } from 'lucide-react';
+import { Plus, Package, Eye, Edit3, Circle, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteProductButton } from '@/components/marketplace/DeleteProductButton';
 
@@ -30,6 +30,10 @@ export default async function SellerDashboard() {
             <main className="max-w-5xl mx-auto px-6 pt-12 pb-24">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
+                        <Link href="/" className="text-zinc-400 hover:text-white transition-colors flex items-center gap-2 mb-4 group w-fit">
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                            <span className="text-sm font-medium">Back to Homepage</span>
+                        </Link>
                         <h1 className="text-4xl font-bold tracking-tighter">Seller Dashboard</h1>
                         <p className="text-zinc-400 mt-2 text-lg">
                             Welcome back, {displayName}. Manage your digital empire.

@@ -54,7 +54,7 @@ export async function updateProductAction(id: string, formData: FormData) {
         const price = parseFloat(formData.get('price') as string);
         const category = formData.get('category') as string;
         const tagsRaw = formData.get('tags') as string;
-        const is_published = formData.get('is_published') === 'true';
+        const is_published = formData.get('action') === 'publish';
         
         const coverImage = formData.get('coverImage') as File;
         const productFile = formData.get('productFile') as File;
