@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthButtons } from '@/components/auth/AuthButtons';
-import { CartDrawer } from '@/components/marketplace/CartDrawer';
+import { CartDropdown } from '@/components/marketplace/CartDropdown';
 import { SearchBar } from '@/components/marketplace/SearchBar';
 import { LiveSearchResults } from '@/components/marketplace/LiveSearchResults';
 
@@ -80,7 +80,7 @@ export function AdaptiveNav() {
                             Sell
                         </Link>
                         <div className="flex items-center gap-3 md:gap-4 border-l border-white/10 pl-6">
-                            <CartDrawer />
+                            <CartDropdown />
                             <AuthButtons />
                         </div>
                     </div>
@@ -97,7 +97,7 @@ export function AdaptiveNav() {
                     </div>
                 </Link>
                 <div className="flex items-center gap-4">
-                    <CartDrawer />
+                    <CartDropdown />
                 </div>
             </header>
 
