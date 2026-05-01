@@ -18,9 +18,9 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { isSignedIn } = useUser();
   const router = useRouter();
-  const { addItem, items, isAdding } = useCart();
+  const { addItem, isAdding } = useCart();
   const [isLiked, setIsLiked] = useState(false);
-  const price = product.price / 100;
+  const price = product.price;
   const isFree = product.price === 0;
 
   const toggleWishlist = (e: React.MouseEvent) => {
