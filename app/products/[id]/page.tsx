@@ -17,7 +17,7 @@ interface ProductDetailPageProps {
 export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
     const { id } = await params;
     const product = await ProductService.getProductById(id);
-    
+
     if (!product) {
         return { title: 'Product Not Found | Tempire' };
     }
@@ -83,12 +83,12 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
 
             <main className="grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24 w-full">
-                
+
                 {/* Breadcrumbs & Back */}
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center text-sm text-zinc-400 gap-2">
                         <Link href="/" className="hover:text-white flex items-center gap-2 transition-colors">
-                            <ArrowLeft className="w-4 h-4" /> Back to Browse
+                            <ArrowLeft className="w-4 h-4" /> Back to Homepage
                         </Link>
                         <ChevronRight className="w-4 h-4 opacity-50" />
                         <span className="text-white">{product.category || 'Digital Goods'}</span>
@@ -96,7 +96,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                    
+
                     {/* Left Column: Gallery & Details */}
                     <div className="lg:col-span-8 space-y-10">
                         {/* Title Section (Mobile/Tablet generally prefers it above image, but 80% shift keeps it clean) */}
@@ -144,7 +144,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                                     <p className="text-zinc-500 italic">No description provided.</p>
                                 )}
                             </div>
-                            
+
                             {/* Tags */}
                             {product.tags && product.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-8">

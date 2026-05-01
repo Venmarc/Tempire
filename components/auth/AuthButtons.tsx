@@ -7,7 +7,9 @@ export function AuthButtons() {
   const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded) {
-    return <Skeleton className="w-8 h-8 rounded-full shrink-0" />;
+    return (
+      <div className="w-8 h-8 rounded-full bg-zinc-800 animate-pulse border border-white/5" aria-hidden="true" />
+    );
   }
 
   return (

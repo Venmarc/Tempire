@@ -7,22 +7,28 @@ const isSellerRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-    if (isSellerRoute(req)) {
-        const authObj = await auth();
-        
-        if (!authObj.userId) {
-            // Manually redirect to sign-in smoothly instead of throwing an error back to Next.js
-            return authObj.redirectToSignIn({ returnBackUrl: req.url });
+    try {
+        if (isSellerRoute(req)) {
+            const authObj = await auth();
+            
+            if (!authObj.userId) {
+                console.log(`📡 Middleware: Unauthenticated user on seller route ${req.nextUrl.pathname}. Redirecting...`);
+                return authObj.redirectToSignIn({ returnBackUrl: req.url });
+            }
+
+            const role = authObj.sessionClaims?.role as string | undefined;
+
+            if (role !== 'seller') {
+                console.log(`🚫 Middleware: Access denied for ${authObj.userId} on ${req.nextUrl.pathname} (role: ${role || 'none'})`);
+                return Response.redirect(new URL('/', req.url));
+            }
+
+            console.log(`✅ Middleware: Seller access granted for ${authObj.userId} on ${req.nextUrl.pathname}`);
         }
-
-        const role = authObj.sessionClaims?.role as string | undefined;
-
-        if (role !== 'seller') {
-            console.log(`🚫 Access denied: user ${authObj.userId || 'unknown'} (role: ${role || 'none'})`);
-            return Response.redirect(new URL('/', req.url));
-        }
-
-        console.log(`✅ Seller access granted for user ${authObj.userId} (role: ${role})`);
+    } catch (error: any) {
+        console.error(`❌ Middleware Error on ${req.nextUrl.pathname}:`, error.message);
+        // On error, we generally want to let the request proceed and have the page handle it,
+        // unless it's a security-critical failure.
     }
 });
 
