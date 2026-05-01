@@ -21,11 +21,8 @@ export function CartBadge() {
     if (count === 0) return null;
 
     return (
-        <Link href="/cart" className="relative p-2 hover:bg-white/10 rounded-full transition-colors group">
-            <ShoppingCart className="w-6 h-6 text-zinc-400 group-hover:text-white" />
-            <span className="absolute top-0 right-0 w-5 h-5 bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-zinc-950">
-                {count}
-            </span>
-        </Link>
+        <span className="absolute top-0 right-0 w-5 h-5 bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full border-2 border-zinc-950 translate-x-1/4 -translate-y-1/4 pointer-events-none">
+            {count}
+        </span>
     );
 }

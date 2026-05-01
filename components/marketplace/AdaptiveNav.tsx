@@ -16,6 +16,7 @@ import { AuthButtons } from '@/components/auth/AuthButtons';
 import { CartBadge } from '@/components/marketplace/CartBadge';
 import { SearchBar } from '@/components/marketplace/SearchBar';
 import { LiveSearchResults } from '@/components/marketplace/LiveSearchResults';
+import { ShoppingCart } from 'lucide-react';
 
 export function AdaptiveNav() {
     const pathname = usePathname();
@@ -79,8 +80,16 @@ export function AdaptiveNav() {
                         >
                             Sell
                         </Link>
-                        <div className="flex items-center gap-4 border-l border-white/10 pl-6">
-                            <CartBadge />
+                        <div className="flex items-center gap-3 md:gap-4 border-l border-white/10 pl-6">
+                            {/* Cart Icon */}
+                            <Link 
+                                href="/cart" 
+                                className="relative p-2.5 hover:bg-zinc-800 rounded-2xl transition-colors group"
+                            >
+                                <ShoppingCart className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors" />
+                                <CartBadge />
+                            </Link>
+                            
                             <AuthButtons />
                         </div>
                     </div>
@@ -97,7 +106,10 @@ export function AdaptiveNav() {
                     </div>
                 </Link>
                 <div className="flex items-center gap-4">
-                    <CartBadge />
+                    <Link href="/cart" className="relative p-2 hover:bg-white/10 rounded-full transition-colors group">
+                        <ShoppingCart className="w-6 h-6 text-zinc-400 group-hover:text-white" />
+                        <CartBadge />
+                    </Link>
                 </div>
             </header>
 

@@ -16,3 +16,6 @@
     - "Total Views" should probably be part of the main `Product View` area.
     - *Challenge*: Removing it leaves the "Seller Tools" sidebar vacant. Need to identify higher-value seller actions or stats to fill this space.
 - **Overall**: The "Seller Tools" area needs a functional and aesthetic overhaul to feel integrated and "premium".
+
+## Phase 3 Tasks
+- **Step 3**: Add 'Add to Cart' functionality to the Product Detail Page.

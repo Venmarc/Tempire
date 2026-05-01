@@ -46,21 +46,21 @@ export default async function SellerDashboard() {
                                 Welcome back, {displayName}. Manage your digital empire.
                             </p>
                         </div>
-                    </div>
 
-                    {products.length > 0 && (
-                        <div className="flex items-center">
-                            <Button
-                                className="w-[48%] sm:w-auto px-5 py-2.5 text-sm md:text-base font-medium bg-emerald-500 hover:bg-emerald-600 transition-colors rounded-2xl h-auto"
-                                asChild
-                            >
-                                <Link href="/seller/upload">
-                                    <Plus className="w-4 h-4 mr-2" />
-                                    Upload New Product
-                                </Link>
-                            </Button>
-                        </div>
-                    )}
+                        {products.length > 0 && (
+                            <div className="flex items-center">
+                                <Button
+                                    className="w-[48%] sm:w-auto px-5 py-2.5 text-sm md:text-base font-medium bg-emerald-500 hover:bg-emerald-600 transition-colors rounded-2xl h-auto"
+                                    asChild
+                                >
+                                    <Link href="/seller/upload">
+                                        <Plus className="w-4 h-4 mr-2" />
+                                        Upload New Product
+                                    </Link>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {products.length === 0 ? (

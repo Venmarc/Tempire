@@ -1,24 +1,28 @@
 # Workspace (live task state)
 
 ## Current task
-Resuming Tempire development after Phase 2J (Advanced Seller Upload UX) and Phase 2I (Cineby Refinements). Deciding between final dashboard polish (Clerk avatar stability) and starting Phase 3 (Cart/Checkout).
+Phase 3: Cart Logic & Mock Checkout Implementation.
+We are currently migrating to a Zustand store and integrating the "Add to Cart" UI elements across the marketplace.
 
 ## Open files
-- components/seller/SellerProductCard.tsx
-- app/(protected)/seller/dashboard/page.tsx
-- components/auth/AuthButtons.tsx
-- components/marketplace/SellerDashboardSkeleton.tsx
+- server/actions/product-actions.ts
 - PHASES.md
+- hooks/useCart.ts
+- components/marketplace/ProductCard.tsx
+- components/marketplace/CartBadge.tsx
 
 ## Active hypotheses
-- Clerk avatar terminal errors might be related to `currentUser()` being called in paths where middleware doesn't guarantee auth, or metadata fetches failing.
-- Seller dashboard "Upload" button is now conditional and properly aligned.
+- The compatibility layer in `hooks/useCart.ts` prevents breaking existing components by casting the new `CartItem` shape into the old `Product` shape with default null/blank fields.
 
 ## Checkpoints
 - [x] Initialized brain context (PREFERENCES, PROJECT, PHASES, DECISIONS)
 - [x] Verified brain state (show.py, recall.py)
-- [ ] Resolve Clerk avatar loading/terminal errors
-- [ ] Begin Phase 3: Cart & Mock Checkout
+- [x] Create clean Zustand Cart Store (`store/useCartStore.ts`, `types/cart.ts`)
+- [x] Refactor `hooks/useCart.ts` to be a strict compatibility wrapper mapping `CartItem` -> `Product`
+- [x] Update `ProductCard.tsx` (Add to Cart button replacing Star icon)
+- [x] Update `CartBadge.tsx` (Always show icon, only show number if > 0)
+- [ ] Build `CartDrawer.tsx`
+- [ ] Build Checkout Flow
 
 ## Next step
-Confirm with Victor whether to fix the remaining Clerk avatar issues/terminal logs or transition directly to Phase 3.
+Waiting for user manual tests for Step 2 and confirmation of `shadcn sheet` installation before proceeding to Step 3 (Cart Drawer).

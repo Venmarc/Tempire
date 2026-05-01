@@ -1,82 +1,66 @@
 'use client';
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCartStore } from '@/store/useCartStore';
 import { Product } from '@/types/product';
+import { CartItem } from '@/types/cart';
 
-const CART_KEY = ['cart'];
-const LOCAL_STORAGE_KEY = 'tempire-cart-query';
-
-// Helper to get cart from localStorage
-const getLocalCart = (): Product[] => {
-    if (typeof window === 'undefined') return [];
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-};
-
-// Helper to save cart to localStorage
-const saveLocalCart = (items: Product[]) => {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items));
-};
+import { useState } from 'react';
 
 export function useCart() {
-    const queryClient = useQueryClient();
+  const {
+    items: cartItems,
+    addItem: storeAddItem,
+    removeItem,
+    clearCart,
+    totalCount,
+    totalPrice,
+  } = useCartStore();
 
-    // 1. Source of truth (Query)
-    const { data: items = [] } = useQuery({
-        queryKey: CART_KEY,
-        queryFn: getLocalCart,
-        staleTime: Infinity, // Keep in memory
+  const [isAdding, setIsAdding] = useState(false);
+
+  // Map CartItem back to Product shape for backward compatibility
+  const items: Product[] = cartItems.map((item: CartItem): Product => ({
+    id: item.id,
+    title: item.title,
+    price: item.price,
+    image_url: item.image_url || null,
+    // Provide sensible defaults for all other required Product fields
+    description: null,
+    file_url: null,
+    creator_name: null,
+    creator_id: '',
+    category: null,
+    tags: null,
+    is_published: true,
+    created_at: new Date().toISOString(),
+    file_size: null,
+    file_extension: null,
+    average_rating: 0,
+    review_count: 0,
+    sales_count: 0,
+  }));
+
+  const addItem = (product: Product) => {
+    setIsAdding(true);
+    storeAddItem({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image_url: product.image_url,
     });
+    // Simulate brief loading state for UI feedback
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 400);
+  };
 
-    // 2. Mutations
-    const addItemMutation = useMutation({
-        mutationFn: async (product: Product) => {
-            const current = getLocalCart();
-            if (current.find((item) => item.id === product.id)) return current;
-            const updated = [...current, product];
-            saveLocalCart(updated);
-            return updated;
-        },
-        onSuccess: (updated) => {
-            queryClient.setQueryData(CART_KEY, updated);
-        },
-    });
-
-    const removeItemMutation = useMutation({
-        mutationFn: async (productId: string) => {
-            const current = getLocalCart();
-            const updated = current.filter((item) => item.id !== productId);
-            saveLocalCart(updated);
-            return updated;
-        },
-        onSuccess: (updated) => {
-            queryClient.setQueryData(CART_KEY, updated);
-        },
-    });
-
-    const clearCartMutation = useMutation({
-        mutationFn: async () => {
-            saveLocalCart([]);
-            return [];
-        },
-        onSuccess: () => {
-            queryClient.setQueryData(CART_KEY, []);
-        },
-    });
-
-    // Helper functions for the UI
-    const totalCount = () => items.length;
-    const totalPrice = () => items.reduce((acc, item) => acc + (item.price || 0), 0);
-
-    return {
-        items,
-        addItem: addItemMutation.mutate,
-        removeItem: removeItemMutation.mutate,
-        clearCart: clearCartMutation.mutate,
-        totalCount,
-        totalPrice,
-        isAdding: addItemMutation.isPending,
-        isRemoving: removeItemMutation.isPending,
-    };
+  return {
+    items,                    // Now properly typed as Product[]
+    addItem,
+    removeItem,
+    clearCart,
+    totalCount: () => totalCount(),
+    totalPrice: () => totalPrice(),
+    isAdding,
+  };
 }

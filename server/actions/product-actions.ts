@@ -76,7 +76,7 @@ export async function createProductAction(formData: FormData) {
             title: data.title,
             description: data.description || null,
             price: priceInCents,
-            category: data.category,
+            category: data.category || null,
             tags: data.tags && data.tags.length > 0 ? data.tags : null,
             is_published: isPublish,
             creator_id: creatorId,

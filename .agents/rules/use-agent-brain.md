@@ -13,6 +13,6 @@ At the VERY START of EVERY session and before ANY task:
 6. Always respect .agent/.agent/protocols/PERMISSIONS.md and hooks
 7. After major changes, run memory-manager skill
 8. Update PHASES.md after a major task is declared completed
-
+9. Remind me, Victor, to run python3 .agent/.agent/memory/auto_dream.py after completing major tasks, fixing a difficult bug, etc. 
 Use tools in .agent/.agent/tools/ via terminal when needed.
 I am Victor. Follow PREFERENCES.md and all my existing project docs exactly.

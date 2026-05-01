@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, Heart } from 'lucide-react';
+import { Star, Heart, Plus } from 'lucide-react';
 import { Product } from '@/types/product';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/hooks/useCart';
 
 interface ProductCardProps {
   product: Product;
@@ -17,6 +18,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { isSignedIn } = useUser();
   const router = useRouter();
+  const { addItem, items, isAdding } = useCart();
   const [isLiked, setIsLiked] = useState(false);
   const price = product.price / 100;
   const isFree = product.price === 0;
@@ -104,11 +106,10 @@ export function ProductCard({ product }: ProductCardProps) {
                 {isFree ? (
                   <span className="text-emerald-400">Free</span>
                 ) : (
-                  `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                  `$${(price / 100).toFixed(2)}`
                 )}
               </span>
               
-              {/* Conditional "NEW" badge or Rating could go here */}
               {(product.average_rating === 0 || !product.average_rating) && (
                 <span className="rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400 uppercase tracking-wider">
                   NEW
@@ -116,10 +117,19 @@ export function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
 
-            {/* Future-proof slot: currently a subtle hint, later a cart button */}
-            <div className="text-zinc-600 transition-colors group-hover:text-zinc-400">
-              <Star className="w-4 h-4" />
-            </div>
+            {/* Add to Cart Button */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addItem(product);
+              }}
+              disabled={isAdding}
+              className="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-500/50 text-white text-sm font-medium px-4 py-2 rounded-2xl transition-all active:scale-[0.97] disabled:cursor-not-allowed"
+            >
+              <Plus className="w-4 h-4" />
+              <span className="hidden sm:inline">Add</span>
+            </button>
           </div>
         </div>
       </div>
