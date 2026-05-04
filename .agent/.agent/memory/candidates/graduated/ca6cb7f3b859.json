@@ -1,0 +1,44 @@
+{
+  "id": "ca6cb7f3b859",
+  "key": "manual_ca6cb7",
+  "name": "manual_ca6cb7",
+  "claim": "Before editing any file, verify which lines are within your scope and which are not \u2014 never touch imports, variables, or logic blocks that are unrelated to the current task. Read the full file context first, identify the exact target lines, and leave everything else untouched.",
+  "conditions": [
+    "careful",
+    "context",
+    "edit",
+    "file",
+    "scope",
+    "touch",
+    "unrelated"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:35.344200"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:35.344200",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:35.344200",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:35.798524",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Multiple incidents where agent accidentally removed or altered unrelated code during targeted edits. Victor explicitly warned: I asked u to stop making such mistakes. The root cause is rushing edits without verifying the full surrounding context.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:35.344200"
+      ],
+      "lessons_sha": "d6241163fe57"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:35.798469",
+  "reviewer": "learn.py",
+  "rationale": "Multiple incidents where agent accidentally removed or altered unrelated code during targeted edits. Victor explicitly warned: I asked u to stop making such mistakes. The root cause is rushing edits without verifying the full surrounding context."
+}

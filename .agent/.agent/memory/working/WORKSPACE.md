@@ -2,27 +2,38 @@
 
 ## Current task
 Phase 3: Cart Logic & Mock Checkout Implementation.
-We are currently migrating to a Zustand store and integrating the "Add to Cart" UI elements across the marketplace.
+Steps 1-3 are complete. Next up is Step 4: Product Detail Page "Add to Cart".
 
 ## Open files
 - server/actions/product-actions.ts
 - PHASES.md
 - hooks/useCart.ts
 - components/marketplace/ProductCard.tsx
-- components/marketplace/CartBadge.tsx
+- components/marketplace/CartDropdown.tsx
+- store/useCartStore.ts
+- NOTES.md
 
 ## Active hypotheses
-- The compatibility layer in `hooks/useCart.ts` prevents breaking existing components by casting the new `CartItem` shape into the old `Product` shape with default null/blank fields.
+- The CartDropdown (Popover) works but Victor wants more visual polish — will revisit later.
+- The CartDrawer.tsx (Sheet-based) is deprecated but not deleted yet.
 
 ## Checkpoints
-- [x] Initialized brain context (PREFERENCES, PROJECT, PHASES, DECISIONS)
-- [x] Verified brain state (show.py, recall.py)
-- [x] Create clean Zustand Cart Store (`store/useCartStore.ts`, `types/cart.ts`)
-- [x] Refactor `hooks/useCart.ts` to be a strict compatibility wrapper mapping `CartItem` -> `Product`
-- [x] Update `ProductCard.tsx` (Add to Cart button replacing Star icon)
-- [x] Update `CartBadge.tsx` (Always show icon, only show number if > 0)
-- [ ] Build `CartDrawer.tsx`
-- [ ] Build Checkout Flow
+- [x] Step 1: Create clean Zustand Cart Store (`store/useCartStore.ts`, `types/cart.ts`)
+- [x] Step 1b: Refactor `hooks/useCart.ts` to be a strict typed compatibility wrapper (CartItem → Product)
+- [x] Step 2: Add to Cart button on ProductCard + Cart icon in desktop navbar
+- [x] Step 2 price fix: Changed to raw cents variable, single division at display layer
+- [x] Step 3: CartDrawer (Sheet) → REJECTED by Victor → Replaced with CartDropdown (Popover)
+- [x] Step 3b: Premium visual polish pass on CartDropdown
+- [ ] Step 4: Add "Add to Cart" to Product Detail Page (PurchaseSidebar)
+- [ ] Step 5: Build Checkout Flow (Cineby-style dark premium)
+- [ ] Step 6: Success Page
 
 ## Next step
-Waiting for user manual tests for Step 2 and confirmation of `shadcn sheet` installation before proceeding to Step 3 (Cart Drawer).
+Step 4: Product Detail Page "Add to Cart" integration.
+Victor noted this in NOTES.md under Phase 3 Tasks.
+
+## Brain state (May 1, 2026 evening)
+- 8 new lessons graduated today covering: JSX nesting, exact code following, edit scope discipline, 80% Shift UI patterns, typed wrappers, tsc verification, price formatting, small steps workflow
+- 3 failure events logged: price double-division, any[] cast, Sheet rejection
+- 1 success event logged: Zustand migration
+- Total accepted lessons in corpus: ~20+

@@ -1,0 +1,44 @@
+{
+  "id": "8fe314984e32",
+  "key": "manual_8fe314",
+  "name": "manual_8fe314",
+  "claim": "When editing a file, never move code blocks outside their parent container accidentally \u2014 always verify the structural nesting of JSX before and after the edit. A conditional wrapper moved outside a flex container silently breaks layout alignment on different screen sizes.",
+  "conditions": [
+    "container",
+    "edit",
+    "flex",
+    "jsx",
+    "layout",
+    "move",
+    "nesting"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:24.999588"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:24.999588",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:24.999588",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:25.169476",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Upload New Product button was moved outside the flex container during a conditional-visibility edit, breaking desktop right-alignment. Caught by Victor in landscape testing.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:24.999588"
+      ],
+      "lessons_sha": "bc19c054b997"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:25.169420",
+  "reviewer": "learn.py",
+  "rationale": "Upload New Product button was moved outside the flex container during a conditional-visibility edit, breaking desktop right-alignment. Caught by Victor in landscape testing."
+}

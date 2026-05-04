@@ -1,0 +1,64 @@
+{
+  "id": "b7f501905e5e",
+  "key": "manual_b7f501",
+  "name": "manual_b7f501",
+  "claim": "Never use 'any' type to silence TypeScript errors \u2014 always create proper type mappings. When a compatibility wrapper returns data for components expecting a specific type (e.g. Product[]), map every required field with sensible defaults instead of casting to any[].",
+  "conditions": [
+    "always",
+    "any",
+    "casting",
+    "compatibility",
+    "components",
+    "create",
+    "data",
+    "defaults",
+    "errors",
+    "every",
+    "expecting",
+    "field",
+    "instead",
+    "map",
+    "mappings",
+    "never",
+    "product",
+    "proper",
+    "required",
+    "returns",
+    "sensible",
+    "silence",
+    "specific",
+    "type",
+    "typescript",
+    "use",
+    "wrapper"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:09:55.646261"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:09:55.646261",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:09:55.646261",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:09:55.958812",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "During Zustand cart migration, the agent used 'as any[]' in hooks/useCart.ts to silence TS errors caused by CartItem not matching the full Product type. Victor explicitly flagged this as unacceptable because it defeats the entire purpose of strict TypeScript. The fix was to create a proper CartItem-to-Product mapping with default values for all required fields.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:09:55.646261"
+      ],
+      "lessons_sha": "427e2c0583f9"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:09:55.958778",
+  "reviewer": "learn.py",
+  "rationale": "During Zustand cart migration, the agent used 'as any[]' in hooks/useCart.ts to silence TS errors caused by CartItem not matching the full Product type. Victor explicitly flagged this as unacceptable because it defeats the entire purpose of strict TypeScript. The fix was to create a proper CartItem-to-Product mapping with default values for all required fields."
+}

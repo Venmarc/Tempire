@@ -1,0 +1,45 @@
+{
+  "id": "5d3588d95fe6",
+  "key": "manual_5d3588",
+  "name": "manual_5d3588",
+  "claim": "For Tempire 80% Shift layout, prefer lightweight UI patterns (Popover dropdowns, inline modals) over heavy full-screen overlays (Sheet, side drawers). A full-width Sheet feels too heavy on a centered max-w-7xl layout and blocks content unnecessarily.",
+  "conditions": [
+    "80%",
+    "design",
+    "drawer",
+    "dropdown",
+    "layout",
+    "popover",
+    "sheet",
+    "tempire"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:43.164854"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:43.164854",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:43.164854",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:43.608511",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Victor rejected the Sheet-based CartDrawer because it felt too heavy for the 80% Shift centered layout. Replaced with a Popover-based CartDropdown that hangs from the icon without blocking the page.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:43.164854"
+      ],
+      "lessons_sha": "341a6ad8f3fc"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:43.608453",
+  "reviewer": "learn.py",
+  "rationale": "Victor rejected the Sheet-based CartDrawer because it felt too heavy for the 80% Shift centered layout. Replaced with a Popover-based CartDropdown that hangs from the icon without blocking the page."
+}

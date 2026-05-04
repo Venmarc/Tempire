@@ -1,0 +1,44 @@
+{
+  "id": "5d1eb9311c85",
+  "key": "manual_5d1eb9",
+  "name": "manual_5d1eb9",
+  "claim": "When migrating state management (e.g. TanStack Query to Zustand), create a properly typed compatibility wrapper that maps every field of the old type with sensible defaults \u2014 never use 'as any' to bypass type errors. The wrapper must satisfy the full interface contract of consuming components.",
+  "conditions": [
+    "cart",
+    "compatibility",
+    "migration",
+    "store",
+    "types",
+    "wrapper",
+    "zustand"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:46.487711"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:46.487711",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:46.487711",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:46.774428",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "During Zustand cart migration, agent initially cast items as any[] to silence TS errors. Victor caught this immediately and provided a proper CartItem-to-Product mapping with all 15+ required fields defaulted. This is now the established pattern for store migrations in Tempire.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:46.487711"
+      ],
+      "lessons_sha": "cbabf4792021"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:46.774374",
+  "reviewer": "learn.py",
+  "rationale": "During Zustand cart migration, agent initially cast items as any[] to silence TS errors. Victor caught this immediately and provided a proper CartItem-to-Product mapping with all 15+ required fields defaulted. This is now the established pattern for store migrations in Tempire."
+}

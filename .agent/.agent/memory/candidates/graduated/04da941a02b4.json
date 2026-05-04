@@ -1,0 +1,61 @@
+{
+  "id": "04da941a02b4",
+  "key": "manual_04da94",
+  "name": "manual_04da94",
+  "claim": "Never divide price by 100 twice \u2014 if a variable already converts cents to dollars at declaration (e.g. const price = product.price / 100), do NOT divide again in the JSX display. Always trace the full data path from database (cents) to display (dollars) before touching price logic.",
+  "conditions": [
+    "again",
+    "already",
+    "always",
+    "before",
+    "cents",
+    "const",
+    "converts",
+    "data",
+    "database",
+    "declaration",
+    "display",
+    "divide",
+    "dollars",
+    "full",
+    "jsx",
+    "logic",
+    "never",
+    "path",
+    "price",
+    "product",
+    "touching",
+    "trace",
+    "twice",
+    "variable"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:09:43.695902"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:09:43.695902",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:09:43.695902",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:09:43.953602",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "During Phase 3 Step 2, the agent changed the ProductCard bottom bar and introduced a double-division bug: price was divided by 100 at const price = product.price / 100, then displayed as (price / 100).toFixed(2), making all products show as less than a dollar. Victor caught this and was frustrated. Root cause: not tracing the existing price variable before modifying the JSX.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:09:43.695902"
+      ],
+      "lessons_sha": "4d326317bc44"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:09:43.953547",
+  "reviewer": "learn.py",
+  "rationale": "During Phase 3 Step 2, the agent changed the ProductCard bottom bar and introduced a double-division bug: price was divided by 100 at const price = product.price / 100, then displayed as (price / 100).toFixed(2), making all products show as less than a dollar. Victor caught this and was frustrated. Root cause: not tracing the existing price variable before modifying the JSX."
+}

@@ -1,0 +1,43 @@
+{
+  "id": "515ee86f856d",
+  "key": "manual_515ee8",
+  "name": "manual_515ee8",
+  "claim": "When the user provides exact code snippets in their plan, implement them exactly as written \u2014 do not rewrite, optimize, or substitute equivalent expressions. Deviating from explicit user code introduces subtle bugs and erodes trust.",
+  "conditions": [
+    "code",
+    "exact",
+    "implement",
+    "plan",
+    "snippet",
+    "user"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:29.879483"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:29.879483",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:29.879483",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:30.105475",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Victor provided exact price formatting code using (price / 100).toFixed(2) in JSX. Agent substituted with a pre-divided variable and toLocaleString, introducing a double-division bug that made all product prices appear under a dollar.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:29.879483"
+      ],
+      "lessons_sha": "9e1bb989f084"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:30.105414",
+  "reviewer": "learn.py",
+  "rationale": "Victor provided exact price formatting code using (price / 100).toFixed(2) in JSX. Agent substituted with a pre-divided variable and toLocaleString, introducing a double-division bug that made all product prices appear under a dollar."
+}

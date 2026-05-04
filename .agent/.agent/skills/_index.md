@@ -12,6 +12,10 @@ Triggers: "create skill", "new skill", "I keep doing this manually"
 Reads, scores, and consolidates memory. Runs reflection cycles.
 Triggers: "reflect", "what did I learn", "compress memory"
 
+## kaparthy-principle
+Follow the kaparthy-principles from `SKILL.md` at `.agent/skills/kaparthy-principle/SKILL.md`.
+These guidelines bias toward caution over speed. For trivial tasks, use judgment. Use them in comnjuction with the project-guidelines
+
 ## git-proxy
 All git operations with safety constraints.
 Triggers: "commit", "push", "branch", "merge", "rebase"

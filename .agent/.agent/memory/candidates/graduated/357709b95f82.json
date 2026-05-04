@@ -1,0 +1,43 @@
+{
+  "id": "357709b95f82",
+  "key": "manual_357709",
+  "name": "manual_357709",
+  "claim": "Always run npx tsc --noEmit after every code change and before reporting completion to the user. Never report success without a clean type check. This catches regressions early and maintains the strict TypeScript discipline Victor expects.",
+  "conditions": [
+    "build",
+    "errors",
+    "tsc",
+    "typecheck",
+    "typescript",
+    "verify"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:50.598850"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:50.598850",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:50.598850",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:50.804335",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Established pattern across all Phase 2-3 work. Every step in the revised implementation plan ends with a tsc check. Victor expects zero type errors before manual testing.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:50.598850"
+      ],
+      "lessons_sha": "d2b19ceceac0"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:50.804279",
+  "reviewer": "learn.py",
+  "rationale": "Established pattern across all Phase 2-3 work. Every step in the revised implementation plan ends with a tsc check. Victor expects zero type errors before manual testing."
+}

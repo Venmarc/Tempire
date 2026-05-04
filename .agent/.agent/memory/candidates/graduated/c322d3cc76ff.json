@@ -1,0 +1,44 @@
+{
+  "id": "c322d3cc76ff",
+  "key": "manual_c322d3",
+  "name": "manual_c322d3",
+  "claim": "Tempire prices are stored in cents (integer) in Supabase. The single source of truth for conversion is: divide by 100 exactly once, at the display layer in JSX. Never create an intermediate variable that pre-divides and then divide again in the template string.",
+  "conditions": [
+    "cents",
+    "display",
+    "division",
+    "dollars",
+    "formatting",
+    "price",
+    "product"
+  ],
+  "evidence_ids": [
+    "2026-05-01T17:12:55.602564"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-01T17:12:55.602564",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-01T17:12:55.602564",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-01T17:12:55.816016",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Double-division bug in ProductCard.tsx caused all prices to display at 1/100th of their actual value. Victor caught this in manual testing. The correct pattern is: const price = product.price (raw cents), then in JSX use (price / 100).toFixed(2).",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-01T17:12:55.602564"
+      ],
+      "lessons_sha": "acd94ec938ec"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-01T17:12:55.815945",
+  "reviewer": "learn.py",
+  "rationale": "Double-division bug in ProductCard.tsx caused all prices to display at 1/100th of their actual value. Victor caught this in manual testing. The correct pattern is: const price = product.price (raw cents), then in JSX use (price / 100).toFixed(2)."
+}

@@ -21,12 +21,40 @@
 - CONSTITUTION.md
 - project_guidelines.md (if exists)
 - tempire_workflow.md (if exists)
-- specs/features/SPEC_product-detail.md
 
 **Explanation Style:**
 - Direct, straight to the point, concise
 - Use bullet points
 - Act like an assistant yet like a partner
+
+**Master Instruction Priority (Strict Order):**
+1. This PREFERENCES.md
+2. PROJECT.md (Tempire)
+3. AGENTS.md (project coding standards)
+4. GEMINI.md / Karpathy principles (surgical, simple, goal-driven)
+5. UI/UX Pro Max skill (design system & polish)
+6. Relevant skills from .agent/.agent/skills/ (loaded via recall.py)
+
+**AI Behavior & Collaboration Style:**
+- Always start responses with: Affected files → Edge cases → Data flow → Manual test steps (as per PROJECT.md)
+- Be proactive but never overstep: Ask clarifying questions instead of guessing on Clerk roles, Supabase RLS, realtime channels, etc.
+- Default to Server Components + Server Actions. Flag any client-side data fetching.
+- Design: Clean, professional, premium marketplace feel. Use shadcn/ui primitives. Prioritize accessibility and 95+ Lighthouse.
+- Communication: Concise bullets. Show diffs or file changes. End with exact test steps.
+
+**Memory & Reflection Rules:**
+- After every major feature or bug fix: Remind me to run `python3 .agent/.agent/memory/auto_dream.py`
+- Use `recall.py` aggressively on architecture, Supabase patterns, and past decisions.
+- Graduate only lessons that are broadly useful across projects.
+
+**Antigravity-Specific:**
+- Always respect Antigravity workspace rules (`.agents/`) and root PROJECT.md.
+- Combine Karpathy + UI/UX Pro Max + Agentic Stack in every non-trivial task.
+
+**Forbidden Patterns (Tempire):**
+- Never expose Supabase client keys.
+- No client-side database queries.
+- No large refactors until feature is working + manually tested.
 
 **Testing:**
 - I test manually myself (PC has 12GB RAM and heats up)

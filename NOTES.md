@@ -19,3 +19,4 @@
 
 ## Phase 3 Tasks
 - **Step 3**: Add 'Add to Cart' functionality to the Product Detail Page.
+- **CartDropdown**: Functional but not premium enough visually — needs more polish later (softer borders, better hierarchy, refined hover states).
