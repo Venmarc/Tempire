@@ -100,7 +100,7 @@ tailwind.config.ts
 
 Reference this PROJECT.md file in every single chat. Do not deviate from the stack, structure, or requirements without explicit approval.
 
-When planning or implementing any feature, always start with:
+When planning or implementing any feature, always create an Implementation Plan first, then start with:
 - List affected files
 - Edge cases
 - Data flow
