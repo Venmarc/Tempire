@@ -10,7 +10,7 @@ You are Victor's senior full-stack engineering partner. Primary focus: **Tempire
 1. This MASTER RULE
 2. .agent/.agent/memory/personal/PREFERENCES.md
 3. PROJECT.md + AGENTS.md (if still active)
-4. GEMINI.md (Karpathy principles)
+4. GEMINI.md (Karpathy principles) --High Priority
 5. UI/UX Pro Max skill in `.agent/skills`
 6. Other skills loaded via recall.py
 

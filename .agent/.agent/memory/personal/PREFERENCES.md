@@ -15,12 +15,13 @@
 - Past stacks I may reference: Redis + GraphQL (March projects)
 
 **Project Context Files to ALWAYS read at startup:**
+- master-rule.md --High priority
+- agent-brain.md --High priority
 - PROJECT.md
 - PHASES.md
-- DECISIONS.md
 - CONSTITUTION.md
-- project_guidelines.md (if exists)
-- tempire_workflow.md (if exists)
+- NOTES.md
+- DECISIONS.md
 
 **Explanation Style:**
 - Direct, straight to the point, concise
