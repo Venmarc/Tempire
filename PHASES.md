@@ -35,9 +35,11 @@ Phase 1 established a solid, production-grade authentication foundation using Cl
 
 ---
 
-**Phase 2: Products Foundation & Marketplace (In Progress)**
+**Phase 2: Products Foundation & Marketplace (Completed)**
+**Completed:** April 30, 2026
 
-**Current Phase Status:** Phase 2H Completed | Moving into Phase 2I (Cineby Refinements)
+**Phase 3: Cart & Checkout Flow (Completed)**
+**Completed:** May 4, 2026
 
 **Last Updated:** April 2026
 
@@ -194,17 +196,71 @@ Phase 2I focused on upgrading the Tempire marketplace into a premium, responsive
 52:     - Features `lucide-react` AlertTriangle warning icon and red-accented destructive buttons.
 53: - **Navigation Recovery:**
 54:     - Restored the **"Back to Homepage"** and **"Back to Dashboard"** breadcrumb-style links to the Seller Dashboard and Upload pages.
-55: - **UI Styling Polish:**
-56:     - Applied subtle containerized outlines to secondary buttons for better visual hierarchy.
-57: 
-58: **Phase 2J Complete.**
-59: 
-60: ---
 
+**Phase 2J: Advanced Seller Upload UX (Completed)**
+**Completed:** April 29, 2026
 
-## Phase 2 Overall Plan (Remaining)
-- Phase 3: Cart logic & Mock Checkout flow.
-- Phase 4: Buyer Library & Wishlist.
+## Overview
+Phase 2J focused on professionalizing the seller product lifecycle by implementing a "Draft vs. Published" system and premium interaction patterns for data management.
+
+## What Was Built
+- **Draft vs. Published Flow:**
+    - Replaced the status dropdown with explicit **"Save as Draft"** and **"Publish Now"** buttons.
+    - Segmented validation: Drafts require only a `title` (min 3 chars), while Published products require full metadata and files.
+    - Updated `createProductAction` and `updateProductAction` to route logic based on the specific form action.
+- **Premium Deletion Interaction:**
+    - Replaced native browser `confirm()` with a custom, high-fidelity **Delete Confirmation Modal**.
+    - Features `lucide-react` AlertTriangle warning icon and red-accented destructive buttons.
+- **Navigation Recovery:**
+    - Restored the **"Back to Homepage"** and **"Back to Dashboard"** breadcrumb-style links to the Seller Dashboard and Upload pages.
+- **UI Styling Polish:**
+    - Applied subtle containerized outlines to secondary buttons for better visual hierarchy.
+
+**Phase 2J Complete.**
+
+**Phase 2 Overall Status: Completed.**
+
+---
+
+**Phase 3: Cart & Checkout Flow (Completed)**
+
+## Overview
+Phase 3 established the core transactional foundation of the Tempire marketplace, focusing on high-fidelity cart interactions and a frictionless (mock) checkout experience.
+
+## What Was Built
+- **Zustand Cart System:**
+    - High-performance, persisted cart store (`useCartStore.ts`) with `localStorage` synchronization.
+    - Synchronized Cart Badge that reflects unique items in real-time.
+    - Idempotent "Add to Cart" logic tailored for digital products.
+- **Premium CartDropdown (Popover):**
+    - Compact, high-density design optimized for 100% zoom.
+    - Navigable item rows with isolated, non-propagating removal controls.
+    - Custom slim scrollbar and backdrop-blur-xl visual effects.
+- **Mock Checkout Flow:**
+    - Protected `/checkout` route using a clean, two-column "Stripe-style" layout.
+    - Server Action (`createOrderAction`) that validates the session and creates `orders` + `order_items` records in Supabase.
+    - Success Page with Order ID propagation and clear post-purchase CTA's.
+
+## Key Fixes Implemented
+- **Hydration Mismatch:** Resolved cart badge flickering and console errors via `mounted` state checks.
+- **Navbar Transparency Flicker:** Fixed background sync on initial page load by initializing scroll state immediately on mount.
+- **Zoom Scaling Discrepancies:** Shrunk dropdown width and text sizes to maintain premium density at standard 100% zoom.
+
+## Phase 3 Success Criteria Met
+- [x] Persisted cart across sessions
+- [x] Unique item logic for digital assets
+- [x] Secure server-side order creation
+- [x] Seamless navigation to checkout and success pages
+- [x] All interactions verified for type safety and performance
+
+**Phase 3 Complete.**
+
+---
+
+## Overall Project Roadmap (Remaining)
+- **Phase 4: Buyer Library & Wishlist.**
+- **Phase 5: Real Payments (Stripe) & Webhooks.**
+- **Phase 6: Final Polish & Deployment.**
 
 **Important Notes for Continuation**
 - Reference PROJECT.md, AGENTS.md, CONSTITUTION.md, and DECISIONS.md in every session.

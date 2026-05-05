@@ -9,22 +9,24 @@ import { useState } from 'react';
 export function useCart() {
   const {
     items: cartItems,
+    wishlist: wishlistItems,
     addItem: storeAddItem,
     removeItem,
     clearCart,
     totalCount,
     totalPrice,
+    toggleWishlist,
+    isInWishlist,
   } = useCartStore();
 
   const [isAdding, setIsAdding] = useState(false);
 
-  // Map CartItem back to Product shape for backward compatibility
-  const items: Product[] = cartItems.map((item: CartItem): Product => ({
+  // Helper to map CartItem back to Product
+  const mapToProduct = (item: CartItem): Product => ({
     id: item.id,
     title: item.title,
     price: item.price,
     image_url: item.image_url || null,
-    // Provide sensible defaults for all other required Product fields
     description: null,
     file_url: null,
     creator_name: null,
@@ -38,7 +40,10 @@ export function useCart() {
     average_rating: 0,
     review_count: 0,
     sales_count: 0,
-  }));
+  });
+
+  const items: Product[] = cartItems.map(mapToProduct);
+  const wishlist: Product[] = wishlistItems.map(mapToProduct);
 
   const addItem = (product: Product) => {
     setIsAdding(true);
@@ -48,17 +53,17 @@ export function useCart() {
       price: product.price,
       image_url: product.image_url,
     });
-    // Simulate brief loading state for UI feedback
-    setTimeout(() => {
-      setIsAdding(false);
-    }, 400);
+    setTimeout(() => setIsAdding(false), 400);
   };
 
   return {
-    items,                    // Now properly typed as Product[]
+    items,
+    wishlist,
     addItem,
     removeItem,
     clearCart,
+    toggleWishlist,
+    isInWishlist,
     totalCount: () => totalCount(),
     totalPrice: () => totalPrice(),
     isAdding,

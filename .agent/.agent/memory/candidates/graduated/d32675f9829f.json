@@ -1,0 +1,45 @@
+{
+  "id": "d32675f9829f",
+  "key": "manual_d32675",
+  "name": "manual_d32675",
+  "claim": "Tempire UI rule: all shadcn component decorative rings are globally suppressed via CSS in globals.css targeting data-slot attributes. Never add ring-* classes to shadcn components unless Victor explicitly requests an outline. The global rule covers popover-content, dialog-content, sheet-content, dropdown-menu-content, select-content, tooltip-content, and command slots.",
+  "conditions": [
+    "border",
+    "dialog",
+    "outline",
+    "popover",
+    "ring",
+    "shadcn",
+    "tempire",
+    "ui"
+  ],
+  "evidence_ids": [
+    "2026-05-04T15:55:51.630979"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-04T15:55:51.630979",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-04T15:55:51.630979",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-04T15:55:51.766756",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Victor prefers no visible outlines on floating UI components. Rings from shadcn defaults felt like a harsh white border. Global suppression via data-slot selectors is cleaner than adding ring-0 per-component.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-04T15:55:51.630979"
+      ],
+      "lessons_sha": "75dbe90bdb9e"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-04T15:55:51.766735",
+  "reviewer": "learn.py",
+  "rationale": "Victor prefers no visible outlines on floating UI components. Rings from shadcn defaults felt like a harsh white border. Global suppression via data-slot selectors is cleaner than adding ring-0 per-component."
+}

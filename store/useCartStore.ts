@@ -6,6 +6,7 @@ import { CartItem } from '@/types/cart';
 
 interface CartStore {
   items: CartItem[];
+  wishlist: CartItem[];
   
   addItem: (product: { 
     id: string; 
@@ -18,6 +19,15 @@ interface CartStore {
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   
+  // Wishlist actions
+  toggleWishlist: (product: {
+    id: string;
+    title: string;
+    price: number;
+    image_url?: string | null;
+  }) => void;
+  isInWishlist: (productId: string) => boolean;
+  
   totalCount: () => number;
   totalPrice: () => number;     // in cents
   getItem: (productId: string) => CartItem | undefined;
@@ -27,20 +37,14 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      wishlist: [],
 
       addItem: (product) => {
         const current = get().items;
         const existing = current.findIndex(item => item.id === product.id);
 
         if (existing !== -1) {
-          // Increase quantity if already in cart
-          set((state) => ({
-            items: state.items.map((item, index) =>
-              index === existing 
-                ? { ...item, quantity: item.quantity + 1 } 
-                : item
-            ),
-          }));
+          // Digital products: don't increase quantity, just ignore
           return;
         }
 
@@ -78,9 +82,24 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => {
         set({ items: [] });
       },
+      
+      toggleWishlist: (product) => {
+        const current = get().wishlist;
+        const exists = current.find(item => item.id === product.id);
+        
+        if (exists) {
+          set({ wishlist: current.filter(item => item.id !== product.id) });
+        } else {
+          set({ wishlist: [...current, { ...product, quantity: 1 }] });
+        }
+      },
+      
+      isInWishlist: (productId) => {
+        return get().wishlist.some(item => item.id === productId);
+      },
 
       totalCount: () => {
-        return get().items.reduce((sum, item) => sum + item.quantity, 0);
+        return get().items.length;
       },
 
       totalPrice: () => {

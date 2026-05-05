@@ -1,0 +1,44 @@
+{
+  "id": "97e2314c8e00",
+  "key": "manual_97e231",
+  "name": "manual_97e231",
+  "claim": "Tempire UI rule: always add the slim-scrollbar CSS class to any scrollable element (overflow-auto or overflow-scroll). The class is defined globally in globals.css and renders a 4px pill-shaped zinc-700 scrollbar with transparent track, for both WebKit and Firefox. Never use the browser default scrollbar.",
+  "conditions": [
+    "overflow",
+    "premium",
+    "scroll",
+    "scrollbar",
+    "slim",
+    "tempire",
+    "ui"
+  ],
+  "evidence_ids": [
+    "2026-05-04T15:55:51.871737"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-04T15:55:51.871737",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-04T15:55:51.871737",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-04T15:55:51.958552",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Victor wants a premium slim scrollbar on all scrollable areas. The class is already globally defined so no additional CSS is needed \u2014 just add slim-scrollbar to the element's className.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-04T15:55:51.871737"
+      ],
+      "lessons_sha": "30400b0a5df9"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-04T15:55:51.958525",
+  "reviewer": "learn.py",
+  "rationale": "Victor wants a premium slim scrollbar on all scrollable areas. The class is already globally defined so no additional CSS is needed \u2014 just add slim-scrollbar to the element's className."
+}

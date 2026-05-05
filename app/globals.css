@@ -69,7 +69,20 @@
     font-family: var(--font-outfit);
     font-weight: 600;
   }
+
+  /* Tempire: suppress all shadcn decorative rings globally.
+     Only override with ring-* on a component if explicitly needed. */
+  [data-slot="popover-content"],
+  [data-slot="dialog-content"],
+  [data-slot="sheet-content"],
+  [data-slot="dropdown-menu-content"],
+  [data-slot="select-content"],
+  [data-slot="tooltip-content"],
+  [data-slot="command"] {
+    @apply ring-0;
+  }
 }
+
 
 @keyframes shimmer {
   0% {
@@ -83,4 +96,28 @@
 
 .animate-shimmer {
   animation: shimmer 1.5s infinite linear;
+}
+
+/* Slim premium scrollbar for cart dropdown */
+.slim-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.slim-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 9999px;
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Firefox */
+.slim-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
 }

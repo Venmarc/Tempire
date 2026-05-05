@@ -9,7 +9,8 @@ import {
     PlusCircle, 
     X,
     LayoutGrid,
-    ShoppingBag
+    ShoppingBag,
+    Library
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AuthButtons } from '@/components/auth/AuthButtons';
@@ -25,6 +26,7 @@ export function AdaptiveNav() {
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
+        handleScroll(); // Set correct state immediately on mount
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -79,6 +81,15 @@ export function AdaptiveNav() {
                         >
                             Sell
                         </Link>
+                        <Link 
+                            href="/library" 
+                            className={cn(
+                                "text-sm font-bold tracking-wide transition-colors",
+                                pathname.startsWith('/library') ? "text-white" : "text-zinc-500 hover:text-white"
+                            )}
+                        >
+                            Library
+                        </Link>
                         <div className="flex items-center gap-3 md:gap-4 border-l border-white/10 pl-6">
                             <CartDropdown />
                             <AuthButtons />
@@ -109,23 +120,29 @@ export function AdaptiveNav() {
                         icon={<Home className="w-6 h-6" />} 
                         active={isActive('/')} 
                     />
-                    <div className="w-px h-6 bg-white/5 mx-1" />
                     <button 
                         onClick={() => setIsSearchOpen(true)}
                         className={cn(
-                            "flex items-center justify-center w-14 h-12 rounded-full transition-all duration-300",
+                            "flex items-center justify-center w-12 h-11 rounded-full transition-all duration-300",
                             isSearchOpen ? "bg-white text-black" : "text-zinc-500 hover:text-white"
                         )}
                     >
                         <Search className="w-6 h-6" />
                     </button>
+                    
                     <MobileNavItem 
                         href="/seller/dashboard" 
-                        icon={<PlusCircle className="w-6 h-6" />} 
+                        icon={<PlusCircle className="w-7 h-7 text-emerald-500" />} 
                         active={pathname.startsWith('/seller')} 
                     />
-                    <div className="w-px h-6 bg-white/5 mx-1" />
-                    <div className="flex items-center justify-center w-14 h-12">
+                    
+                    <MobileNavItem 
+                        href="/library" 
+                        icon={<Library className="w-6 h-6" />} 
+                        active={pathname.startsWith('/library')} 
+                    />
+                    
+                    <div className="flex items-center justify-center w-12 h-11">
                         <AuthButtons />
                     </div>
                 </div>

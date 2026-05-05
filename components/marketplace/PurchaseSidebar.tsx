@@ -5,7 +5,6 @@ import { Product } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Zap, ShieldCheck, Download, Edit3 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useState } from 'react';
 import Link from 'next/link';
 import { getDownloadUrlAction } from '@/server/actions/product-actions';
 import { useCart } from '@/hooks/useCart';
@@ -17,8 +16,7 @@ interface PurchaseSidebarProps {
 export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
     const { isLoaded, isSignedIn, user } = useUser();
     const { openSignIn } = useClerk();
-    const { addItem, items } = useCart();
-    const [isAdding, setIsAdding] = useState(false);
+    const { addItem, items, isAdding } = useCart();
 
     const price = product.price / 100;
     const isFree = product.price === 0;
@@ -28,14 +26,12 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
     const isCreator = isLoaded && isSignedIn && user?.id === product.creator_id;
 
     const handleAddToCart = () => {
-        setIsAdding(true);
+        if (!isSignedIn) {
+            openSignIn();
+            return;
+        }
         addItem(product);
-        
-        // Short delay for feedback
-        setTimeout(() => {
-            setIsAdding(false);
-            toast.success(`"${product.title}" added to your cart!`);
-        }, 400);
+        toast.success(`"${product.title}" added to your cart!`);
     };
 
     const handleBuyNow = () => {
@@ -46,7 +42,7 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
 
         // Mock checkout redirect
         toast.message('Redirecting to checkout...', {
-            description: 'This feature is mocked for Phase 2D.',
+            description: 'Checkout is coming soon.',
         });
     };
 
@@ -103,7 +99,7 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
         <div className="bg-zinc-900 border border-white/10 rounded-3xl p-6 sticky top-24">
             <div className="mb-6">
                 <span className="text-5xl font-bold tracking-tighter">
-                    {isFree ? 'Free' : `$${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                    {isFree ? 'Free' : `$${(product.price / 100).toFixed(2)}`}
                 </span>
             </div>
 
@@ -117,15 +113,24 @@ export function PurchaseSidebar({ product }: PurchaseSidebarProps) {
                 </Button>
 
                 {!isFree && (
-                    <Button 
-                        className="w-full py-6 rounded-2xl" 
-                        variant="outline"
-                        onClick={handleAddToCart}
-                        disabled={isAdding || isInCart}
-                    >
-                        <ShoppingCart className="mr-2 w-5 h-5" />
-                        {isAdding ? 'Adding...' : isInCart ? 'In Cart' : 'Add to Cart'}
-                    </Button>
+                    isInCart ? (
+                        <Button asChild className="w-full py-6 rounded-2xl" variant="outline">
+                            <Link href="/cart">
+                                <ShoppingCart className="mr-2 w-5 h-5" />
+                                View in Cart →
+                            </Link>
+                        </Button>
+                    ) : (
+                        <Button 
+                            className="w-full py-6 rounded-2xl" 
+                            variant="outline"
+                            onClick={handleAddToCart}
+                            disabled={isAdding}
+                        >
+                            <ShoppingCart className="mr-2 w-5 h-5" />
+                            {isAdding ? 'Adding...' : 'Add to Cart'}
+                        </Button>
+                    )
                 )}
             </div>
 

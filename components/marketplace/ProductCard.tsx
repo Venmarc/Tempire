@@ -18,8 +18,8 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { isSignedIn } = useUser();
   const router = useRouter();
-  const { addItem, isAdding } = useCart();
-  const [isLiked, setIsLiked] = useState(false);
+  const { addItem, isAdding, toggleWishlist: storeToggleWishlist, isInWishlist } = useCart();
+  const isLiked = isInWishlist(product.id);
   const price = product.price;
   const isFree = product.price === 0;
 
@@ -38,11 +38,15 @@ export function ProductCard({ product }: ProductCardProps) {
       return;
     }
 
-    setIsLiked(!isLiked);
+    storeToggleWishlist({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image_url: product.image_url,
+    });
+
     if (!isLiked) {
-      toast.success("Added to Wishlist", {
-        description: "Wishlist syncing is coming in Phase 4!",
-      });
+      toast.success("Added to Wishlist");
     }
   };
 

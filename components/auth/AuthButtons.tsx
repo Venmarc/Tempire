@@ -2,6 +2,7 @@
 
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Library, Heart, LayoutDashboard } from 'lucide-react';
 
 export function AuthButtons() {
   const { isLoaded, isSignedIn } = useUser();
@@ -21,7 +22,25 @@ export function AuthButtons() {
               userButtonAvatarBox: "w-8 h-8 rounded-full",
             },
           }}
-        />
+        >
+          <UserButton.MenuItems>
+            <UserButton.Link
+              label="My Library"
+              href="/library"
+              labelIcon={<Library className="w-4 h-4" />}
+            />
+            <UserButton.Link
+              label="Wishlist"
+              href="/library?tab=wishlist"
+              labelIcon={<Heart className="w-4 h-4" />}
+            />
+            <UserButton.Link
+              label="Seller Dashboard"
+              href="/seller/dashboard"
+              labelIcon={<LayoutDashboard className="w-4 h-4" />}
+            />
+          </UserButton.MenuItems>
+        </UserButton>
       ) : (
         <>
           <SignInButton mode="modal">
