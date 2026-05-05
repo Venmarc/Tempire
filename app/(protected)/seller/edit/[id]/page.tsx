@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs/server';
+
+export const dynamic = 'force-dynamic';
 import { ProductService } from '@/server/services/product';
 import { ProductForm } from '@/components/forms/ProductForm';
 import Link from 'next/link';

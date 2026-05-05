@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 import { ensureProfile } from '@/server/actions/auth';
 import { currentUser } from '@clerk/nextjs/server';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AfterSignupPage() {
     const clerkUser = await currentUser();
     if (!clerkUser) {

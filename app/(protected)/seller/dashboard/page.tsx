@@ -7,32 +7,26 @@ import { Button } from '@/components/ui/button';
 import { DeleteProductButton } from '@/components/marketplace/DeleteProductButton';
 import { SellerProductCard } from '@/components/seller/SellerProductCard';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SellerDashboard() {
-    let user = null;
-    try {
-        user = await currentUser();
-    } catch (error: any) {
-        console.error('❌ Clerk Error in SellerDashboard:', error.message);
+    const user = await currentUser();
+
+    if (!user) {
+        redirect('/');
     }
 
-    // Middleware should prevent this, but guard defensively
-    if (!user) redirect('/');
-    // redirect() throws internally — user is guaranteed non-null below
-    const safeUser = user!;
+    const products = await ProductService.getProductsBySeller(user.id);
 
-    const products = await ProductService.getProductsBySeller(safeUser.id);
-
-    // Build best available display name
     const displayName =
-        safeUser.firstName ||
-        safeUser.fullName ||
-        safeUser.username ||
-        safeUser.emailAddresses?.[0]?.emailAddress?.split('@')[0] ||
+        user.firstName ||
+        user.fullName ||
+        user.username ||
+        user.emailAddresses?.[0]?.emailAddress?.split('@')[0] ||
         'Seller';
 
     return (
         <div className="pt-24 md:pt-32 min-h-screen">
-
             <main className="max-w-5xl mx-auto px-6 pt-12 pb-24">
                 <div className="mb-12">
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
@@ -83,14 +77,12 @@ export default async function SellerDashboard() {
                     </div>
                 ) : (
                     <div className="grid gap-4 md:gap-3">
-                        {/* Mobile: Vertical Cards */}
                         <div className="grid gap-4 md:hidden">
                             {products.map((product) => (
                                 <SellerProductCard key={product.id} product={product} />
                             ))}
                         </div>
 
-                        {/* Desktop: Horizontal Table Row */}
                         <div className="hidden md:grid gap-3">
                             <div className="grid grid-cols-12 px-6 py-3 text-sm font-medium text-zinc-500 uppercase tracking-wider">
                                 <div className="col-span-6 md:col-span-7">Product</div>

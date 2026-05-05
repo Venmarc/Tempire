@@ -2,6 +2,8 @@ import { ProductForm } from "@/components/forms/ProductForm";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
     title: "Upload New Product | Tempire",
     description: "Upload your digital product to the Tempire marketplace.",

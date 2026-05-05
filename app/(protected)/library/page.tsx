@@ -2,6 +2,8 @@
 
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+
+export const dynamic = 'force-dynamic';
 import { useCart } from '@/hooks/useCart';
 import { Package, Download, ArrowRight, Library, Search, Loader2, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
@@ -168,7 +170,7 @@ function LibraryContent() {
         {/* Content */}
         {displayedItems.length === 0 ? (
           <div className="text-center py-24 bg-zinc-900/30 border-2 border-dashed border-white/5 rounded-[4rem]">
-            <div className="bg-zinc-800 w-24 h-24 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 ring-1 ring-white/5">
+            <div className="bg-zinc-500/10 w-24 h-24 rounded-[2.5rem] flex items-center justify-center mx-auto mb-8 ring-1 ring-white/5">
               {activeTab === 'purchases' ? (
                 <Library className="w-10 h-10 text-zinc-600" />
               ) : (
