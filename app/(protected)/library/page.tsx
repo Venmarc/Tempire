@@ -7,10 +7,10 @@ import { Package, Download, ArrowRight, Library, Search, Loader2, Heart, Shoppin
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect, Suspense } from 'react';
-import { LibraryService } from '@/server/services/library';
 import { Product } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { getDownloadUrlAction } from '@/server/actions/product-actions';
+import { getPurchasedProductsAction } from '@/server/actions/library-actions';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -28,19 +28,22 @@ function LibraryContent() {
 
   useEffect(() => {
     async function loadPurchases() {
-      if (!user) return;
+      if (!isLoaded || !user) return;
       try {
-        const products = await LibraryService.getPurchasedProducts(user.id);
-        setPurchases(products);
+        const result = await getPurchasedProductsAction();
+        if (result.error) {
+          toast.error(result.error);
+        } else {
+          setPurchases(result.products);
+        }
       } catch (error) {
         console.error('Failed to load library:', error);
+        toast.error('Failed to load library');
       } finally {
         setIsLoading(false);
       }
     }
-    if (isLoaded) {
-      loadPurchases();
-    }
+    loadPurchases();
   }, [user, isLoaded]);
 
   const handleTabChange = (tab: 'purchases' | 'wishlist') => {
@@ -93,11 +96,11 @@ function LibraryContent() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-emerald-500/10 p-2.5 rounded-2xl">
+              <div className="bg-zinc-700/10 p-2.5 rounded-2xl">
                 {activeTab === 'purchases' ? (
                    <Library className="w-6 h-6 text-emerald-400" />
                 ) : (
-                   <Heart className="w-6 h-6 text-red-400 fill-red-400" />
+                   <Heart className="w-6 h-6 text-red-400" />
                 )}
               </div>
               <span className="text-zinc-500 font-bold uppercase tracking-widest text-[10px]">
