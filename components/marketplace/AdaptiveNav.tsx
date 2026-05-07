@@ -10,13 +10,16 @@ import {
     X,
     LayoutGrid,
     ShoppingBag,
-    Library
+    Library,
+    LogOut
 } from 'lucide-react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { AuthButtons } from '@/components/auth/AuthButtons';
 import { CartDropdown } from '@/components/marketplace/CartDropdown';
 import { SearchBar } from '@/components/marketplace/SearchBar';
 import { LiveSearchResults } from '@/components/marketplace/LiveSearchResults';
+import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export function AdaptiveNav() {
     const pathname = usePathname();
@@ -48,9 +51,7 @@ export function AdaptiveNav() {
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-12">
                     {/* Left: Logo */}
                     <Link href="/" className="flex items-center gap-3 group shrink-0">
-                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black font-black text-2xl group-hover:rotate-12 transition-transform duration-500">
-                            T
-                        </div>
+                        <BrandLogo variant="white" size={40} className="group-hover:rotate-12 transition-transform duration-500" />
                         <span className="text-2xl font-black tracking-tighter text-white">
                             Tempire
                         </span>
@@ -103,9 +104,7 @@ export function AdaptiveNav() {
             {/* Mobile Header (Minimal) */}
             <header className="md:hidden fixed top-0 left-0 right-0 z-40 bg-zinc-950/50 backdrop-blur-md border-b border-white/5 py-4 px-6 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-black font-bold text-lg">
-                        T
-                    </div>
+                    <BrandLogo variant="white" size={32} />
                 </Link>
                 <div className="flex items-center gap-4">
                     <CartDropdown />

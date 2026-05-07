@@ -3,6 +3,9 @@
 ## Seller Tools / Product View Refinements
 ![Seller Tools Critique](public/screenshots/seller-tools-critique.png)
 
+### Branding
+- **Logo**: ![Tempire Logo](/logo.svg) (Tempo.svg - Dynamic Purple/White vector)
+
 ### Thoughts & Observations
 - **Edit Product Button**: Looks weird, not sitting properly in the layout. Needs better positioning/sizing.
 - **Download Button**: Currently opens the Supabase file URL in the browser.
