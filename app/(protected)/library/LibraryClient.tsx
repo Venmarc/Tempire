@@ -20,17 +20,21 @@ export default function LibraryClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const activeTab = searchParams.get('tab') === 'wishlist' ? 'wishlist' : 'purchases';
-  
+
   const { user, isLoaded } = useUser();
   const { wishlist, toggleWishlist, addItem } = useCart();
-  
+
   const [purchases, setPurchases] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     async function loadPurchases() {
-      if (!isLoaded || !user) return;
+      if (!isLoaded) return;
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
       try {
         const result = await getPurchasedProductsAction();
         if (result.error) {
@@ -77,7 +81,7 @@ export default function LibraryClient() {
   };
 
   const displayedItems = activeTab === 'purchases' ? purchases : wishlist;
-  const filteredItems = displayedItems.filter(p => 
+  const filteredItems = displayedItems.filter(p =>
     p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -89,16 +93,16 @@ export default function LibraryClient() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="bg-zinc-700/10 p-2.5 rounded-2xl">
                 {activeTab === 'purchases' ? (
-                   <Library className="w-6 h-6 text-emerald-400" />
+                  <Library className="w-6 h-6 text-emerald-400" />
                 ) : (
-                   <Heart className="w-6 h-6 text-red-400" />
+                  <Heart className="w-6 h-6 text-red-400" />
                 )}
               </div>
               <span className="text-zinc-500 font-bold uppercase tracking-widest text-[10px]">
@@ -109,21 +113,21 @@ export default function LibraryClient() {
               {activeTab === 'purchases' ? 'Library' : 'Wishlist'}
             </h1>
             <p className="text-zinc-500 mt-4 text-lg max-w-xl font-medium">
-              {activeTab === 'purchases' 
-                ? 'Your premium digital collection. Instant access to your high-quality tools and assets.' 
+              {activeTab === 'purchases'
+                ? 'Your premium digital collection. Instant access to your high-quality tools and assets.'
                 : 'Items you have saved for later. Move them to your cart when you are ready to ship.'}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4">
-             {/* Tab Switcher */}
+            {/* Tab Switcher */}
             <div className="flex bg-zinc-900/50 backdrop-blur-md p-1.5 rounded-3xl border border-white/5 w-full sm:w-auto">
               <button
                 onClick={() => handleTabChange('purchases')}
                 className={cn(
                   "px-6 py-3 rounded-2xl text-xs font-bold transition-all duration-300 flex items-center gap-2",
-                  activeTab === 'purchases' 
-                    ? "bg-white text-black shadow-xl" 
+                  activeTab === 'purchases'
+                    ? "bg-white text-black shadow-xl"
                     : "text-zinc-500 hover:text-zinc-300"
                 )}
               >
@@ -137,8 +141,8 @@ export default function LibraryClient() {
                 onClick={() => handleTabChange('wishlist')}
                 className={cn(
                   "px-6 py-3 rounded-2xl text-xs font-bold transition-all duration-300 flex items-center gap-2",
-                  activeTab === 'wishlist' 
-                    ? "bg-white text-black shadow-xl" 
+                  activeTab === 'wishlist'
+                    ? "bg-white text-black shadow-xl"
                     : "text-zinc-500 hover:text-zinc-300"
                 )}
               >
@@ -177,7 +181,7 @@ export default function LibraryClient() {
               {activeTab === 'purchases' ? 'No purchases yet' : 'Wishlist is empty'}
             </h2>
             <p className="text-zinc-500 mb-12 max-w-sm mx-auto font-medium">
-              {activeTab === 'purchases' 
+              {activeTab === 'purchases'
                 ? 'Explore the marketplace to find premium assets for your next project.'
                 : 'Heart items that catch your eye and they will show up here for later.'}
             </p>
@@ -190,13 +194,13 @@ export default function LibraryClient() {
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-20 bg-zinc-900/30 rounded-[4rem] border border-white/5">
-             <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs">No matching {activeTab} found</p>
+            <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs">No matching {activeTab} found</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredItems.map((product) => (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 className="group relative bg-zinc-900 border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-white/10 transition-all duration-500 flex flex-col h-full hover:shadow-3xl hover:shadow-black"
               >
                 {/* Image Wrapper */}
@@ -214,7 +218,7 @@ export default function LibraryClient() {
                       <Package className="w-12 h-12 text-zinc-700" />
                     </div>
                   )}
-                  
+
                   {/* Remove Button for Wishlist */}
                   {activeTab === 'wishlist' && (
                     <button
@@ -224,7 +228,7 @@ export default function LibraryClient() {
                       <Heart className="w-4.5 h-4.5 fill-current" />
                     </button>
                   )}
-                  
+
                   {product.category && (
                     <div className="absolute top-5 left-5">
                       <span className="px-4 py-2 bg-black/60 backdrop-blur-xl rounded-full text-[10px] font-black uppercase tracking-widest border border-white/10">
@@ -245,7 +249,7 @@ export default function LibraryClient() {
 
                   <div className="mt-auto pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {activeTab === 'purchases' ? (
-                      <Button 
+                      <Button
                         onClick={() => handleDownload(product.id, product.title)}
                         className="rounded-2xl h-12 bg-white text-black hover:bg-zinc-200 font-black tracking-tight"
                       >
@@ -253,7 +257,7 @@ export default function LibraryClient() {
                         Download
                       </Button>
                     ) : (
-                      <Button 
+                      <Button
                         onClick={() => handleMoveToCart(product)}
                         className="rounded-2xl h-12 bg-emerald-500 text-white hover:bg-emerald-600 font-black tracking-tight"
                       >
@@ -261,7 +265,7 @@ export default function LibraryClient() {
                         Move to Cart
                       </Button>
                     )}
-                    <Button 
+                    <Button
                       asChild
                       variant="outline"
                       className="rounded-2xl h-12 border-white/10 hover:bg-white/5 font-black tracking-tight"
