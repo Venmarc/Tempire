@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import { 
     Home, 
     Search, 
@@ -23,9 +24,14 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
 
 export function AdaptiveNav() {
     const pathname = usePathname();
+    const { user } = useUser();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+
+    const isSeller = user?.publicMetadata?.role === 'seller';
+    const sellerHref = isSeller ? "/seller/dashboard" : "/seller/onboard";
+    const sellerText = isSeller ? "Sell" : "Start Selling";
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -74,13 +80,14 @@ export function AdaptiveNav() {
                             Browse
                         </Link>
                         <Link 
-                            href="/seller/dashboard" 
+                            href={sellerHref} 
                             className={cn(
                                 "text-sm font-bold tracking-wide transition-colors",
-                                pathname.startsWith('/seller') ? "text-white" : "text-zinc-500 hover:text-white"
+                                pathname.startsWith('/seller') ? "text-white" : "text-zinc-500 hover:text-white",
+                                !isSeller && "text-emerald-500 hover:text-emerald-400"
                             )}
                         >
-                            Sell
+                            {sellerText}
                         </Link>
                         <Link 
                             href="/library" 
@@ -130,7 +137,7 @@ export function AdaptiveNav() {
                     </button>
                     
                     <MobileNavItem 
-                        href="/seller/dashboard" 
+                        href={sellerHref} 
                         icon={<PlusCircle className="w-7 h-7 text-emerald-500" />} 
                         active={pathname.startsWith('/seller')} 
                     />

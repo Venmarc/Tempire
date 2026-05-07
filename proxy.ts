@@ -6,6 +6,8 @@ const isSellerRoute = createRouteMatcher([
     '/seller/edit(.*)',
 ]);
 
+const isOnboardRoute = createRouteMatcher(['/seller/onboard(.*)']);
+
 export default clerkMiddleware(async (auth, req) => {
     // Only intercept for protected routes
     if (isSellerRoute(req)) {
@@ -20,6 +22,19 @@ export default clerkMiddleware(async (auth, req) => {
         const role = authObj.sessionClaims?.role as string | undefined;
         if (role !== 'seller') {
             return Response.redirect(new URL('/', req.url));
+        }
+    }
+
+    if (isOnboardRoute(req)) {
+        const authObj = await auth();
+        
+        if (!authObj.userId) {
+            return authObj.redirectToSignIn({ returnBackUrl: req.url });
+        }
+
+        const role = authObj.sessionClaims?.role as string | undefined;
+        if (role === 'seller') {
+            return Response.redirect(new URL('/seller/dashboard', req.url));
         }
     }
 });

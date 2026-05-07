@@ -20,6 +20,12 @@
     - *Challenge*: Removing it leaves the "Seller Tools" sidebar vacant. Need to identify higher-value seller actions or stats to fill this space.
 - **Overall**: The "Seller Tools" area needs a functional and aesthetic overhaul to feel integrated and "premium".
 
+## Future Seller Onboarding (Hybrid Approach)
+- **MVP**: Instant approval upon form submission.
+- **Phase 5/6**: Add a "Pending Review" status + email notification to admin.
+- **Future**: Full approval workflow + Stripe identity verification (necessary when real payouts are integrated or taking commissions).
+- **Post-Onboard Action**: Send an automated welcome email to new sellers upon successful onboarding.
+
 ## Phase 3: Cart & Checkout (Completed)
 - **Step 1**: Zustand Cart Store & Logic. (Done)
 - **Step 2**: Add to Cart on Product Cards. (Done)
