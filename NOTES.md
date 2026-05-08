@@ -104,5 +104,5 @@
     - *Typography*: Standardize the fonts for 'Library', 'Purchases', and 'Wishlist' headers to match the rest of the site's styling.
     - *Contextual Search*: Refine universal search so searching from the Library page defaults to library items. Consider adding headers above results to indicate origin.
 - **Theme Toggle**: Implement light/dark mode switcher. When in dark mode, hovering shows a white highlight/sun icon; in light mode, hovering shows a dark highlight/crescent. Add this to the sticky top nav on mobile.
-- **Micro-Interactions**: Inject Framer Motion (or CSS) micro-animations for taps, hovers, and transitions to make the mobile UI feel "alive".
+- **Micro-Interactions**: Inject simple CSS transitions for taps, hovers, and page transitions to make the mobile UI feel "alive" without the performance overhead of Framer Motion.
 - **Dynamic 'New' Tags**: Automatically remove the "New" badge from products after 7-14 days based on `created_at`.
