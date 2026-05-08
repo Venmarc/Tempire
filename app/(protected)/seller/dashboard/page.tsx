@@ -49,7 +49,7 @@ export default async function SellerDashboard() {
                                 >
                                     <Link href="/seller/upload">
                                         <Plus className="w-4 h-4 mr-2" />
-                                        Upload New Product
+                                        <span className="hidden sm:inline">Upload&nbsp;</span>New Product
                                     </Link>
                                 </Button>
                             </div>

@@ -40,8 +40,8 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
     return (
         <div className="pt-24 md:pt-32 grow">
             {/* Hero */}
-            <div className="max-w-7xl mx-auto px-6 pt-20 pb-12 text-center">
-                <h1 className="text-6xl md:text-7xl font-bold tracking-tighter mb-4">
+            <div className="max-w-7xl mx-auto px-6 pt-12 pb-6 text-center">
+                <h1 className="text-5xl md:text-6xl font-bold tracking-tighter mb-4">
                     Premium digital products<br className="hidden md:block" /> from independent creators
                 </h1>
                 <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
@@ -52,7 +52,7 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
             {/* Browse Section */}
             <div className="max-w-7xl mx-auto px-6 pb-24 w-full">
                 {/* Header row + Sort */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-4">
                     <div>
                         <h2 className="text-3xl font-semibold tracking-tighter">
                             {sp.search
