@@ -28,6 +28,7 @@ export function AdaptiveNav() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
 
     const isSeller = user?.publicMetadata?.role === 'seller';
     const sellerHref = isSeller ? "/seller/dashboard" : "/seller/onboard";
@@ -39,6 +40,22 @@ export function AdaptiveNav() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    useEffect(() => {
+        // Intersection observer for footer collision detection
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsFooterVisible(entry.isIntersecting);
+            },
+            { rootMargin: "50px" } // trigger slightly before hitting the footer
+        );
+
+        observer.observe(footer);
+        return () => observer.disconnect();
+    }, [pathname]); // re-run if pathname changes as footer might unmount
 
     useEffect(() => {
         setIsSearchOpen(false);
@@ -119,8 +136,14 @@ export function AdaptiveNav() {
             </header>
 
             {/* Mobile Bottom Capsule */}
-            <div className="md:hidden fixed bottom-8 left-0 right-0 z-50 flex justify-center px-6 pointer-events-none">
-                <div className="bg-zinc-900 border border-white/10 rounded-full h-16 px-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-center gap-1 pointer-events-auto ring-1 ring-white/5">
+            <div 
+                className={cn(
+                    "md:hidden fixed left-0 right-0 z-50 flex justify-center px-6 pointer-events-none transition-transform duration-500",
+                    "bottom-[calc(1.5rem+env(safe-area-inset-bottom))]",
+                    isFooterVisible && "translate-y-[150%]"
+                )}
+            >
+                <div className="bg-black/85 backdrop-blur-md border border-white/10 rounded-[24px] h-[60px] px-2 shadow-2xl flex items-center gap-1 pointer-events-auto">
                     <MobileNavItem 
                         href="/" 
                         icon={<Home className="w-6 h-6" />} 
@@ -129,11 +152,14 @@ export function AdaptiveNav() {
                     <button 
                         onClick={() => setIsSearchOpen(true)}
                         className={cn(
-                            "flex items-center justify-center w-12 h-11 rounded-full transition-all duration-300",
-                            isSearchOpen ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                            "relative flex items-center justify-center w-12 h-12 rounded-xl transition-colors duration-300",
+                            isSearchOpen ? "text-white" : "text-zinc-500 hover:text-white"
                         )}
                     >
                         <Search className="w-6 h-6" />
+                        {isSearchOpen && (
+                            <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
+                        )}
                     </button>
                     
                     <MobileNavItem 
@@ -148,8 +174,8 @@ export function AdaptiveNav() {
                         active={pathname.startsWith('/library')} 
                     />
                     
-                    <div className="flex items-center justify-center w-12 h-11">
-                        <AuthButtons />
+                    <div className="flex items-center justify-center w-12 h-12">
+                        <AuthButtons isMobile={true} />
                     </div>
                 </div>
             </div>
@@ -216,11 +242,14 @@ function MobileNavItem({ href, icon, active }: { href: string, icon: React.React
         <Link 
             href={href} 
             className={cn(
-                "flex items-center justify-center w-14 h-12 rounded-full transition-all duration-300",
-                active ? "bg-white text-black" : "text-zinc-500 hover:text-white"
+                "relative flex items-center justify-center w-12 h-12 rounded-xl transition-colors duration-300",
+                active ? "text-white" : "text-zinc-500 hover:text-white"
             )}
         >
             {icon}
+            {active && (
+                <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
+            )}
         </Link>
     );
 }

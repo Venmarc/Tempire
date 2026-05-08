@@ -2,9 +2,13 @@
 
 import { SignInButton, SignUpButton, UserButton, useUser } from '@clerk/nextjs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Library, Heart, LayoutDashboard } from 'lucide-react';
+import { Library, Heart, LayoutDashboard, User } from 'lucide-react';
 
-export function AuthButtons() {
+interface AuthButtonsProps {
+  isMobile?: boolean;
+}
+
+export function AuthButtons({ isMobile }: AuthButtonsProps = {}) {
   const { isLoaded, isSignedIn } = useUser();
 
   if (!isLoaded) {
@@ -41,6 +45,12 @@ export function AuthButtons() {
             />
           </UserButton.MenuItems>
         </UserButton>
+      ) : isMobile ? (
+        <SignInButton mode="modal">
+          <button className="flex items-center justify-center w-12 h-12 text-zinc-500 hover:text-white transition-colors">
+            <User className="w-6 h-6" />
+          </button>
+        </SignInButton>
       ) : (
         <>
           <SignInButton mode="modal">
