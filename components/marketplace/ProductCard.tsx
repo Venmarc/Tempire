@@ -114,11 +114,12 @@ export function ProductCard({ product }: ProductCardProps) {
                 )}
               </span>
               
-              {(product.average_rating === 0 || !product.average_rating) && (
-                <span className="rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400 uppercase tracking-wider">
-                  NEW
-                </span>
-              )}
+            {/* NEW tag based on creation date (last 14 days) */}
+            {new Date(product.created_at).getTime() > Date.now() - 14 * 24 * 60 * 60 * 1000 && (
+              <span className="rounded bg-amber-400/10 px-1.5 py-0.5 text-[10px] font-medium text-amber-400 uppercase tracking-wider">
+                NEW
+              </span>
+            )}
             </div>
 
             {/* Add to Cart Button */}

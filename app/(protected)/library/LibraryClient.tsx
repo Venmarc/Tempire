@@ -109,7 +109,7 @@ export default function LibraryClient() {
                 {activeTab === 'purchases' ? 'My Assets' : 'Saved for Later'}
               </span>
             </div>
-            <h1 className="text-6xl font-black tracking-tighter leading-[0.9]">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-none">
               {activeTab === 'purchases' ? 'Library' : 'Wishlist'}
             </h1>
             <p className="text-zinc-500 mt-4 text-lg max-w-xl font-medium">
@@ -197,11 +197,11 @@ export default function LibraryClient() {
             <p className="text-zinc-500 font-bold uppercase tracking-widest text-xs">No matching {activeTab} found</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
             {filteredItems.map((product) => (
               <div
                 key={product.id}
-                className="group relative bg-zinc-900 border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-white/10 transition-all duration-500 flex flex-col h-full hover:shadow-3xl hover:shadow-black"
+                className="group relative bg-zinc-900 border border-white/5 rounded-[1.5rem] overflow-hidden hover:border-white/10 transition-all duration-500 flex flex-col h-full hover:shadow-2xl hover:shadow-black"
               >
                 {/* Image Wrapper */}
                 <div className="aspect-[4/3] relative overflow-hidden">
@@ -239,39 +239,39 @@ export default function LibraryClient() {
                 </div>
 
                 {/* Info Container */}
-                <div className="p-8 flex flex-col grow">
-                  <h3 className="font-black text-xl mb-2 line-clamp-1 group-hover:text-emerald-400 transition-colors tracking-tight">
+                <div className="p-5 flex flex-col grow">
+                  <h3 className="font-bold text-base mb-1 line-clamp-1 group-hover:text-emerald-400 transition-colors tracking-tight">
                     {product.title}
                   </h3>
-                  <p className="text-xs text-zinc-500 mb-8 flex items-center gap-2 uppercase font-black tracking-widest opacity-60">
+                  <p className="text-[10px] text-zinc-500 mb-6 flex items-center gap-2 uppercase font-bold tracking-widest opacity-60">
                     By {product.creator_name || 'Independent Creator'}
                   </p>
 
-                  <div className="mt-auto pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="mt-auto pt-5 border-t border-white/5 grid grid-cols-1 gap-2">
                     {activeTab === 'purchases' ? (
                       <Button
                         onClick={() => handleDownload(product.id, product.title)}
-                        className="rounded-2xl h-12 bg-white text-black hover:bg-zinc-200 font-black tracking-tight"
+                        className="rounded-xl h-10 bg-white text-black hover:bg-zinc-200 font-bold text-xs tracking-tight"
                       >
-                        <Download className="w-4.5 h-4.5 mr-2" />
+                        <Download className="w-4 h-4 mr-2" />
                         Download
                       </Button>
                     ) : (
                       <Button
                         onClick={() => handleMoveToCart(product)}
-                        className="rounded-2xl h-12 bg-emerald-500 text-white hover:bg-emerald-600 font-black tracking-tight"
+                        className="rounded-xl h-10 bg-emerald-500 text-white hover:bg-emerald-600 font-bold text-xs tracking-tight"
                       >
-                        <ShoppingCart className="w-4.5 h-4.5 mr-2" />
+                        <ShoppingCart className="w-4 h-4 mr-2" />
                         Move to Cart
                       </Button>
                     )}
                     <Button
                       asChild
                       variant="outline"
-                      className="rounded-2xl h-12 border-white/10 hover:bg-white/5 font-black tracking-tight"
+                      className="rounded-xl h-10 border-white/10 hover:bg-white/5 font-bold text-xs tracking-tight text-zinc-400"
                     >
                       <Link href={`/products/${product.id}`}>
-                        View Details
+                        Details
                       </Link>
                     </Button>
                   </div>

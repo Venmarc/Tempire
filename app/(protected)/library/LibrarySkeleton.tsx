@@ -26,20 +26,19 @@ export function LibrarySkeleton() {
                 </div>
 
                 {/* Grid Skeleton */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className="bg-zinc-900 border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col h-[400px]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                        <div key={i} className="bg-zinc-900 border border-white/5 rounded-[1.5rem] overflow-hidden flex flex-col h-auto">
                             {/* Image Placeholder */}
                             <Skeleton className="w-full aspect-[4/3] rounded-none bg-white/5" />
                             
                             {/* Info Container */}
-                            <div className="p-8 flex flex-col grow">
-                                <Skeleton className="h-6 w-3/4 mb-2 bg-white/5 rounded-lg" />
-                                <Skeleton className="h-4 w-1/2 mb-8 bg-white/5 rounded-md" />
-
-                                <div className="mt-auto pt-8 border-t border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <Skeleton className="h-12 w-full rounded-2xl bg-white/5" />
-                                    <Skeleton className="h-12 w-full rounded-2xl bg-white/5" />
+                            <div className="p-5 flex flex-col grow">
+                                <Skeleton className="h-5 w-3/4 mb-1.5 bg-white/5 rounded-lg" />
+                                <Skeleton className="h-3 w-1/2 mb-6 bg-white/5 rounded-md" />
+                                <div className="mt-auto pt-5 border-t border-white/5 grid grid-cols-1 gap-2">
+                                    <Skeleton className="h-10 w-full rounded-xl bg-white/5" />
+                                    <Skeleton className="h-10 w-full rounded-xl bg-white/5" />
                                 </div>
                             </div>
                         </div>
