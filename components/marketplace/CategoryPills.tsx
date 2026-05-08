@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useTransition, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 const CATEGORIES = [
     { label: 'All Projects', value: '' },
@@ -20,20 +21,32 @@ export function CategoryPills() {
     const searchParams = useSearchParams();
     const active = searchParams.get('category') || '';
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [isPending, startTransition] = useTransition();
+    const [pendingValue, setPendingValue] = useState<string | null>(null);
 
     const setCategory = (value: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        
-        // If clicking active pill or "All", clear it
-        if (active === value || value === '') {
-            params.delete('category');
-        } else {
-            params.set('category', value);
-        }
-        
-        params.delete('page');
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
+        setPendingValue(value);
+        startTransition(() => {
+            const params = new URLSearchParams(searchParams.toString());
+            
+            // If clicking active pill or "All", clear it
+            if (active === value || value === '') {
+                params.delete('category');
+            } else {
+                params.set('category', value);
+            }
+            
+            params.delete('page');
+            router.push(`${pathname}?${params.toString()}`, { scroll: false });
+        });
     };
+
+    // Reset pending value when navigation completes
+    useEffect(() => {
+        if (!isPending) {
+            setPendingValue(null);
+        }
+    }, [isPending]);
 
     return (
         <div className="relative group w-full mb-8">
@@ -44,18 +57,26 @@ export function CategoryPills() {
             >
                 {CATEGORIES.map(({ label, value }) => {
                     const isCurrent = active === value;
+                    const isActuallyPending = isPending && pendingValue === value;
+
                     return (
                         <button
                             key={value || 'all'}
                             onClick={() => setCategory(value)}
+                            disabled={isPending}
                             className={cn(
                                 "shrink-0 px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap border",
+                                "active:scale-95 disabled:cursor-not-allowed",
                                 isCurrent
-                                    ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.1)] scale-[1.02]"
-                                    : "bg-zinc-900/50 text-zinc-500 border-white/5 hover:border-white/10 hover:text-zinc-300"
+                                    ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                                    : "bg-zinc-900/50 text-zinc-500 border-white/5 hover:border-white/10 hover:text-zinc-300",
+                                isActuallyPending && "opacity-40 scale-95"
                             )}
                         >
-                            {label}
+                            <div className="flex items-center gap-2">
+                                {isActuallyPending && <Loader2 className="w-3 h-3 animate-spin" />}
+                                {label}
+                            </div>
                         </button>
                     );
                 })}
