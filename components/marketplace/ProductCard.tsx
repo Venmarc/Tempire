@@ -92,11 +92,13 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* 2. Content Area */}
         <div className="flex flex-col flex-1 p-4 pt-3">
-          <h3 className="font-semibold text-base leading-tight text-white line-clamp-2 transition-colors group-hover:text-emerald-400">
-            {product.title}
-          </h3>
+          <div className="h-[42px] mb-1">
+            <h3 className="font-semibold text-base leading-tight text-white line-clamp-2 transition-colors group-hover:text-emerald-400">
+              {product.title}
+            </h3>
+          </div>
 
-          <p className="mt-1 text-sm text-zinc-400 line-clamp-1">
+          <p className="text-sm text-zinc-400 line-clamp-1">
             {product.creator_name || 'Independent Creator'}
           </p>
 
