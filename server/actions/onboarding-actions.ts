@@ -8,7 +8,7 @@ const onboardingSchema = z.object({
     bio: z.string().max(500, "Bio must be 500 characters or less"),
     categories: z.array(z.string()).min(1, "Select at least one category"),
     termsAccepted: z.literal(true, {
-        errorMap: () => ({ message: "You must accept the terms" })
+        message: "You must accept the terms"
     })
 });
 
