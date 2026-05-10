@@ -106,13 +106,13 @@ export default function LandingPage() {
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Placeholder for actual product screenshot 1 */}
                         <div className="group rounded-3xl bg-zinc-900 border border-white/5 overflow-hidden aspect-4/3 relative flex flex-col items-center justify-center text-zinc-500 hover:border-white/20 transition-all">
-                            <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/20">
-                                <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                                <div className="w-3 h-3 rounded-full bg-amber-500/20" />
-                                <div className="w-3 h-3 rounded-full bg-emerald-500/20" />
+                            <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/40 backdrop-blur-sm z-20">
+                                <div className="w-3 h-3 rounded-full bg-red-500/40" />
+                                <div className="w-3 h-3 rounded-full bg-amber-500/40" />
+                                <div className="w-3 h-3 rounded-full bg-emerald-500/40" />
                             </div>
-                            <span className="font-mono text-sm">[Product Image / Interface Demo]</span>
-                            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+                            <Image src="/images/mockups/saas-dashboard.png" alt="SaaS Dashboard Mockup" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 z-20">
                                 <div>
                                     <h4 className="text-white font-bold text-xl">SaaS Dashboard Kit</h4>
                                     <p className="text-zinc-300">Figma & React Components</p>
@@ -122,13 +122,13 @@ export default function LandingPage() {
 
                         {/* Placeholder for actual product screenshot 2 */}
                         <div className="group rounded-3xl bg-zinc-900 border border-white/5 overflow-hidden aspect-4/3 relative flex flex-col items-center justify-center text-zinc-500 hover:border-white/20 transition-all md:translate-y-12">
-                             <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/20">
-                                <div className="w-3 h-3 rounded-full bg-red-500/20" />
-                                <div className="w-3 h-3 rounded-full bg-amber-500/20" />
-                                <div className="w-3 h-3 rounded-full bg-emerald-500/20" />
+                             <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/40 backdrop-blur-sm z-20">
+                                <div className="w-3 h-3 rounded-full bg-red-500/40" />
+                                <div className="w-3 h-3 rounded-full bg-amber-500/40" />
+                                <div className="w-3 h-3 rounded-full bg-emerald-500/40" />
                             </div>
-                            <span className="font-mono text-sm">[Code Boilerplate Demo]</span>
-                            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
+                            <Image src="/images/mockups/nextjs-starter.png" alt="Next.js Boilerplate Mockup" fill className="object-cover group-hover:scale-105 transition-transform duration-700" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8 z-20">
                                 <div>
                                     <h4 className="text-white font-bold text-xl">Next.js Supabase Starter</h4>
                                     <p className="text-zinc-300">Full-stack production ready</p>
