@@ -19,3 +19,19 @@ export async function getPurchasedProductsAction(): Promise<{ products: Product[
     return { products: [], error: 'Internal server error' };
   }
 }
+
+export async function generateDownloadLinkAction(productId: string): Promise<{ url?: string, error?: string }> {
+  try {
+    const { userId } = await auth();
+    
+    if (!userId) {
+      return { error: 'Not authenticated' };
+    }
+
+    const url = await LibraryService.getSignedDownloadUrl(userId, productId);
+    return { url };
+  } catch (error: any) {
+    console.error('generateDownloadLinkAction error:', error);
+    return { error: error.message || 'Internal server error' };
+  }
+}

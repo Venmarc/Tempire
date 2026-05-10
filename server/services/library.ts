@@ -1,5 +1,6 @@
 import { createSupabaseServiceClient } from '@/lib/supabase/server';
 import { Product } from '@/types/product';
+import { ProductService } from './product';
 
 export class LibraryService {
   static async getPurchasedProducts(userId: string): Promise<Product[]> {
@@ -45,5 +46,22 @@ export class LibraryService {
     }
 
     return data.length > 0;
+  }
+
+  static async getSignedDownloadUrl(userId: string, productId: string): Promise<string> {
+    // 1. Verify purchase
+    const isOwner = await this.hasPurchased(userId, productId);
+    if (!isOwner) {
+      throw new Error('Access denied: You have not purchased this product.');
+    }
+
+    // 2. Get product details
+    const product = await ProductService.getProductById(productId);
+    if (!product || !product.file_url) {
+      throw new Error('Product file not found.');
+    }
+
+    // 3. Generate signed URL (expires in 1 hour)
+    return ProductService.getSignedUrl('product-files', product.file_url);
   }
 }

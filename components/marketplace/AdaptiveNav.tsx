@@ -69,7 +69,7 @@ export function AdaptiveNav() {
             {/* --- DESKTOP NAVIGATION (80% Shift Centered) --- */}
             <nav className={cn(
                 "hidden md:block fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-                scrolled ? "bg-zinc-950/80 backdrop-blur-xl border-white/5 py-3" : "bg-zinc-950/20 border-transparent py-5"
+                scrolled ? "bg-zinc-950/80 backdrop-blur-xl border-white/5 py-3" : "bg-zinc-950/20 border-transparent py-3"
             )}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between gap-12">
                     {/* Left: Logo */}

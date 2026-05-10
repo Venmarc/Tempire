@@ -258,9 +258,31 @@ Phase 3 established the core transactional foundation of the Tempire marketplace
 ---
 
 ## Overall Project Roadmap (Remaining)
-- **Phase 4: Buyer Library & Wishlist.**
-- **Phase 5: Real Payments (Stripe) & Webhooks.**
-- **Phase 6: Final Polish & Deployment.**
+
+### Phase 4: Fulfillment & Post-Purchase UX (The Library)
+*Goal: Ensure users can securely access and download their purchased assets.*
+- [ ] Implement Supabase Signed URLs for secure file access.
+- [ ] Build the `/library` buyer dashboard.
+- [ ] Persist Wishlist data in Supabase (transition from UI-only).
+
+### Phase 5: Deep SEO & Content Strategy
+*Goal: Address discoverability and implement the 500+ word strategy.*
+- [ ] Expand Landing Page copy (FAQs, Features, and general content) to 500+ words.
+- [ ] Technical SEO: Dynamic `sitemap.xml` and `robots.txt`.
+- [ ] Schema Markup (JSON-LD) for products.
+- [ ] Run full automated audits via `seo-skills` toolkit.
+
+### Phase 6: Real Monetization (Stripe Integration)
+*Goal: Replace mock checkout with a real payment gateway.*
+- [ ] Integrate Stripe Checkout Sessions.
+- [ ] Build Stripe Webhook endpoint for secure fulfillment.
+- [ ] Move order creation logic to server-side webhook.
+
+### Phase 7: Final Polish & Production Hardening
+*Goal: Hit 95+ Lighthouse scores and prepare for launch.*
+- [ ] Performance tuning (LCP, CLS, and image optimization).
+- [ ] Mobile UX/Interaction audit and hardening.
+- [ ] Production RLS lockdown and Environment variable verification.
 
 **Important Notes for Continuation**
 - Reference PROJECT.md, AGENTS.md, CONSTITUTION.md, and DECISIONS.md in every session.
