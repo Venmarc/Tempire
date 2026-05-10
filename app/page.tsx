@@ -10,20 +10,20 @@ export default function LandingPage() {
             {/* Hero Section (Laws 1, 2, 3, 17) */}
             <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden flex flex-col items-center text-center">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-zinc-800/40 via-zinc-950 to-zinc-950 -z-10" />
-                
+
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-zinc-300 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     Tempire v2.0 is Live
                 </div>
-                
+
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter max-w-5xl mb-8 leading-[0.95] animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
-                    Build your empire,<br/>one template at a time.
+                    Build your empire,<br />one template at a time.
                 </h1>
-                
+
                 <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
                     Discover high-quality code templates, UI kits, and design resources to accelerate your next project. Pay once, own forever.
                 </p>
-                
+
                 <div className="animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
                     <Link href="/browse">
                         <Button size="lg" className="h-14 px-8 text-lg rounded-full font-bold bg-white text-black hover:bg-zinc-200 transition-all hover:scale-105">
@@ -59,7 +59,7 @@ export default function LandingPage() {
                     </div>
                 </div>
             </section>
-            
+
             {/* The Tempire Standard (Value Prop Expansion) */}
             <section className="py-24 px-6 border-b border-white/5">
                 <div className="max-w-7xl mx-auto">
@@ -129,7 +129,7 @@ export default function LandingPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
                         <div>
-                            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Built by pros. <br/>For pros.</h2>
+                            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">Built by pros. <br />For pros.</h2>
                             <p className="text-zinc-400 text-lg max-w-md">Every asset on Tempire is vetted for quality, performance, and design excellence.</p>
                         </div>
                         <Link href="/browse">
@@ -158,7 +158,7 @@ export default function LandingPage() {
 
                         {/* Placeholder for actual product screenshot 2 */}
                         <div className="group rounded-3xl bg-zinc-900 border border-white/5 overflow-hidden aspect-4/3 relative flex flex-col items-center justify-center text-zinc-500 hover:border-white/20 transition-all md:translate-y-12">
-                             <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/40 backdrop-blur-sm z-20">
+                            <div className="absolute inset-x-0 top-0 h-12 border-b border-white/5 flex items-center px-4 gap-2 bg-black/40 backdrop-blur-sm z-20">
                                 <div className="w-3 h-3 rounded-full bg-red-500/40" />
                                 <div className="w-3 h-3 rounded-full bg-amber-500/40" />
                                 <div className="w-3 h-3 rounded-full bg-emerald-500/40" />
@@ -238,15 +238,15 @@ export default function LandingPage() {
 
             {/* Bottom CTA & Trust Badges (Law 37) */}
             <section className="py-32 px-6 border-t border-white/5 bg-zinc-950 relative overflow-hidden">
-                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,var(--tw-gradient-stops))] from-zinc-800/20 via-zinc-950 to-zinc-950 -z-10" />
-                 <div className="max-w-3xl mx-auto text-center">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,var(--tw-gradient-stops))] from-zinc-800/20 via-zinc-950 to-zinc-950 -z-10" />
+                <div className="max-w-3xl mx-auto text-center">
                     <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8">Ready to elevate your work?</h2>
                     <Link href="/browse">
                         <Button size="lg" className="h-16 px-10 text-xl rounded-full font-bold bg-white text-black hover:bg-zinc-200 transition-all hover:scale-105 mb-8">
                             Get Started Now
                         </Button>
                     </Link>
-                    
+
                     <div className="flex items-center justify-center gap-6 text-sm font-medium text-zinc-500">
                         <div className="flex items-center gap-2">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
@@ -257,7 +257,7 @@ export default function LandingPage() {
                             🔒 Secured with SSL
                         </div>
                     </div>
-                 </div>
+                </div>
             </section>
 
             {/* FAQ Section (SEO Keywords) */}
