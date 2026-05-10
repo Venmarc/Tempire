@@ -14,7 +14,7 @@ export function Footer() {
                     </div>
                     
                     <p className="text-zinc-500 text-sm">
-                        &copy; {new Date().getFullYear()} Tempire. Phase 2I: Premium UI Refinements.
+                        &copy; {new Date().getFullYear()} Tempire ~ Build your empire, one template at a time.
                     </p>
                     
                     <div className="flex items-center gap-6">
