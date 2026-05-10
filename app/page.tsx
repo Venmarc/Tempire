@@ -267,6 +267,80 @@ export default function LandingPage() {
                     <FAQAccordion />
                 </div>
             </section>
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@graph': [
+                            {
+                                '@type': 'Organization',
+                                '@id': 'https://tempire.xyz/#organization',
+                                'name': 'Tempire',
+                                'url': 'https://tempire.xyz',
+                                'logo': 'https://tempire.xyz/logo.svg',
+                                'sameAs': [
+                                    'https://twitter.com/tempire_xyz',
+                                    'https://github.com/tempire'
+                                ]
+                            },
+                            {
+                                '@type': 'WebSite',
+                                '@id': 'https://tempire.xyz/#website',
+                                'url': 'https://tempire.xyz',
+                                'name': 'Tempire',
+                                'description': 'Build your empire, one template at a time.',
+                                'publisher': { '@id': 'https://tempire.xyz/#organization' },
+                                'potentialAction': [
+                                    {
+                                        '@type': 'SearchAction',
+                                        'target': 'https://tempire.xyz/browse?q={search_term_string}',
+                                        'query-input': 'required name=search_term_string'
+                                    }
+                                ]
+                            },
+                            {
+                                '@type': 'FAQPage',
+                                'mainEntity': [
+                                    {
+                                        '@type': 'Question',
+                                        'name': 'What exactly is a digital asset marketplace?',
+                                        'acceptedAnswer': {
+                                            '@type': 'Answer',
+                                            'text': 'A digital asset marketplace like Tempire is a curated platform where creators can buy and sell professional resources like code templates, UI kits, and design files to accelerate their creative workflows.'
+                                        }
+                                    },
+                                    {
+                                        '@type': 'Question',
+                                        'name': 'Can I use these assets for commercial projects?',
+                                        'acceptedAnswer': {
+                                            '@type': 'Answer',
+                                            'text': 'Absolutely. Every purchase on Tempire comes with a commercial license that allows you to use the assets in an unlimited number of personal and client projects without attribution.'
+                                        }
+                                    },
+                                    {
+                                        '@type': 'Question',
+                                        'name': 'What technology stack do the templates use?',
+                                        'acceptedAnswer': {
+                                            '@type': 'Answer',
+                                            'text': 'We focus on the modern web stack. Most of our code assets are built with Next.js 16, TypeScript, Tailwind CSS, and Supabase to ensure they are production-ready from day one.'
+                                        }
+                                    },
+                                    {
+                                        '@type': 'Question',
+                                        'name': 'How do I receive my purchase?',
+                                        'acceptedAnswer': {
+                                            '@type': 'Answer',
+                                            'text': 'Upon successful checkout, your assets are instantly added to your personal Library. You receive secure, lifetime access to download the source files whenever you need them.'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                }}
+            />
         </div>
     );
 }
