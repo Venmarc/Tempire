@@ -19,6 +19,7 @@ export function Footer() {
                     
                     <div className="flex items-center gap-6">
                         <Link href="/" className="text-zinc-500 hover:text-white transition-colors text-sm">Home</Link>
+                        <Link href="/browse" className="text-zinc-500 hover:text-white transition-colors text-sm">Marketplace</Link>
                         <Link href="/seller/dashboard" className="text-zinc-500 hover:text-white transition-colors text-sm">Sell</Link>
                         <Link href="/cart" className="text-zinc-500 hover:text-white transition-colors text-sm">Cart</Link>
                     </div>

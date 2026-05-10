@@ -21,7 +21,7 @@ export default clerkMiddleware(async (auth, req) => {
         // 2. Role-based access (Sellers only)
         const role = authObj.sessionClaims?.role as string | undefined;
         if (role !== 'seller') {
-            return Response.redirect(new URL('/', req.url));
+            return Response.redirect(new URL('/browse', req.url));
         }
     }
 

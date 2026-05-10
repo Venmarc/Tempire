@@ -88,10 +88,10 @@ export function AdaptiveNav() {
                     {/* Right: Actions */}
                     <div className="flex items-center gap-6">
                         <Link 
-                            href="/" 
+                            href="/browse" 
                             className={cn(
                                 "text-sm font-bold tracking-wide transition-colors",
-                                isActive('/') ? "text-white" : "text-zinc-500 hover:text-white"
+                                pathname.startsWith('/browse') ? "text-white" : "text-zinc-500 hover:text-white"
                             )}
                         >
                             Browse
@@ -145,9 +145,9 @@ export function AdaptiveNav() {
             >
                 <div className="bg-black/85 backdrop-blur-md border border-white/10 rounded-[24px] h-[60px] px-2 shadow-2xl flex items-center gap-1 pointer-events-auto">
                     <MobileNavItem 
-                        href="/" 
+                        href="/browse" 
                         icon={<Home className="w-6 h-6" />} 
-                        active={isActive('/')} 
+                        active={pathname.startsWith('/browse')} 
                     />
                     <button 
                         onClick={() => setIsSearchOpen(true)}
@@ -211,7 +211,7 @@ export function AdaptiveNav() {
                                         {['AI Prompts', 'Figma Kits', 'Notion', 'Ebooks', 'Icons', 'Tools'].map(cat => (
                                             <Link 
                                                 key={cat}
-                                                href={`/?category=${cat}`}
+                                                href={`/browse?category=${cat}`}
                                                 onClick={() => setIsSearchOpen(false)}
                                                 className="p-6 bg-zinc-900 border border-white/5 rounded-3xl flex flex-col gap-4 hover:border-emerald-500/50 transition-colors group"
                                             >
