@@ -20,7 +20,7 @@ export async function getPurchasedProductsAction(): Promise<{ products: Product[
   }
 }
 
-export async function generateDownloadLinkAction(productId: string): Promise<{ url?: string, error?: string }> {
+export async function generateDownloadLinkAction(productId: string): Promise<{ success?: boolean, error?: string }> {
   try {
     const { userId } = await auth();
     
@@ -28,8 +28,9 @@ export async function generateDownloadLinkAction(productId: string): Promise<{ u
       return { error: 'Not authenticated' };
     }
 
-    const url = await LibraryService.getSignedDownloadUrl(userId, productId);
-    return { url };
+    // Verify ownership
+    await LibraryService.getSignedDownloadUrl(userId, productId);
+    return { success: true };
   } catch (error: any) {
     console.error('generateDownloadLinkAction error:', error);
     return { error: error.message || 'Internal server error' };

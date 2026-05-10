@@ -99,10 +99,21 @@
 - **Favicon**: Ensure the logo remains white in browser tabs on desktop (investigate dark/light mode SVG favicon support).
 - **SEO Strategy**: Add essential meta keywords and ensure the landing page contains highly relevant content (no fluff).
 - **Seller Dashboard Mobile**: The '+ Upload New Product' button overflows. Change text to '+ New Product' and reduce size strictly for mobile view.
-- **Library Improvements**:
-    - *Loading State*: Replace the loading spinner on mobile with a Skeleton loader matching the updated Wishlist card size.
-    - *Typography*: Standardize the fonts for 'Library', 'Purchases', and 'Wishlist' headers to match the rest of the site's styling.
-    - *Contextual Search*: Refine universal search so searching from the Library page defaults to library items. Consider adding headers above results to indicate origin.
-- **Theme Toggle**: Implement light/dark mode switcher. When in dark mode, hovering shows a white highlight/sun icon; in light mode, hovering shows a dark highlight/crescent. Add this to the sticky top nav on mobile.
-- **Micro-Interactions**: Inject simple CSS transitions for taps, hovers, and page transitions to make the mobile UI feel "alive" without the performance overhead of Framer Motion.
-- **Dynamic 'New' Tags**: Automatically remove the "New" badge from products after 7-14 days based on `created_at`.
+# 9. Phase 4 Pivot & Product Journey (May 10, 2026)
+
+### Strategic Pivot
+- **Decision**: Pausing Landing Page SEO and Marketing Context tasks.
+- **Rationale**: We cannot sell tickets to a movie that hasn't been filmed. The core product journey (**Buy → Own → Download**) must be robust and 100% functional before focusing on discoverability.
+- **Immediate Goal**: Complete Phase 4 (Fulfillment & Buyer Library) to ensure users can access their assets securely.
+- **Marketing Context**: We will return to finalize `.agents/product-marketing-context.md` once the library flow is stable.
+
+### Future Monetization Ideas (Post-Traction)
+- **Current Focus**: One-time payments (ideal for early growth).
+- **Future Expansion**:
+    - **Recurring Payments**: Subscription models for specific high-value product types:
+        - Monthly Prompt Packs / AI Tool Access.
+        - Notion Template Subscriptions (with regular updates).
+        - Membership / Community Access.
+        - SaaS-style utility tools.
+    - **Hybrid Pricing**: Support for both One-time and Subscription products in the same marketplace.
+    - **Tiered Pricing**: E.g., Basic (One-time) vs. Pro (Subscription).

@@ -105,7 +105,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                                 <h1 className="text-4xl sm:text-5xl font-bold tracking-tighter leading-tight">
                                     {product.title}
                                 </h1>
-                                <WishlistButton />
+                                <WishlistButton productId={product.id} size="lg" />
                             </div>
                             <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-400">
                                 <div className="flex items-center gap-2">

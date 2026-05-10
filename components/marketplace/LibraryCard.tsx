@@ -24,9 +24,20 @@ export function LibraryCard({ product }: LibraryCardProps) {
         return;
       }
 
-      if (result.url) {
-        // Trigger download by opening in a new tab or using a temporary anchor
-        window.open(result.url, '_blank');
+      if (result.success) {
+        // Trigger download via our proxy API route
+        const downloadUrl = `/api/download?productId=${product.id}`;
+        
+        // Create a hidden anchor and click it to trigger the "Save As" behavior
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        // The filename is handled by the server via Content-Disposition, 
+        // but adding it here as a fallback/hint
+        link.setAttribute('download', ''); 
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
         toast.success("Download started", {
           description: "Your secure link has been generated."
         });

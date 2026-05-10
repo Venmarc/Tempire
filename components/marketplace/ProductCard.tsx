@@ -2,53 +2,19 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Star, Heart, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Product } from '@/types/product';
-import { cn } from '@/lib/utils';
-import { useState } from 'react';
-import { useUser } from '@clerk/nextjs';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/useCart';
+import { WishlistButton } from './WishlistButton';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const { isSignedIn } = useUser();
-  const router = useRouter();
-  const { addItem, isAdding, toggleWishlist: storeToggleWishlist, isInWishlist } = useCart();
-  const isLiked = isInWishlist(product.id);
+  const { addItem, isAdding } = useCart();
   const price = product.price;
   const isFree = product.price === 0;
-
-  const toggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!isSignedIn) {
-      toast.info("Sign in to save favorites", {
-        description: "You need an account to build your library.",
-        action: {
-          label: "Sign In",
-          onClick: () => router.push('/sign-in'),
-        },
-      });
-      return;
-    }
-
-    storeToggleWishlist({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image_url: product.image_url,
-    });
-
-    if (!isLiked) {
-      toast.success("Added to Wishlist");
-    }
-  };
 
   return (
     <Link href={`/products/${product.id}`} className="group block h-full">
@@ -70,17 +36,13 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Wishlist Heart Overlay */}
-          <button 
-            onClick={toggleWishlist}
-            className={cn(
-              "absolute top-3 right-3 w-9 h-9 rounded-full border border-white/10 backdrop-blur-md flex items-center justify-center transition-all duration-300 active:scale-90 z-10",
-              isLiked 
-                ? "bg-emerald-500 border-emerald-400 text-white shadow-[0_0_15px_rgba(16,185,129,0.5)]" 
-                : "bg-black/20 text-white hover:bg-white hover:text-black"
-            )}
-          >
-            <Heart className={cn("w-4.5 h-4.5", isLiked && "fill-current")} />
-          </button>
+          <div className="absolute top-3 right-3 z-10">
+            <WishlistButton 
+              productId={product.id} 
+              size="sm" 
+              className="backdrop-blur-md bg-black/20" 
+            />
+          </div>
 
           {/* File extension badge */}
           {product.file_extension && (
