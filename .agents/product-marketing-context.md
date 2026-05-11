@@ -9,7 +9,7 @@
 
 ## Product Overview
 **One-liner:** Build your empire, one template at a time.
-**What it does:** Tempire is a curated digital asset marketplace where creators can buy high-fidelity Next.js boilerplates, UI kits, and design resources. Every asset undergoes a rigorous 20-point quality check, ensuring production-ready code.
+**What it does:** Tempire is a curated digital asset marketplace where creators can buy high-fidelity Next.js boilerplates, UI kits, and design resources. Every asset adheres to the Tempire Standard, ensuring production-ready code.
 **Product category:** Digital Asset Marketplace / Code Boilerplates / UI Kits
 **Product type:** Marketplace
 **Business model:** One-time purchase, lifetime access (no recurring subscriptions)
@@ -49,7 +49,7 @@
 
 ## Differentiation
 **Key differentiators:**
-- 20-point quality check for every asset.
+- Adherence to the "Tempire Standard" for every asset.
 - Strict modern stack focus (Next.js 16, Tailwind CSS 4, Supabase, Stripe).
 - Adherence to the "48 Laws of Web Design" for premium aesthetics.
 **How we do it differently:** We curate deeply, rejecting low-effort submissions to ensure only production-ready "engines" are sold.
@@ -99,7 +99,7 @@
 | Theme | Proof |
 |-------|-------|
 | Speed | Saves 40+ hours per project |
-| Quality | 20-point vetting process |
+| Quality | Tempire Standard vetting |
 | Trust | 10,000+ users, 4.9/5 rating |
 
 ## Goals

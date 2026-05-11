@@ -70,7 +70,7 @@ export default function LandingPage() {
                             </div>
                             <h3 className="text-xl font-bold text-white">Vetted Excellence</h3>
                             <p className="text-zinc-400 leading-relaxed">
-                                Every asset on Tempire undergoes a rigorous 20-point quality check. We verify code performance, design accessibility, and documentation clarity so you can build with confidence.
+                                Every asset on Tempire adheres to the Tempire Standard. We verify code performance, design accessibility, and documentation clarity so you can build with confidence.
                             </p>
                         </div>
                         <div className="space-y-4">
