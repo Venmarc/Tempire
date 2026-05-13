@@ -6,7 +6,7 @@ Production-grade digital marketplace where creators sell digital products (AI pr
 Goal: Ship a polished, fast, accessible, live portfolio piece with 95+ Lighthouse scores across all categories. Everything must feel production-ready from day one — no tutorial slop, no "implement later" placeholders.
 
 ## Tech Stack (Non-Negotiable)
-- Next.js 15+ App Router with TypeScript (strict mode)
+- Next.js 16+ App Router with TypeScript (strict mode)
 - Tailwind CSS 4 + shadcn/ui
 - Clerk for primary authentication + role management
 - Supabase (Postgres + Realtime + Storage) — all database operations server-side only

@@ -7,6 +7,7 @@ const isSellerRoute = createRouteMatcher([
 ]);
 
 const isOnboardRoute = createRouteMatcher(['/seller/onboard(.*)']);
+const isProtectedRoute = createRouteMatcher(['/checkout(.*)', '/library(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
     // Only intercept for protected routes
@@ -35,6 +36,13 @@ export default clerkMiddleware(async (auth, req) => {
         const role = authObj.sessionClaims?.role as string | undefined;
         if (role === 'seller') {
             return Response.redirect(new URL('/seller/dashboard', req.url));
+        }
+    }
+
+    if (isProtectedRoute(req)) {
+        const authObj = await auth();
+        if (!authObj.userId) {
+            return authObj.redirectToSignIn({ returnBackUrl: req.url });
         }
     }
 });

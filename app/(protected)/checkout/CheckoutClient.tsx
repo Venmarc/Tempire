@@ -26,7 +26,7 @@ export default function CheckoutClient() {
   // Redirect if cart is empty (once mounted)
   useEffect(() => {
     if (mounted && items.length === 0 && !isProcessing) {
-      router.push('/');
+      router.push('/cart');
     }
   }, [items, mounted, router, isProcessing]);
 

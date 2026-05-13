@@ -60,7 +60,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* The Tempire Standard (Value Prop Expansion) */}
+            {/* Value Propositions (Laws 4, 24) */}
             <section className="py-24 px-6 border-b border-white/5">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid md:grid-cols-3 gap-12">
@@ -68,9 +68,9 @@ export default function LandingPage() {
                             <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
                                 <ShieldCheck className="w-6 h-6" />
                             </div>
-                            <h3 className="text-xl font-bold text-white">Vetted Excellence</h3>
+                            <h3 className="text-xl font-bold text-white">Quality Assured</h3>
                             <p className="text-zinc-400 leading-relaxed">
-                                Every asset on Tempire adheres to the Tempire Standard. We verify code performance, design accessibility, and documentation clarity so you can build with confidence.
+                                We manually verify every asset for performance, accessibility, and documentation clarity so you can build with confidence.
                             </p>
                         </div>
                         <div className="space-y-4">
