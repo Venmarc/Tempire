@@ -27,6 +27,7 @@
 - Victor works in small, testable steps — never implement more than one step at a time. Wait for manual test confirmation before proceeding to the next step. Each step should have clear affected files, exact code changes, and manual test steps listed upfront.  <!-- status=accepted confidence=0.6 evidence=1 id=lesson_68c01a6a2fe7 -->
 - Tempire UI rule: all shadcn component decorative rings are globally suppressed via CSS in globals.css targeting data-slot attributes. Never add ring-* classes to shadcn components unless Victor explicitly requests an outline. The global rule covers popover-content, dialog-content, sheet-content, dropdown-menu-content, select-content, tooltip-content, and command slots.  <!-- status=accepted confidence=0.6 evidence=1 id=lesson_d32675f9829f -->
 - Tempire UI rule: always add the slim-scrollbar CSS class to any scrollable element (overflow-auto or overflow-scroll). The class is defined globally in globals.css and renders a 4px pill-shaped zinc-700 scrollbar with transparent track, for both WebKit and Firefox. Never use the browser default scrollbar.  <!-- status=accepted confidence=0.6 evidence=1 id=lesson_97e2314c8e00 -->
+- Never use simple color inversion for light/dark mode toggles. Avoid harsh black outlines in light mode or white outlines in dark mode; maintain sophisticated gray/transparent borders. Use Black text for visibility in light mode, not just inverted gray.  <!-- status=accepted confidence=0.6 evidence=1 id=lesson_72a593579df0 -->
 
 ### 2026-04
 

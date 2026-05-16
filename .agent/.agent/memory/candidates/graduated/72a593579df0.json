@@ -1,0 +1,42 @@
+{
+  "id": "72a593579df0",
+  "key": "manual_72a593",
+  "name": "manual_72a593",
+  "claim": "Never use simple color inversion for light/dark mode toggles. Avoid harsh black outlines in light mode or white outlines in dark mode; maintain sophisticated gray/transparent borders. Use Black text for visibility in light mode, not just inverted gray.",
+  "conditions": [
+    "dark-mode",
+    "design",
+    "light-mode",
+    "theme",
+    "toggle"
+  ],
+  "evidence_ids": [
+    "2026-05-13T16:11:05.823158"
+  ],
+  "cluster_size": 1,
+  "canonical_salience": 8.0,
+  "staged_at": "2026-05-13T16:11:05.823158",
+  "status": "accepted",
+  "decisions": [
+    {
+      "ts": "2026-05-13T16:11:05.823158",
+      "action": "staged",
+      "reviewer": "learn"
+    },
+    {
+      "ts": "2026-05-13T16:11:05.938076",
+      "action": "graduated",
+      "reviewer": "learn.py",
+      "notes": "Previous attempts at simple inversion failed the user's quality standard and were described as 'terrible'. The site requires a premium aesthetic with specific accents (Cyan for light mode) and thoughtful color mapping.",
+      "provisional": false,
+      "evidence_snapshot": [
+        "2026-05-13T16:11:05.823158"
+      ],
+      "lessons_sha": "b3c49e8fd103"
+    }
+  ],
+  "rejection_count": 0,
+  "accepted_at": "2026-05-13T16:11:05.938060",
+  "reviewer": "learn.py",
+  "rationale": "Previous attempts at simple inversion failed the user's quality standard and were described as 'terrible'. The site requires a premium aesthetic with specific accents (Cyan for light mode) and thoughtful color mapping."
+}

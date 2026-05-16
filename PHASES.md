@@ -288,3 +288,22 @@ Phase 3 established the core transactional foundation of the Tempire marketplace
 - Reference PROJECT.md, AGENTS.md, CONSTITUTION.md, and DECISIONS.md in every session.
 - Maintain production mindset — everything must feel shippable.
 - Support Nigeria (Abia) power constraints by committing often and keeping state clean.
+
+---
+
+**Theme Restoration & Visual Audit (Completed)**
+**Completed:** May 16, 2026
+
+## Overview
+Successfully restored the original "premium dark" aesthetic (Zinc-950/Black) after a period of design regressions. Verified visual parity between local development and production (`tempire.xyz`).
+
+## What Was Restored
+- **Core Styles**: Reverted `globals.css` to Zinc-950 background and Purple accent (#a855f7).
+- **Layout**: Restored centered hero section and "80% Shift" layout consistency.
+- **Components**: Reverted `AdaptiveNav`, `SearchBar`, and `ProductCard` to their stable states.
+- **Cleanup**: Removed the problematic `components/theme/` directory and custom `ThemeProvider`.
+
+## Key Findings from Deep Audit
+- Verified that the "blue vignette/glow" is intentional part of the original design.
+- Confirmed visible, high-contrast button states (Black text on White).
+- Validated that all marketplace filters and grids match production fidelity.
