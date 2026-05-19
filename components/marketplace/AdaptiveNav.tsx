@@ -164,7 +164,7 @@ export function AdaptiveNav() {
                                                 </SignInButton>
 
                                                 <SignUpButton mode="modal">
-                                                    <button className="px-5 py-2 text-sm font-medium bg-white text-black rounded-2xl hover:bg-zinc-100 transition-colors font-bold whitespace-nowrap">
+                                                    <button className="px-5 py-2 text-sm bg-white text-black rounded-2xl hover:bg-zinc-100 transition-colors font-bold whitespace-nowrap">
                                                         Sign Up
                                                     </button>
                                                 </SignUpButton>
