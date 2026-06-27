@@ -307,3 +307,15 @@ Successfully restored the original "premium dark" aesthetic (Zinc-950/Black) aft
 - Verified that the "blue vignette/glow" is intentional part of the original design.
 - Confirmed visible, high-contrast button states (Black text on White).
 - Validated that all marketplace filters and grids match production fidelity.
+
+---
+
+**Documentation Audit & Update (Completed)**
+**Completed:** June 27, 2026
+
+## Overview
+Completed a comprehensive audit and update of the project documentation (`README.md` and `DECISIONS.md`) using the `/readme-generator` and `/grill-with-docs` skills.
+
+## What Was Updated
+- **README.md**: Rewritten into a high-fidelity documentation hub featuring shields.io badges, a project status block (paused portfolio), core domain glossary, Mermaid sequence and flow diagrams, architectural decisions, core walkthrough details, a full tech stack breakdown, step-by-step setup guides, and a local environment configuration block.
+- **DECISIONS.md**: Corrected Decision 2 to reflect the transition from Clerk webhooks to Custom Session Token JWT claims for immediate user role propagation and middleware checks.

@@ -1,4 +1,4 @@
-```markdown
+
 # DECISIONS.md - Key Architectural Decisions
 
 **Project:** Tempire - Creator Marketplace  
@@ -21,17 +21,16 @@ This document records major technical decisions made during development, the rea
 **Alternative Considered:** Supabase Auth  
 **Rejected because:** Clerk offers superior UX for modals and social login, and we wanted to keep Supabase strictly for data storage.
 
-### 2. Webhooks for Profile Sync (Instead of after-signup redirect)
-**Decision:** Use Clerk webhooks (`user.created` / `user.updated`) to sync user data to Supabase `profiles` table instead of redirect-based flow after sign-up.
+### 2. Custom Session Tokens for Reliable Role Synchronization (Webhooks Postponed)
+**Decision:** Rely on Clerk's Custom Session Token JWT claim (`role: "{{user.public_metadata.role}}"`) to propagate roles immediately to the frontend and middleware, bypassing webhooks which were unreliable/inactive in the final implementation.
 
 **Why:**
-- More reliable than redirect-based approaches (which often fail due to race conditions or network issues)
-- Decouples auth flow from database writes
-- Works consistently for both email/password and social sign-ups
-- Allows Clerk to remain the source of truth for user metadata
+- Avoids cold start latency and synchronization race conditions common with webhooks.
+- Guarantees role is immediately present in the browser's Clerk session JWT, enabling zero-flash route guards.
+- Reduces dependency on Clerk SVIX webhook delivery and verification, which is prone to failure in development and serverless environments.
 
-**Alternative:** `/after-signup` route with manual profile creation  
-**Rejected because:** Flaky, especially with social providers and page reloads.
+**Alternative:** Webhooks sync via `api/webhooks/clerk`  
+**Rejected because:** Testing proved webhooks were too slow to propagate roles on initial sign-up, leading to "role: none" and caching issues during middleware execution.
 
 ### 3. Custom Session Token for Role Propagation
 **Decision:** Use Clerk’s Custom Session Token feature to inject `role` directly into every JWT (`sessionClaims.role`).
@@ -117,4 +116,3 @@ This document records major technical decisions made during development, the rea
 - Security and performance first (server-side only where possible)
 
 This document will be updated as major decisions are made in future phases.
-```
